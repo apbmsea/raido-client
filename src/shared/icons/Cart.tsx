@@ -1,0 +1,43 @@
+import React from 'react';
+import { type IconProps } from '../types/icon.types';
+
+const CartIcon: React.FC<IconProps> = ({
+  size = 24,
+  color = 'currentColor',
+  ...props
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <g clipPath="url(#clip0)">
+      <g clipPath="url(#clip1)">
+        <path
+          d="M23.1396 9.99829C22.7411 12.6526 21.8677 14.4008 21.4678 15.1038C20.2356 17.2549 18.5766 19.2034 16.8965 20.6614C15.1949 22.138 13.56 23.0349 12.3867 23.218C12.0838 23.2617 11.8387 23.2578 11.6309 23.2209L11.6152 23.219L11.3896 23.176C10.2368 22.9217 8.69951 22.0464 7.10352 20.6614C5.52839 19.2945 3.97224 17.4962 2.76855 15.5042L2.53223 15.1038C2.13234 14.4008 1.25886 12.6526 0.860352 9.99829H23.1396Z"
+          stroke={color}
+          strokeWidth="1.5"
+        />
+        <path
+          d="M5.43408 9.34228L5.49987 7.89261C5.49987 7.89261 5.49987 6.85906 6.15777 5.5302C6.52619 4.79194 7.07882 4.10738 7.69724 3.3557C8.36829 2.55033 9.23671 1.87919 10.092 1.32886C10.8683 0.818789 11.5657 0.657715 11.9341 0.657715C12.8157 0.657715 13.3157 0.939594 14.2104 1.5302C14.9078 1.97315 15.6183 2.53691 16.2104 3.22147C16.8288 3.94631 17.263 4.38926 17.763 5.39597C18.5788 7.03355 18.5262 7.89261 18.5262 7.89261L18.5657 9.24832"
+          stroke={color}
+          strokeWidth="1.5"
+          strokeMiterlimit="10"
+        />
+      </g>
+    </g>
+    <defs>
+      <clipPath id="clip0">
+        <rect width="24" height="24" fill="white" />
+      </clipPath>
+      <clipPath id="clip1">
+        <rect width="24" height="24" fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
+);
+
+export default CartIcon;

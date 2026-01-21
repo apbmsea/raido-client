@@ -1,0 +1,74 @@
+@use '../../../shared/styles/helpers/' as *;
+
+.navbar {
+  padding: 0 40px;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__top {
+    display: flex;
+    gap: 15px;
+    padding: 16px 0 ;
+    align-items: flex-start;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__link {
+    padding: 10.5px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    
+    align-items: center;
+    gap: 14px;
+    color: #000;
+
+    @include fluid-text(16, 14);
+
+    &--active {
+      color: var(--color-primary);
+    }
+  }
+
+  &__icon {
+    transition: transform 0.25s ease;
+
+    &--open {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__dropdown {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.25s ease;
+
+    display: flex;
+    flex-direction: column;
+    padding-left: 21px;
+
+    &--open {
+      max-height: 300px;
+      margin-top: 6px;
+    }
+  }
+
+  &__dropdown-link {
+    padding: 6px 0;
+    font-size: 14px;
+    color: #444;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}

@@ -1,0 +1,90 @@
+@use '../../../shared/styles/helpers/' as *;
+
+.header {
+	padding: 40px 40px 0 40px;
+	max-width: 1280px;
+	width: 100%;
+	display: grid;
+	align-items: center;
+	column-gap: 32px;
+	row-gap: 16px;
+	grid-template-columns: auto 1fr auto;
+	grid-template-areas: 'content search buttons';
+
+	@include tablet {
+		padding: fluid(40, 20) fluid(40, 20) 0 fluid(40, 20);
+	}
+
+	&__content {
+		grid-area: content;
+		display: flex;
+		align-items: center;
+		gap: fluid(19, 12);
+		flex-shrink: 0;
+
+		button {
+			@include mobile {
+				width: 40px !important;
+				height: 40px !important;
+			}
+		}
+
+		&-logo {
+			width: fluid(169, 103);
+			height: fluid(49, 30);
+			flex-shrink: 0;
+		}
+	}
+
+	&__search {
+		grid-area: search;
+
+		justify-self: center;
+
+		.input {
+			&__field {
+				width: fluid(380, 150);
+			}
+		}
+		// min-width: 0;
+	}
+
+	&__buttons {
+		grid-area: buttons;
+		display: flex;
+		align-items: center;
+		gap: fluid(16, 6);
+		flex-shrink: 0;
+
+		button {
+			@include mobile {
+				width: 40px !important;
+				height: 40px !important;
+			}
+		}
+	}
+
+	@media ( width < 680px) {
+		grid-template-columns: auto auto;
+		grid-template-areas:
+			'content buttons'
+			'search search';
+		column-gap: 0;
+		justify-content: space-between;
+
+		&__content {
+			margin-right: 10px;
+		}
+
+		&__search {
+			.input {
+				.field {
+					width: 100%;
+				}
+			}
+			width: 100%;
+			justify-self: stretch;
+		}
+
+	}
+}
