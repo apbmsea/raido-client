@@ -1,0 +1,35 @@
+@use '../../../shared/styles/helpers/' as *;
+.menu {
+	position: fixed;
+	inset: 0; // top: 0; right: 0; bottom: 0; left: 0;
+	padding: fluid-tm(40, 20);
+	z-index: 10;
+	width: 100vw;
+	height: 100vh;
+	background-color: #fff;
+	color: #fff;
+	gap: 30px;
+	display: flex;
+	flex-direction: column;
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+
+		&-logo {
+			width: fluid-tm(151, 103);
+			height: fluid-tm(43, 30);
+			flex-shrink: 0;
+		}
+
+		&-close {
+			width: fluid-tm(45, 40) !important;
+			height: fluid-tm(45, 40) !important;
+		}
+	}
+
+    &__content {
+       
+    }
+}
