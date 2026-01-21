@@ -5,6 +5,6 @@ export const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <Layout />,
-		children: [{ index: true, element: <div>home page</div> }]
+		children: [{ index: true, element: <div style={{ height: "88vh"}}>home page</div> }]
 	}
 ]);
