@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import './layout.scss'
 import { BurgerMenu } from '@features/menu';
+import { Footer } from '@widgets/Footer';
 
 const Layout = () => {
 	const navigate = useNavigate();
@@ -19,6 +20,7 @@ const Layout = () => {
 			<Header />
 			<Navbar />
 			<Outlet />
+			<Footer />
 		</div>
 	);
 };
