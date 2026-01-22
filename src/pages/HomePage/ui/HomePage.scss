@@ -1,0 +1,12 @@
+@use '../../../shared/styles/helpers/' as *;
+
+.home {
+    width: 100%;
+    min-height: 59vh;
+	max-width: 1280px;
+	padding: 0 40px;
+
+	@include tablet {
+		padding: 0 fluid-tm(40, 20);
+	}
+}
