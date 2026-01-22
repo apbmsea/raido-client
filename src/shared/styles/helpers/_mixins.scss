@@ -29,3 +29,11 @@
 	justify-content: center;
 	align-items: center;
 }
+
+@mixin f($property, $desktop, $tablet, $mobile) {
+	#{$property}: fluid-dt($desktop, $tablet);
+
+	@media (max-width: 834px) {
+		#{$property}: fluid-tm($tablet, $mobile);
+	}
+}
