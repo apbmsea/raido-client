@@ -1,74 +1,89 @@
-@use '../../../shared/styles/helpers/' as *;
+.nav {
+	width: 100%;
+	padding-inline: 40px;
+	background: var(--color-white);
+	border-bottom: 1px solid var(--color-gray-light);
+	transition: padding-bottom 0.25s ease;
 
-.navbar {
-  padding: 0 40px;
-  width: 100%;
-  border-bottom: 1px solid #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	&__container {
+		max-width: 797px;
+		margin: 0 auto;
+		padding: 20px 0;
+		display: flex;
+		justify-content: space-between;
+		gap: 15px;
+	}
 
-  &__top {
-    display: flex;
-    gap: 15px;
-    padding: 16px 0 ;
-    align-items: flex-start;
-  }
+	&__item {
+		position: relative;
+	}
 
-  &__item {
-    display: flex;
-    flex-direction: column;
-  }
+	&__link {
+		white-space: nowrap;
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		font-size: 16px;
+		padding: 6px 0;
+		border: none;
+		background: transparent;
+		color: var(--color-black);
+		cursor: pointer;
+		transition: color 0.2s ease;
 
-  &__link {
-    padding: 10.5px 0;
-    background: none;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    
-    align-items: center;
-    gap: 14px;
-    color: #000;
+		&--active {
+			color: var(--color-primary);
+		}
+	}
 
-    @include fluid-text(16, 14);
+	&__icon {
+		display: inline-flex;
+		transition: transform 0.2s ease;
 
-    &--active {
-      color: var(--color-primary);
-    }
-  }
+		&--open {
+			transform: rotate(180deg);
+		}
+	}
 
-  &__icon {
-    transition: transform 0.25s ease;
+	&__submenu {
+		position: absolute;
+		top: 100%;
+		left: 0;
 
-    &--open {
-      transform: rotate(180deg);
-    }
-  }
+		padding-top: 14px;
 
-  &__dropdown {
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.25s ease;
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
 
-    display: flex;
-    flex-direction: column;
-    padding-left: 21px;
+		z-index: 10;
 
-    &--open {
-      max-height: 300px;
-      margin-top: 6px;
-    }
-  }
+		opacity: 0;
+		transform: translateY(-6px);
+		pointer-events: none;
 
-  &__dropdown-link {
-    padding: 6px 0;
-    font-size: 14px;
-    color: #444;
-    text-decoration: none;
+		transition:
+			opacity 0.2s ease,
+			transform 0.2s ease;
+	}
 
-    &:hover {
-      color: var(--color-primary);
-    }
-  }
+	&__submenu--open {
+		opacity: 1;
+		transform: translateY(0);
+		pointer-events: auto;
+		transition-delay: 0.08s;
+	}
+
+	&__submenu-link {
+		white-space: nowrap;
+		cursor: pointer;
+		font-size: 16px;
+		color: var(--color-black);
+		transition: color 0.2s ease;
+		text-decoration: none;
+
+		&:hover {
+			color: var(--color-primary);
+		}
+	}
 }

@@ -1,62 +1,66 @@
-import React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './Navbar.scss';
-import ArrowDownIcon from '@shared/icons/ArrowDown';
 import { NAV_ITEMS } from '@shared/constants/navbar';
+import ArrowDownIcon from '@shared/icons/ArrowDown';
 
-const Navbar = () => {
-	const [activeId, setActiveId] = React.useState<string | null>(null);
+export default function Navbar() {
+	const [active, setActive] = useState<string | null>(null);
+	const [submenuHeight, setSubmenuHeight] = useState(0);
+
+	const ref = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (ref.current) {
+			setSubmenuHeight(ref.current.scrollHeight);
+		}
+	}, [active]);
 
 	return (
-		<nav className='navbar hidden-tablet'>
-			<div className='navbar__top'>
-				{NAV_ITEMS.map(item => {
-					const isActive = activeId === item.id;
-
-					return (
-						<div key={item.id} className='navbar__item'>
-							<button
-								type='button'
-								className={`navbar__link ${
-									isActive ? 'navbar__link--active' : ''
+		<nav
+			className='nav hidden-tablet'
+			style={{ paddingBottom: active ? submenuHeight : 0 }}
+		>
+			<div className='nav__container'>
+				{NAV_ITEMS.map(item => (
+					<div key={item.id} className='nav__item'>
+						<button
+							className={`nav__link ${
+								active === item.id ? 'nav__link--active' : ''
+							}`}
+							onClick={() =>
+								setActive(prev =>
+									prev === item.id ? null : item.id
+								)
+							}
+						>
+							{item.title}
+							<span
+								className={`nav__icon ${
+									active === item.id ? 'nav__icon--open' : ''
 								}`}
-								onClick={() =>
-									setActiveId(prev =>
-										prev === item.id ? null : item.id
-									)
-								}
 							>
-								{item.title}
-
-								<span
-									className={`navbar__icon ${
-										isActive ? 'navbar__icon--open' : ''
-									}`}
+								<ArrowDownIcon size={14} />
+							</span>
+						</button>
+						<div
+							ref={active === item.id ? ref : null}
+							className={`nav__submenu ${
+								active === item.id ? 'nav__submenu--open' : ''
+							}`}
+						>
+							{item.content.map(link => (
+								<a
+									key={link.title}
+									href={link.link}
+									className='nav__submenu-link'
 								>
-									<ArrowDownIcon size={19} />
-								</span>
-							</button>
-
-							<div
-								className={`navbar__dropdown ${
-									isActive ? 'navbar__dropdown--open' : ''
-								}`}
-							>
-								{item.content?.map(link => (
-									<a
-										key={link.link}
-										href={link.link}
-										className='navbar__dropdown-link'
-									>
-										{link.title}
-									</a>
-								))}
-							</div>
+									{link.title}
+								</a>
+							))}
 						</div>
-					);
-				})}
+					</div>
+				))}
 			</div>
 		</nav>
 	);
-};
-
-export default Navbar;
+}
