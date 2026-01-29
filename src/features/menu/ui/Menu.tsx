@@ -4,7 +4,9 @@ import { Menu } from '..';
 import CloseIcon from '@shared/icons/Close';
 import './Menu.scss';
 import MobileNavbar from './MobileNavbar';
-
+import ArrowLeftIcon from '@shared/icons/ArrowLeft';
+import { CatalogCategories } from '@features/categories';
+import { CatalogSubcategories } from '@features/subcategories';
 
 const BurgerMenu = () => {
 	const dispatch = useAppDispatch();
@@ -12,18 +14,27 @@ const BurgerMenu = () => {
 
 	if (!isOpen) return null;
 
+	const handleReturn = () => {
+		if (type === 'category') dispatch(Menu.actions.setType('menu'));
+		if (type === 'subcategory') dispatch(Menu.actions.setType('category'));
+	};
+
 	return (
-		<div className='menu'>
+		<div className='menu visible-tablet'>
 			<div className='menu__header'>
-				{/* <IconButton
-					onClick={() => dispatch(Menu.actions.setIsOpen(true))}
-					title='Меню'
-					className='visible-tablet'
-					size={45}
-					icon={<MenuIcon />}
-				/> */}
-				<div className='menu__header-logo'>
-					<img src='./logo.png' alt='РАЙДО СЕРВИС' />
+				<div className='menu__header-block'>
+					{type !== 'menu' && (
+						<IconButton
+							onClick={handleReturn}
+							title='Меню'
+							className='menu__header-return'
+							size={45}
+							icon={<ArrowLeftIcon />}
+						/>
+					)}
+					<div className='menu__header-logo'>
+						<img src='./logo.png' alt='РАЙДО СЕРВИС' />
+					</div>
 				</div>
 				<IconButton
 					onClick={() => dispatch(Menu.actions.setIsOpen(false))}
@@ -33,7 +44,11 @@ const BurgerMenu = () => {
 					icon={<CloseIcon />}
 				/>
 			</div>
-			<div className='menu__content'>{type === 'menu' && <MobileNavbar />}</div>
+			<div className='menu__content'>
+				{type === 'menu' && <MobileNavbar />}
+				{type === 'category' && <CatalogCategories />}
+				{type === 'subcategory' && <CatalogSubcategories />}
+			</div>
 		</div>
 	);
 };

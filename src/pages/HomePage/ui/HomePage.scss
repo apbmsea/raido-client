@@ -1,12 +1,12 @@
 @use '../../../shared/styles/helpers/' as *;
 
 .home {
-    width: 100%;
-    min-height: 59vh;
+	width: 100%;
 	max-width: 1280px;
-	padding: 0 40px;
+	margin: 0 auto;
+	padding: 40px 40px 100px;
 
 	@include tablet {
-		padding: 0 fluid-tm(40, 20);
+		padding: fluid-tm(40, 20) fluid-tm(40, 20) fluid-tm(80, 60);
 	}
 }

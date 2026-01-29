@@ -9,11 +9,13 @@ import { Input } from '@shared/ui/Input';
 import SearchIcon from '@shared/icons/Search';
 import CatalogIcon from '@shared/icons/Catalog';
 import MenuIcon from '@shared/icons/Menu';
-import { useAppDispatch } from '@shared/hooks/store.hooks';
+import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Menu } from '@features/menu';
+import { Catalog } from '@features/catalog';
 
 const Header = () => {
 	const dispatch = useAppDispatch();
+	const { isOpen } = useAppSelector(state => state.catalog)
 
 	return (
 		<header className='header'>
@@ -29,6 +31,7 @@ const Header = () => {
 					<img src='./logo.png' alt='РАЙДО СЕРВИС' />
 				</div>
 				<Button
+					onClick={() => dispatch(Catalog.actions.setIsOpen(!isOpen))}
 					title='Каталог'
 					className='header__content-сatalog hidden-tablet'
 					size='s'
