@@ -1,6 +1,7 @@
 @use '../../../shared/styles/helpers/' as *;
 
 .header {
+	margin: auto;
 	padding: 40px 40px 0 40px;
 	max-width: 1280px;
 	width: 100%;
@@ -46,7 +47,6 @@
 				width: fluid(380, 150);
 			}
 		}
-		// min-width: 0;
 	}
 
 	&__buttons {
@@ -64,7 +64,7 @@
 		}
 	}
 
-	@media ( width < 680px) {
+	@media (width < 680px) {
 		grid-template-columns: auto auto;
 		grid-template-areas:
 			'content buttons'
@@ -85,6 +85,5 @@
 			width: 100%;
 			justify-self: stretch;
 		}
-
 	}
 }

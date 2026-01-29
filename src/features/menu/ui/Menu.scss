@@ -1,16 +1,18 @@
 @use '../../../shared/styles/helpers/' as *;
 .menu {
 	position: fixed;
-	inset: 0; // top: 0; right: 0; bottom: 0; left: 0;
+	inset: 0;
 	padding: fluid-tm(40, 20);
 	z-index: 10;
-	width: 100vw;
 	height: 100vh;
 	background-color: #fff;
-	color: #fff;
 	gap: 30px;
 	display: flex;
 	flex-direction: column;
+	flex: 1 1 auto;
+	overflow-y: auto;
+	overflow-x: hidden;
+	-webkit-overflow-scrolling: touch;
 
 	&__header {
 		display: flex;
@@ -27,9 +29,17 @@
 			width: fluid-tm(45, 40) !important;
 			height: fluid-tm(45, 40) !important;
 		}
+
+		&-block {
+			display: flex;
+			align-items: center;
+			gap: fluid-tm(16, 12);
+		}
 	}
 
-    &__content {
-       
-    }
+	&__content {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+	}
 }

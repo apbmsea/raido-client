@@ -4,7 +4,6 @@ import './HomePage.scss'
 const HomePage = () => {
 	return (
 		<main className='home'>
-			HomePage
 			<Advantages />
 		</main>
 	);

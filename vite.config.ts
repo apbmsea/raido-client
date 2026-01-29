@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite';
 import path from 'path';
 import react from '@vitejs/plugin-react';
+import basicSsl from '@vitejs/plugin-basic-ssl';
 
 export default defineConfig({
-	plugins: [react()],
+	plugins: [react(), basicSsl()],
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, './src'),
@@ -14,5 +15,13 @@ export default defineConfig({
 			'@shared': path.resolve(__dirname, 'src/shared'),
 			'@widgets': path.resolve(__dirname, 'src/widgets')
 		}
+	},
+	server: {
+		watch: {
+			usePolling: true
+		},
+		host: true,
+		strictPort: true,
+		port: 3000
 	}
 });

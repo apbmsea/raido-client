@@ -1,0 +1,1 @@
+export { default as CatalogSubcategories } from './ui/CatalogSubcategories';
