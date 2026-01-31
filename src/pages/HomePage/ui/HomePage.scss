@@ -1,6 +1,9 @@
 @use '../../../shared/styles/helpers/' as *;
 
 .home {
+	display: flex;
+	flex-direction: column;
+	@include f(gap, 80, 60, 40);
 	width: 100%;
 	max-width: 1280px;
 	margin: 0 auto;

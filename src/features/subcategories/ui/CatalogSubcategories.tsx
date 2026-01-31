@@ -69,7 +69,7 @@ const CatalogSubcategories = () => {
 			<IconButton
 				onClick={() => dispatch(Catalog.actions.setIsOpen(false))}
 				title='Меню'
-				className='catalog-subcategories__close'
+				className='catalog-subcategories__close hidden-tablet'
 				size={45}
 				icon={<CloseIcon />}
 			/>
