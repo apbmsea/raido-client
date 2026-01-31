@@ -7,7 +7,7 @@ $mobile: 480.98;
 $mobile-s: 360.98;
 
 @mixin desktop {
-    @media (width > rem($desktop)) {
+    @media (width >   rem($desktop)) {
       @content;
     }
 }
