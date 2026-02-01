@@ -1,0 +1,73 @@
+@use '../../../shared/styles/helpers/' as *;
+
+.slider-widget {
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	background-size: cover;
+	background-position: center;
+	background-color: var(--color-primary);
+	border-radius: 15px;
+	padding: fluid-dt(54, 32) fluid-dt(43, 19) fluid-dt(37, 17) fluid-dt(54, 32);
+	transition: background-image 0.4s ease-in-out;
+	@include f(height, 354, 205, 125);
+
+	@include tablet {
+		padding: fluid-tm(32, 15) fluid-tm(19, 15) fluid-tm(17, 5)
+			fluid-tm(32, 15);
+		background-position: -5px 0;
+	}
+
+	&__content {
+		@include f(max-width, 450, 300, 200);
+		color: var(--color-white);
+		animation: fade 0.4s ease-in-out;
+
+		&-title {
+			font-weight: 700;
+			@include f(margin-bottom, 20, 10, 5);
+			@include f(font-size, 36, 24, 16);
+		}
+
+		&-description {
+			font-weight: 560;
+			@include f(font-size, 24, 16, 12);
+			@include f(margin-bottom, 30, 18, 8);
+		}
+
+		&-button {
+			font-weight: 400;
+			border: none;
+			padding: fluid-dt(10, 6) fluid-dt(20, 12);
+			@include f(font-size, 18, 16, 12);
+			height: auto;
+
+			@include tablet {
+				padding: fluid-tm(6, 5) fluid-tm(12, 10);
+			}
+		}
+	}
+
+	&__controls {
+		display: flex;
+		align-items: center;
+		gap: 17px;
+		align-self: end;
+		color: #fff;
+		font-weight: 700;
+		@include f(font-size, 20, 14, 12);
+
+		&-button {
+			border: none;
+		}
+	}
+}
+
+@keyframes fade {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
