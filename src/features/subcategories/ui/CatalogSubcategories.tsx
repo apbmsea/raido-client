@@ -3,7 +3,6 @@ import { useAppSelector, useAppDispatch } from '@shared/hooks/store.hooks';
 import './CatalogSubcategories.scss';
 import { IconButton } from '@shared/ui/IconButton';
 import CloseIcon from '@shared/icons/Close';
-import { Menu } from '@features/menu';
 import { Catalog } from '@features/catalog';
 
 const CatalogSubcategories = () => {
