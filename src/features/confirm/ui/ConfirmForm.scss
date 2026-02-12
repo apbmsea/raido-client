@@ -1,0 +1,41 @@
+@use '../../../shared/styles/helpers/' as *;
+
+.confirm-form {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+    font-size: 14px;
+
+	&__title {
+		margin: 0;
+		font-weight: 700;
+		font-size: fluid-tm(20, 16);
+	}
+
+	&__link {
+		font-size: 14px;
+		text-decoration: underline;
+		cursor: pointer;
+	}
+
+	&__code-inputs {
+		display: flex;
+		gap: 8px;
+		justify-content: center;
+	}
+
+	&__code-input {
+		width: 48px;
+		height: 56px;
+		text-align: center;
+		font-size: 24px;
+		font-weight: 600;
+		border: 2px solid var(--color-gray);
+		border-radius: 8px;
+		outline: none;
+
+		&:focus {
+			border-color: var(--color-primary);
+		}
+	}
+}

@@ -9,6 +9,7 @@ import { Footer } from '@widgets/Footer';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Categories } from '@entities/category';
 import { CatalogMenu } from '@features/catalog';
+import { ModalWindow } from '@features/modal';
 
 const Layout = () => {
 	const dispatch = useAppDispatch();
@@ -25,6 +26,7 @@ const Layout = () => {
 
 	return (
 		<div className='app-layout'>
+			<ModalWindow />
 			<BurgerMenu />
 			<Header />
 			<Navbar />
