@@ -6,28 +6,19 @@ import { useAppDispatch } from '@shared/hooks/store.hooks';
 import { Menu } from '@features/menu';
 import { Catalog } from '@features/catalog';
 
-import catalog1 from '@/shared/assets/catalog1.png';
-import catalog2 from '@/shared/assets/catalog2.png';
-import catalog3 from '@/shared/assets/catalog3.png';
-import catalog4 from '@/shared/assets/catalog4.png';
-import catalog5 from '@/shared/assets/catalog5.png';
-import catalog6 from '@/shared/assets/catalog6.png';
-import catalog7 from '@/shared/assets/catalog7.png';
-import catalog8 from '@/shared/assets/catalog8.png';
-
 export const CATALOG_ITEMS = [
-	{ id: '1', title: 'Компьютеры и ноутбуки', image: catalog1 },
-	{ id: '2', title: 'Печать и сканирование', image: catalog2 },
+	{ id: '1', title: 'Компьютеры и ноутбуки', image: 'catalog1.png' },
+	{ id: '2', title: 'Печать и сканирование', image: 'catalog2.png' },
 	{
 		id: '3',
 		title: 'Расходные материалы для оргтехники',
-		image: catalog3
+		image: 'catalog3.png'
 	},
-	{ id: '4', title: 'Комплектующие', image: catalog4 },
-	{ id: '5', title: 'Бытовая техника для кухни', image: catalog5 },
-	{ id: '6', title: 'Смартфоны и телефония', image: catalog6 },
-	{ id: '7', title: 'Периферия', image: catalog7 },
-	{ id: '8', title: 'Телевизоры и мультимедиа', image: catalog8 }
+	{ id: '4', title: 'Комплектующие', image: 'catalog4.png' },
+	{ id: '5', title: 'Бытовая техника для кухни', image: 'catalog5.png' },
+	{ id: '6', title: 'Смартфоны и телефония', image: 'catalog6.png' },
+	{ id: '7', title: 'Периферия', image: 'catalog7.png' },
+	{ id: '8', title: 'Телевизоры и мультимедиа', image: 'catalog8.png' }
 ];
 
 const CatalogWidget = () => {
@@ -64,7 +55,7 @@ const CatalogWidget = () => {
 							</p>
 							<div className='catalog-widget__container'>
 								<img
-									src={`./src/shared/assets/${item.image}`}
+									src={`./${item.image}`}
 									alt=''
 									className='catalog-widget__container-image'
 								/>
@@ -81,7 +72,7 @@ const CatalogWidget = () => {
 							</p>
 							<div className='catalog-widget__container'>
 								<img
-									src={`./src/shared/assets/${item.image}`}
+									src={`./${item.image}`}
 									alt=''
 									className='catalog-widget__container-image'
 								/>
