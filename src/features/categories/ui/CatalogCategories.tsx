@@ -5,7 +5,7 @@ import { Menu } from '@features/menu';
 import { SvgIcon } from '@features/svgIcon';
 
 const MobileCatalog = () => {
-	const { categories, isLoading } = useAppSelector(state => state.сategories);
+	const { categories } = useAppSelector(state => state.сategories);
 	const dispatch = useAppDispatch();
 
 	return (

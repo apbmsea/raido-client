@@ -1,0 +1,27 @@
+.modal {
+	&__overlay {
+		position: fixed;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.6);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 1000;
+		padding: 36px;
+	}
+
+	&__content {
+        position: relative;
+		background: var(--color-white);
+
+		padding: 30px;
+		border-radius: 15px;
+
+        &-close {
+            position: absolute;
+            right: 30px;
+            top: 30px;
+            cursor: pointer;
+        }
+	}
+}

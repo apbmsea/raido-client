@@ -12,10 +12,11 @@ import MenuIcon from '@shared/icons/Menu';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Menu } from '@features/menu';
 import { Catalog } from '@features/catalog';
+import { Modal } from '@features/modal';
 
 const Header = () => {
 	const dispatch = useAppDispatch();
-	const { isOpen } = useAppSelector(state => state.catalog)
+	const { isOpen } = useAppSelector(state => state.catalog);
 
 	return (
 		<header className='header'>
@@ -72,7 +73,14 @@ const Header = () => {
 					counter={2}
 					icon={<CartIcon />}
 				/>
-				<IconButton title='Профиль' size={45} icon={<ProfileIcon />} />
+				<IconButton
+					onClick={() =>
+						dispatch(Modal.actions.openModal('register'))
+					}
+					title='Профиль'
+					size={45}
+					icon={<ProfileIcon />}
+				/>
 			</div>
 		</header>
 	);
