@@ -3,7 +3,7 @@ import { Header } from '@widgets/Header';
 import { Navbar } from '@widgets/Navbar';
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import './layout.scss';
+import './Layout.scss';
 import { BurgerMenu } from '@features/menu';
 import { Footer } from '@widgets/Footer';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
