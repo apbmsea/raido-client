@@ -3,7 +3,7 @@ import type { LoginPayload } from '@entities/login';
 
 interface LoginState {
 	isLoading: boolean;
-	errors: Record<string, string>;
+	errors: Record<string, { message: string }>;
 }
 
 const initialState: LoginState = {
@@ -23,10 +23,17 @@ export const { reducer, actions, name } = createSlice({
 		},
 		loginFailure: (
 			state,
-			action: PayloadAction<Record<string, string>>
+			action: PayloadAction<Record<string, { message: string }>>
 		) => {
 			state.isLoading = false;
 			state.errors = action.payload;
+		},
+		clearFieldError: (state, action: PayloadAction<string>) => {
+			if (!state.errors) return;
+			delete state.errors[action.payload];
+		},
+		clearAllErrors: state => {
+			state.errors = {};
 		}
 	}
 });

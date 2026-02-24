@@ -5,6 +5,7 @@ import { Checkbox } from '@shared/ui/Checkbox';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Register } from '..';
+import { Modal } from '@features/modal';
 
 const RegisterForm = () => {
 	const [localErrors, setLocalErrors] = useState<Record<string, string>>({
@@ -101,7 +102,12 @@ const RegisterForm = () => {
 				error={localErrors.secondPassword}
 				onChange={handleChange}
 			/>
-			<span className='register-form__link'>Уже есть аккаунт? Войти</span>
+			<span
+				onClick={() => dispatch(Modal.actions.openModal('login'))}
+				className='register-form__link'
+			>
+				Уже есть аккаунт? Войти
+			</span>
 			<Checkbox
 				id='terms'
 				name='terms'
@@ -116,9 +122,9 @@ const RegisterForm = () => {
 			>
 				Зарегистрироваться
 			</Button>
-			<span className='register-form__link'>
+			{/* <span className='register-form__link'>
 				Зарегистрироваться как корпоративный клиент
-			</span>
+			</span> */}
 		</form>
 	);
 };

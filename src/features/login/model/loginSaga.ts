@@ -1,9 +1,10 @@
 import { call, put, takeLatest } from 'typed-redux-saga';
-import { Login  } from '..';
+import { Login } from '..';
 import { login, type LoginPayload } from '@entities/login';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Confirm } from '@features/confirm';
 import { Modal } from '@features/modal';
+import { isApiError } from '@shared/utils/errorHandler';
 
 function* loginSaga(action: PayloadAction<LoginPayload>) {
 	try {
@@ -11,9 +12,13 @@ function* loginSaga(action: PayloadAction<LoginPayload>) {
 		yield* put(Confirm.actions.setEmail(action.payload.email));
 		yield* put(Confirm.actions.setType('login'));
 		yield* put(Login.actions.loginSuccess());
-		yield* put(Modal.actions.openModal('confirm'));
+		yield* put(Modal.actions.closeModal());
 	} catch (error) {
-		yield* put(Login.actions.loginFailure({}));
+		if (isApiError(error)) {
+			yield* put(Login.actions.loginFailure(error.errors));
+		} else {
+			yield* put(Login.actions.loginFailure({}));
+		}
 	}
 }
 

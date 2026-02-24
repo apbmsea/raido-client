@@ -5,7 +5,7 @@ type ConfirmType = 'register' | 'login' | '2fa/switch';
 
 interface ConfirmState {
 	isLoading: boolean;
-	errors: Record<string, string>;
+	errors: Record<string, { message: string }>;
 	email: string;
 	type: ConfirmType;
 }
@@ -29,7 +29,7 @@ export const { reducer, actions, name } = createSlice({
 		},
 		confirmFailure: (
 			state,
-			action: PayloadAction<Record<string, string>>
+			action: PayloadAction<Record<string, { message: string }>>
 		) => {
 			state.isLoading = false;
 			state.errors = action.payload;
@@ -39,6 +39,13 @@ export const { reducer, actions, name } = createSlice({
 		},
 		setType: (state, action: PayloadAction<ConfirmType>) => {
 			state.type = action.payload;
+		},
+		clearFieldError: (state, action: PayloadAction<string>) => {
+			if (!state.errors) return;
+			delete state.errors[action.payload];
+		},
+		clearAllErrors: state => {
+			state.errors = {};
 		}
 	}
 });

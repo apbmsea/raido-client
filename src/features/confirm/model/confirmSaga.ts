@@ -3,6 +3,7 @@ import { Confirm } from '..';
 import { confirm, type ConfirmPayload } from '@entities/confirm';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Modal } from '@features/modal';
+import { isApiError } from '@shared/utils/errorHandler';
 
 function* confirmSaga(action: PayloadAction<ConfirmPayload>) {
 	try {
@@ -11,7 +12,11 @@ function* confirmSaga(action: PayloadAction<ConfirmPayload>) {
 		localStorage.setItem('token', response.token)
 		yield* put(Modal.actions.closeModal());
 	} catch (error) {
-		yield* put(Confirm.actions.confirmFailure({}));
+		if (isApiError(error)) {
+			yield* put(Confirm.actions.confirmFailure(error.errors));
+		} else {
+			yield* put(Confirm.actions.confirmFailure({}));
+		}
 	}
 }
 

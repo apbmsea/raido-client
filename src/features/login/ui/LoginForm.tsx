@@ -4,10 +4,11 @@ import './LoginForm.scss';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Login } from '..';
+import { Modal } from '@features/modal';
 
 const LoginForm = () => {
 	const dispatch = useAppDispatch();
-	const { isLoading } = useAppSelector(state => state.register);
+	const { isLoading, errors } = useAppSelector(state => state.login);
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
@@ -29,14 +30,15 @@ const LoginForm = () => {
 	};
 
 	return (
-		<form onSubmit={handleSumbit} className='register-form'>
-			<h2 className='register-form__title'>Вход</h2>
+		<form onSubmit={handleSumbit} className='login-form'>
+			<h2 className='login-form__title'>Вход</h2>
 			<Input
 				name='email'
 				placeholder='Эл. Почта'
 				label='Эл. Почта'
 				value={formData.email}
 				onChange={handleChange}
+				error={errors.email?.message}
 			/>
 
 			<Input
@@ -46,16 +48,17 @@ const LoginForm = () => {
 				label='Пароль'
 				value={formData.password}
 				onChange={handleChange}
+				error={errors.password?.message}
 			/>
 
-			<span className='register-form__link'>Уже есть аккаунт? Войти</span>
+			<span onClick={() => dispatch(Modal.actions.openModal('register'))} className='login-form__link'>Нет аккаунта? Зарегистрироваться</span>
 
 			<Button type='submit' loading={isLoading}>
-				Зарегистрироваться
+				Войти
 			</Button>
-			<span className='register-form__link'>
+			{/* <span className='register-form__link'>
 				Зарегистрироваться как корпоративный клиент
-			</span>
+			</span> */}
 		</form>
 	);
 };
