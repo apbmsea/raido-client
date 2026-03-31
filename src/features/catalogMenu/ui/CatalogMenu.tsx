@@ -5,7 +5,7 @@ import { CatalogSubcategories } from '@features/subcategories';
 
 
 const CatalogMenu = () => {
-	const { isOpen } = useAppSelector(state => state.catalog);
+	const { isOpen } = useAppSelector(state => state.catalogMenu);
 
 	if (!isOpen) return null;
 

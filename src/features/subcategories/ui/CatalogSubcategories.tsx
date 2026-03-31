@@ -3,7 +3,8 @@ import { useAppSelector, useAppDispatch } from '@shared/hooks/store.hooks';
 import './CatalogSubcategories.scss';
 import { IconButton } from '@shared/ui/IconButton';
 import CloseIcon from '@shared/icons/Close';
-import { Catalog } from '@features/catalog';
+import { CatalogMenu } from '@features/catalogMenu';
+import { Catalog } from '@pages/CatalogPage';
 
 const CatalogSubcategories = () => {
 	const { categoryId } = useAppSelector(state => state.menu);
@@ -57,6 +58,19 @@ const CatalogSubcategories = () => {
 								<div
 									key={sub.id}
 									className='catalog-subcategories__item'
+									onClick={() => {
+										dispatch(
+											Catalog.actions.setSubcategoryId(
+												sub.id
+											)
+										);
+										dispatch(
+											CatalogMenu.actions.setIsOpen(false)
+										);
+										dispatch(
+											Catalog.actions.catalogRequest()
+										);
+									}}
 								>
 									{sub.name}
 								</div>
@@ -66,7 +80,7 @@ const CatalogSubcategories = () => {
 				);
 			})}
 			<IconButton
-				onClick={() => dispatch(Catalog.actions.setIsOpen(false))}
+				onClick={() => dispatch(CatalogMenu.actions.setIsOpen(false))}
 				title='Меню'
 				className='catalog-subcategories__close hidden-tablet'
 				size={45}

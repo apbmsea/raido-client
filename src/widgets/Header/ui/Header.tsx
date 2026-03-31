@@ -11,12 +11,12 @@ import CatalogIcon from '@shared/icons/Catalog';
 import MenuIcon from '@shared/icons/Menu';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Menu } from '@features/menu';
-import { Catalog } from '@features/catalog';
+import { CatalogMenu } from '@features/catalogMenu';
 import { Modal } from '@features/modal';
 
 const Header = () => {
 	const dispatch = useAppDispatch();
-	const { isOpen } = useAppSelector(state => state.catalog);
+	const { isOpen } = useAppSelector(state => state.catalogMenu);
 
 	return (
 		<header className='header'>
@@ -32,7 +32,7 @@ const Header = () => {
 					<img src='./logo.png' alt='РАЙДО СЕРВИС' />
 				</div>
 				<Button
-					onClick={() => dispatch(Catalog.actions.setIsOpen(!isOpen))}
+					onClick={() => dispatch(CatalogMenu.actions.setIsOpen(!isOpen))}
 					title='Каталог'
 					className='header__content-сatalog hidden-tablet'
 					size='s'

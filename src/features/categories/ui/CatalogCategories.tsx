@@ -26,6 +26,7 @@ const MobileCatalog = () => {
 								dispatch(
 									Menu.actions.setCategoryId(category.id)
 								);
+								
 							}}
 							onMouseEnter={() => {
 								dispatch(Menu.actions.setType('subcategory'));
