@@ -6,13 +6,15 @@ interface CatalogState {
 	items: Product[];
 	categoryId: number | null;
 	subcategoryId: number | null;
+	title: string
 }
 
 const initialState: CatalogState = {
 	isLoading: false,
 	items: [],
 	categoryId: null,
-	subcategoryId: null
+	subcategoryId: null,
+	title: "Товары"
 };
 
 export const { reducer, actions, name } = createSlice({
@@ -36,6 +38,9 @@ export const { reducer, actions, name } = createSlice({
 		setSubcategoryId: (state, action: PayloadAction<number>) => {
 			state.subcategoryId = action.payload;
 			state.categoryId = null;
+		},
+		setTitle: (state, action: PayloadAction<string>) => {
+			state.title = action.payload;
 		}
 	}
 });

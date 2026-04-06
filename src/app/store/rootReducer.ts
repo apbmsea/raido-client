@@ -6,6 +6,7 @@ import { Menu } from '@features/menu';
 import { Modal } from '@features/modal';
 import { Register } from '@features/register';
 import { Catalog } from '@pages/CatalogPage';
+import { Pagination } from '@pages/CatalogPage/features/pagination';
 import { combineReducers } from '@reduxjs/toolkit';
 
 const rootReducer = combineReducers({
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
 	...Register.reducer,
 	...Confirm.reducer,
 	...Login.reducer,
-	...Catalog.reducer
+	...Catalog.reducer,
+	...Pagination.reducer
 });
 
 export default rootReducer;

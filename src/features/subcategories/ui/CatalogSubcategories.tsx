@@ -5,11 +5,13 @@ import { IconButton } from '@shared/ui/IconButton';
 import CloseIcon from '@shared/icons/Close';
 import { CatalogMenu } from '@features/catalogMenu';
 import { Catalog } from '@pages/CatalogPage';
+import { useNavigate } from 'react-router-dom';
 
 const CatalogSubcategories = () => {
 	const { categoryId } = useAppSelector(state => state.menu);
 	const { categories } = useAppSelector(state => state.сategories);
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	const category = useMemo(
 		() => categories.find(c => c.id === categoryId),
@@ -70,6 +72,10 @@ const CatalogSubcategories = () => {
 										dispatch(
 											Catalog.actions.catalogRequest()
 										);
+										dispatch(
+											Catalog.actions.setTitle(sub.name || "Товары")
+										);
+										navigate('/catalog');
 									}}
 								>
 									{sub.name}

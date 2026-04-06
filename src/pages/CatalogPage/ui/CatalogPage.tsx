@@ -1,23 +1,23 @@
+import { useAppSelector } from '@shared/hooks/store.hooks';
 import { CatalogList } from '../features/catalogList';
 import { Filters } from '../features/filters';
-import { Pagination } from '../features/pagination';
+import { PaginationComponent } from '../features/pagination';
 import './CatalogPage.scss';
 
 const CatalogPage = () => {
+	const title = useAppSelector(state => state.catalog.title)
 	return (
 		<main className='catalog'>
-			Каталог {'-->'} Категория товаров {'-->'} Телевизоры
-			<h1>Телевизоры</h1>
-			<div style={{ display: 'flex', gap: '26px', width: '100%' }}>
+			Каталог {'-->'} Категория товаров {'-->'} {title}
+			<h1>{title}</h1>
+			<div className='catalog__content'>
 				<Filters />
-				<div>
-					<div style={{ background: '#f3f3f3', width: "100%", height: "45px", borderRadius: "15px", display: "flex", justifyContent: "space-between", alignItems: "center", paddingInline: "25px"}}>
-						<div>Сортировка</div>
-						<div>Вид</div>
-					</div>
+				<section className='catalog__main'>
+					<div style={{ width: "100%", background: "#e2e2e2", padding: "15px", borderRadius: "15px"
+					}}>Сортировка</div>
 					<CatalogList />
-					<Pagination />
-				</div>
+					<PaginationComponent />
+				</section>
 			</div>
 		</main>
 	);
