@@ -4,7 +4,7 @@ import ArrowRigthIcon from '@shared/icons/ArrowRight';
 import { Button } from '@shared/ui/Button';
 import { useAppDispatch } from '@shared/hooks/store.hooks';
 import { Menu } from '@features/menu';
-import { Catalog } from '@features/catalog';
+import { CatalogMenu } from '@features/catalogMenu';
 
 export const CATALOG_ITEMS = [
 	{ id: '1', title: 'Компьютеры и ноутбуки', image: 'catalog1.png' },
@@ -28,7 +28,7 @@ const CatalogWidget = () => {
 
 	const openCatalog = () => {
 		dispatch(Menu.actions.setIsOpen(true));
-		dispatch(Catalog.actions.setIsOpen(true));
+		dispatch(CatalogMenu.actions.setIsOpen(true));
 	};
 
 	return (

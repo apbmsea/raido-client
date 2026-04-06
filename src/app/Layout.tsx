@@ -8,13 +8,13 @@ import { BurgerMenu } from '@features/menu';
 import { Footer } from '@widgets/Footer';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Categories } from '@entities/category';
-import { CatalogMenu } from '@features/catalog';
+import { CatalogMenuModal } from '@features/catalogMenu';
 import { ModalWindow } from '@features/modal';
 
 const Layout = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const isOpen = useAppSelector(state => state.catalog.isOpen);
+	const isOpen = useAppSelector(state => state.catalogMenu.isOpen);
 
 	useEffect(() => {
 		setNavigate(navigate);
@@ -30,7 +30,7 @@ const Layout = () => {
 			<BurgerMenu />
 			<Header />
 			<Navbar />
-			{isOpen && <CatalogMenu />}
+			{isOpen && <CatalogMenuModal />}
 			{!isOpen && <Outlet />}
 			{!isOpen && <Footer />}
 		</div>

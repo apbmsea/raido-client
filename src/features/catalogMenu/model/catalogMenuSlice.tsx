@@ -11,7 +11,7 @@ const initialState: CatalogState = {
 };
 
 export const { name, actions, reducer } = createSlice({
-	name: 'catalog',
+	name: 'catalogMenu',
 	initialState,
 	reducers: {
 		setIsOpen: (state, action: PayloadAction<boolean>) => {

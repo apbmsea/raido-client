@@ -1,0 +1,13 @@
+@use '../../../../../shared/styles/helpers/' as *;
+
+.filters {
+    width: 230px;
+    height: 1200px;
+    background-color: #f3f3f3;
+    border-radius: 15px;
+
+    @include tablet {
+        visibility: hidden;
+        display: none;
+    }
+}

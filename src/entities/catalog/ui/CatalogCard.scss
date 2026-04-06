@@ -1,0 +1,24 @@
+.catalog-card {
+	width: 243px;
+	height: 347px;
+	display: flex;
+	flex-direction: column;
+
+	&__content {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: start;
+		justify-content: space-between;
+
+		&-name {
+			font-size: 14px;
+			color: var(--color-black);
+		}
+
+		&-finalprice {
+			font-size: 20px;
+			font-weight: 700;
+		}
+	}
+}
