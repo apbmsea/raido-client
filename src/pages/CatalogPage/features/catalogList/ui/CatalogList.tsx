@@ -1,15 +1,10 @@
-import { useEffect } from 'react';
-import { Catalog } from '@pages/CatalogPage';
-import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
+import { useAppSelector } from '@shared/hooks/store.hooks';
 import { CatalogCard } from '@entities/catalog';
-import './CatalogList.scss'
+import './CatalogList.scss';
 
 const CatalogList = () => {
-	const dispatch = useAppDispatch();
 	const items = useAppSelector(state => state.catalog.items);
-	useEffect(() => {
-		dispatch(Catalog.actions.catalogRequest());
-	}, []);
+
 	return (
 		<section className='catalog-list'>
 			{items.map(item => (

@@ -62,18 +62,13 @@ const CatalogSubcategories = () => {
 									className='catalog-subcategories__item'
 									onClick={() => {
 										dispatch(
+											CatalogMenu.actions.setIsOpen(false)
+										);
+
+										dispatch(
 											Catalog.actions.setSubcategoryId(
 												sub.id
 											)
-										);
-										dispatch(
-											CatalogMenu.actions.setIsOpen(false)
-										);
-										dispatch(
-											Catalog.actions.catalogRequest()
-										);
-										dispatch(
-											Catalog.actions.setTitle(sub.name || "Товары")
 										);
 										navigate('/catalog');
 									}}

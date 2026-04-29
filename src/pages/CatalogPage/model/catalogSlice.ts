@@ -6,7 +6,7 @@ interface CatalogState {
 	items: Product[];
 	categoryId: number | null;
 	subcategoryId: number | null;
-	title: string
+	title: string;
 }
 
 const initialState: CatalogState = {
@@ -14,7 +14,7 @@ const initialState: CatalogState = {
 	items: [],
 	categoryId: null,
 	subcategoryId: null,
-	title: "Товары"
+	title: 'Товары'
 };
 
 export const { reducer, actions, name } = createSlice({
@@ -41,6 +41,7 @@ export const { reducer, actions, name } = createSlice({
 		},
 		setTitle: (state, action: PayloadAction<string>) => {
 			state.title = action.payload;
-		}
+		},
+		resetFilters: () => initialState
 	}
 });
