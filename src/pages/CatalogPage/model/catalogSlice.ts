@@ -1,12 +1,16 @@
 import type { Product } from '@entities/catalog/model/catalog.type';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
+export type SortType = 'retail_price_asc' | 'retail_price_desc' | 'name_asc';
+
 interface CatalogState {
 	isLoading: boolean;
 	items: Product[];
 	categoryId: number | null;
 	subcategoryId: number | null;
 	title: string;
+	sort: SortType;
+	view: "grid" | "list"
 }
 
 const initialState: CatalogState = {
@@ -14,7 +18,9 @@ const initialState: CatalogState = {
 	items: [],
 	categoryId: null,
 	subcategoryId: null,
-	title: 'Товары'
+	title: 'Товары',
+	sort: 'name_asc',
+	view: 'grid'
 };
 
 export const { reducer, actions, name } = createSlice({
@@ -42,6 +48,17 @@ export const { reducer, actions, name } = createSlice({
 		setTitle: (state, action: PayloadAction<string>) => {
 			state.title = action.payload;
 		},
-		resetFilters: () => initialState
+		setSort: (state, action: PayloadAction<SortType>) => {
+			state.sort = action.payload;
+		},
+		setView: (state, action: PayloadAction<"grid" | "list">) => {
+			state.view = action.payload;
+		},
+		resetFilters: () => initialState,
+		navigateToSubcategory: (state, action: PayloadAction<{ id: number}>) => {
+			state.subcategoryId = action.payload.id;
+			state.categoryId = null;
+			state.sort = initialState.sort;
+		}
 	}
 });

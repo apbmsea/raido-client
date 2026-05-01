@@ -13,10 +13,12 @@ import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Menu } from '@features/menu';
 import { CatalogMenu } from '@features/catalogMenu';
 import { Modal } from '@features/modal';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
 	const dispatch = useAppDispatch();
 	const { isOpen } = useAppSelector(state => state.catalogMenu);
+	const navigate = useNavigate()
 
 	return (
 		<header className='header'>
@@ -28,7 +30,7 @@ const Header = () => {
 					size={45}
 					icon={<MenuIcon />}
 				/>
-				<div className='header__content-logo'>
+				<div className='header__content-logo' onClick={() => navigate('/')}>
 					<img src='./logo.png' alt='РАЙДО СЕРВИС' />
 				</div>
 				<Button

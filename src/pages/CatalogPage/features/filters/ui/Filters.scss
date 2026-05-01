@@ -6,6 +6,15 @@
     background-color: #f3f3f3;
     border-radius: 15px;
 
+    .bs {
+        width: 100%;
+        margin: 10px 0;
+        padding: 0 10px;
+        border-radius: 15px;
+        height: 100px;
+        background: var(--color-gray-light);
+    }
+
     @include tablet {
         visibility: hidden;
         display: none;

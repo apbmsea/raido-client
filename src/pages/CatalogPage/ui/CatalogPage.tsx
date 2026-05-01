@@ -5,32 +5,26 @@ import { PaginationComponent } from '../features/pagination';
 import './CatalogPage.scss';
 import { useEffect } from 'react';
 import { Catalog } from '..';
+import { Toolbar } from '../features/Toolbar';
 
 const CatalogPage = () => {
-	const title = useAppSelector(state => state.catalog.title);
-	const dispatch = useAppDispatch()
+	const { title } = useAppSelector(state => state.catalog);
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(Catalog.actions.catalogRequest())
-})
+		dispatch(Catalog.actions.catalogRequest());
+	}, []);
 
 	return (
 		<main className='catalog'>
-			Каталог {'-->'} Категория товаров {'-->'} {title}
-			<h1>{title}</h1>
+			<span className='catalog__path'>
+				Каталог {'-->'} Категория товаров {'-->'} {title}
+			</span>
+			<h1 className='catalog__title'>{title}</h1>
 			<div className='catalog__content'>
 				<Filters />
 				<section className='catalog__main'>
-					<div
-						style={{
-							width: '100%',
-							background: '#e2e2e2',
-							padding: '15px',
-							borderRadius: '15px'
-						}}
-					>
-						Сортировка
-					</div>
+					<Toolbar />
 					<CatalogList />
 					<PaginationComponent />
 				</section>

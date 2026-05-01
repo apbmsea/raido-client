@@ -1,10 +1,22 @@
 @use '../../../shared/styles/helpers/' as *;
 
 .catalog {
+	display: flex;
+	flex-direction: column;
 	width: 100%;
 	max-width: 1280px;
 	margin: 0 auto;
 	padding: 40px 40px 100px;
+	gap: 35px;
+
+	&__path {
+
+	}
+
+	&__titile {
+		font-size: 32px;
+		font-weight: bold;
+	}
 
 	@include tablet {
 		padding: fluid-tm(40, 20) fluid-tm(40, 20) fluid-tm(80, 60);

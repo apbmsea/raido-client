@@ -1,13 +1,11 @@
 .catalog-card {
-	width: 243px;
-	height: 347px;
+	width: 100%;
+	
 	display: flex;
-	flex-direction: column;
 
 	&__content {
 		height: 100%;
 		display: flex;
-		flex-direction: column;
 		align-items: start;
 		justify-content: space-between;
 
@@ -20,5 +18,59 @@
 			font-size: 20px;
 			font-weight: 700;
 		}
+	}
+
+	&__content--grid {
+		flex-direction: column;
+	}
+
+	&__content--list {
+		width: 100%;
+		flex-direction: row;
+	}
+
+	&--list {
+		width: 100%;
+		flex-direction: row;
+		
+	}
+
+	&--grid {
+		height: 347px;
+		width: 243px;
+		flex-direction: column;
+	}
+
+	&__info {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		&-name {
+			color: var(--color-black);
+			font-size: 16px;
+			font-weight: bold;
+		}
+
+		&-code {
+			font-size: 14px;
+			color: var(--color-gray);
+		}
+
+	}
+
+	&__buttons {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		align-items: end;
+	}
+
+	&__delivery {
+		display: flex;
+		flex-direction: column;
+		font-size: 14px;
 	}
 }
