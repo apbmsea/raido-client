@@ -6,6 +6,7 @@ import CloseIcon from '@shared/icons/Close';
 import { CatalogMenu } from '@features/catalogMenu';
 import { Catalog } from '@pages/CatalogPage';
 import { useNavigate } from 'react-router-dom';
+import { Menu } from '@features/menu';
 
 const CatalogSubcategories = () => {
 	const { categoryId } = useAppSelector(state => state.menu);
@@ -62,18 +63,13 @@ const CatalogSubcategories = () => {
 									className='catalog-subcategories__item'
 									onClick={() => {
 										dispatch(
-											Catalog.actions.setSubcategoryId(
-												sub.id
-											)
-										);
-										dispatch(
 											CatalogMenu.actions.setIsOpen(false)
 										);
+										dispatch(Menu.actions.setIsOpen(false));
 										dispatch(
-											Catalog.actions.catalogRequest()
-										);
-										dispatch(
-											Catalog.actions.setTitle(sub.name || "Товары")
+											Catalog.actions.navigateToSubcategory(
+												{ id: sub.id }
+											)
 										);
 										navigate('/catalog');
 									}}

@@ -3,37 +3,87 @@ import type { Product } from '../model/catalog.type';
 import CartIcon from '@shared/icons/Cart';
 import { ImageSlider } from '@features/imageSlider';
 import './CatalogCard.scss';
+import { IconButton } from '@shared/ui/IconButton';
+import FavoriteIcon from '@shared/icons/Favorite';
 
-type CatalogCardProps = { item: Product };
+type CatalogCardProps = { item: Product; variant: 'grid' | 'list' };
 
-const CatalogCard = ({ item }: CatalogCardProps) => {
+const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 	return (
-		<div className='catalog-card'>
+		<div className={`catalog-card catalog-card--${variant}`}>
 			<ImageSlider images={item.images} />
-			<div className='catalog-card__content'>
-				<span className="catalog-card__content-name">{item.name}</span>
-				<div>
-					<span className="catalog-card__content-finalprice">
-						{new Intl.NumberFormat('ru-RU', {
-							style: 'currency',
-							currency: 'RUB',
-							minimumFractionDigits: 0
-						}).format(Number(item.final_price))}
-					</span>
-					{item.has_discount && (
-						<>
-							<span>
+			<div
+				className={`catalog-card__content catalog-card__content--${variant}`}
+			>
+				{variant === 'grid' ? (
+					<>
+						<span className='catalog-card__content-name'>
+							{item.name}
+						</span>
+						<div>
+							<span className='catalog-card__content-finalprice'>
 								{new Intl.NumberFormat('ru-RU', {
 									style: 'currency',
 									currency: 'RUB',
 									minimumFractionDigits: 0
-								}).format(Number(item.retail_price))}
+								}).format(Number(item.final_price))}
 							</span>
-							<span>{item.discount_percentage}%</span>
-						</>
-					)}
-				</div>
-				<Button rightIcon={<CartIcon />}>В корзину</Button>
+							{item.has_discount && (
+								<>
+									<span>
+										{new Intl.NumberFormat('ru-RU', {
+											style: 'currency',
+											currency: 'RUB',
+											minimumFractionDigits: 0
+										}).format(Number(item.retail_price))}
+									</span>
+									<span>{item.discount_percentage}%</span>
+								</>
+							)}
+						</div>
+						<Button rightIcon={<CartIcon />}>В корзину</Button>
+					</>
+				) : (
+					<>
+						<div className='catalog-card__info'>
+							<span className='catalog-card__info-name'>
+								{item.name}
+							</span>
+							<span className='catalog-card__info-code'>Код товара: 0000000</span>
+							<div className='catalog-card__delivery'>
+								<span>Доставка завтра, 10 марта</span>
+								<span>Самовывоз сегодня, 9 марта</span>
+							</div>
+							<div>
+								<span className='catalog-card__content-finalprice'>
+									{new Intl.NumberFormat('ru-RU', {
+										style: 'currency',
+										currency: 'RUB',
+										minimumFractionDigits: 0
+									}).format(Number(item.final_price))}
+								</span>
+								{item.has_discount && (
+									<>
+										<span>
+											{new Intl.NumberFormat('ru-RU', {
+												style: 'currency',
+												currency: 'RUB',
+												minimumFractionDigits: 0
+											}).format(
+												Number(item.retail_price)
+											)}
+										</span>
+										<span>{item.discount_percentage}%</span>
+									</>
+								)}
+							</div>
+						</div>
+						<div className='catalog-card__buttons'>
+							<IconButton icon={<FavoriteIcon />} />
+							<Button rightIcon={<CartIcon />}>В корзину</Button>
+						</div>
+					</>
+				)}
 			</div>
 		</div>
 	);
