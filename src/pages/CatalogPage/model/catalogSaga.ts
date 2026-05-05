@@ -7,7 +7,7 @@ import { Filters } from '../features/filters';
 
 function* catalogSaga() {
 	try {
-		const { subcategoryId, sort } = yield* select(
+		const { categoryId, subcategoryId, sort } = yield* select(
 			(state: RootState) => state.catalog
 		);
 
@@ -24,6 +24,10 @@ function* catalogSaga() {
 		);
 
 		const params = new URLSearchParams();
+
+		if (categoryId) {
+			params.set('category_id', String(categoryId));
+		}
 
 		if (subcategoryId) {
 			params.set('subcategory_id', String(subcategoryId));
@@ -59,7 +63,7 @@ function* catalogSaga() {
 
 		yield* put(
 			Catalog.actions.setTitle(
-				response.subcategory_name || response.category_name
+				response.subcategory_name || response.category_name || 'Товары'
 			)
 		);
 		if (producers.length === 0) {
@@ -74,15 +78,20 @@ function* catalogSaga() {
 function* initCatalogFromQuery() {
 	const params = new URLSearchParams(window.location.search);
 
+	const categoryId = params.get('category_id');
 	const subcategoryId = params.get('subcategory_id');
 	const page = params.get('page');
 	const sort = params.get('sort_by');
 	const minPrice = params.get('min_price');
 	const maxPrice = params.get('max_price');
-	const producers = params.getAll('producer_names'); 
+	const producers = params.getAll('producer_names');
 
 	if (sort) {
 		yield* put(Catalog.actions.setSort(sort as any));
+	}
+
+	if (categoryId) {
+		yield* put(Catalog.actions.setCategoryId(Number(categoryId)));
 	}
 
 	if (subcategoryId) {
@@ -124,11 +133,13 @@ export default function* watchCatalog() {
 
 	yield* takeLatest(Catalog.actions.catalogRequest.type, catalogSaga);
 	yield* takeLatest(Catalog.actions.setSubcategoryId.type, catalogSaga);
+	yield* takeLatest(Catalog.actions.navigateToСategory.type, catalogSaga);
 	yield* takeLatest(Catalog.actions.navigateToSubcategory.type, catalogSaga);
 	yield* takeLatest(Pagination.actions.setCurrentPage.type, catalogSaga);
 	yield* takeLatest(Catalog.actions.setSort.type, catalogSaga);
 	yield* takeLatest(Filters.actions.setPrice.type, catalogSaga);
 	yield* takeLatest(Filters.actions.toggleProducer.type, catalogSaga);
+	yield* takeLatest(Filters.actions.resetFilters.type, catalogSaga);
 
 	yield* takeLatest(Catalog.actions.resetFilters.type, resetSaga);
-}
+}	

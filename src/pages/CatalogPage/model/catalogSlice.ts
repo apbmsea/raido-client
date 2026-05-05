@@ -10,7 +10,7 @@ interface CatalogState {
 	subcategoryId: number | null;
 	title: string;
 	sort: SortType;
-	view: "grid" | "list"
+	view: 'grid' | 'list';
 }
 
 const initialState: CatalogState = {
@@ -51,11 +51,19 @@ export const { reducer, actions, name } = createSlice({
 		setSort: (state, action: PayloadAction<SortType>) => {
 			state.sort = action.payload;
 		},
-		setView: (state, action: PayloadAction<"grid" | "list">) => {
+		setView: (state, action: PayloadAction<'grid' | 'list'>) => {
 			state.view = action.payload;
 		},
 		resetFilters: () => initialState,
-		navigateToSubcategory: (state, action: PayloadAction<{ id: number}>) => {
+		navigateToСategory: (state, action: PayloadAction<{ id: number }>) => {
+			state.subcategoryId = null;
+			state.categoryId = action.payload.id;
+			state.sort = initialState.sort;
+		},
+		navigateToSubcategory: (
+			state,
+			action: PayloadAction<{ id: number }>
+		) => {
 			state.subcategoryId = action.payload.id;
 			state.categoryId = null;
 			state.sort = initialState.sort;

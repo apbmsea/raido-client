@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Categories } from '@entities/category';
 import { CatalogMenuModal } from '@features/catalogMenu';
 import { ModalWindow } from '@features/modal';
+import { SearchComponent } from '@features/search';
 
 const Layout = () => {
 	const dispatch = useAppDispatch();
@@ -30,6 +31,7 @@ const Layout = () => {
 			<BurgerMenu />
 			<Header />
 			<Navbar />
+			<SearchComponent />
 			{isOpen && <CatalogMenuModal />}
 			{!isOpen && <Outlet />}
 			{!isOpen && <Footer />}

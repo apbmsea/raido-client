@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Filters } from '..';
 import { Checkbox } from '@shared/ui/Checkbox';
 import ArrowRigthIcon from '@shared/icons/ArrowRight';
+import { Button } from '@shared/ui/Button';
 
 const STEPS = (() => {
 	const steps = [];
@@ -207,6 +208,7 @@ const FiltersComponent = () => {
 					</button>
 				)}
 			</div>
+			<Button onClick={() => dispatch(Filters.actions.resetFilters())}>Очистить</Button>
 		</aside>
 	);
 };

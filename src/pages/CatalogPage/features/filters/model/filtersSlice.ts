@@ -42,6 +42,9 @@ export const { reducer, actions, name } = createSlice({
 				state.selectedProducers.splice(index, 1);
 			}
 		},
-		resetFilters: () => initialState
+		resetFilters: state => {
+			state.price = { maxPrice: 10000000, minPrice: 0 };
+			state.selectedProducers = [];
+		}
 	}
 });
