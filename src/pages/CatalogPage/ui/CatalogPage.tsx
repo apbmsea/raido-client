@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { CatalogList } from '../features/catalogList';
-import { Filters } from '../features/filters';
+import { FiltersComponent } from '../features/filters';
 import { PaginationComponent } from '../features/pagination';
 import './CatalogPage.scss';
 import { useEffect } from 'react';
@@ -22,7 +22,7 @@ const CatalogPage = () => {
 			</span>
 			<h1 className='catalog__title'>{title}</h1>
 			<div className='catalog__content'>
-				<Filters />
+				<FiltersComponent />
 				<section className='catalog__main'>
 					<Toolbar />
 					<CatalogList />

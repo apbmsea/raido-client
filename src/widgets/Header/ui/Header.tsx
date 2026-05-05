@@ -14,11 +14,24 @@ import { Menu } from '@features/menu';
 import { CatalogMenu } from '@features/catalogMenu';
 import { Modal } from '@features/modal';
 import { useNavigate } from 'react-router-dom';
+import { Search } from '@features/search';
+import { useEffect } from 'react';
 
 const Header = () => {
 	const dispatch = useAppDispatch();
 	const { isOpen } = useAppSelector(state => state.catalogMenu);
-	const navigate = useNavigate()
+	const navigate = useNavigate();
+	const searchValue = useAppSelector(state => state.search.search);
+
+	useEffect(() => {
+		if (!searchValue.trim()) return;
+
+		const timer = setTimeout(() => {
+			dispatch(Search.actions.searchRequest(searchValue));
+		}, 500);
+
+		return () => clearTimeout(timer);
+	}, [searchValue, dispatch]);
 
 	return (
 		<header className='header'>
@@ -30,11 +43,16 @@ const Header = () => {
 					size={45}
 					icon={<MenuIcon />}
 				/>
-				<div className='header__content-logo' onClick={() => navigate('/')}>
+				<div
+					className='header__content-logo'
+					onClick={() => navigate('/')}
+				>
 					<img src='./logo.png' alt='РАЙДО СЕРВИС' />
 				</div>
 				<Button
-					onClick={() => dispatch(CatalogMenu.actions.setIsOpen(!isOpen))}
+					onClick={() =>
+						dispatch(CatalogMenu.actions.setIsOpen(!isOpen))
+					}
 					title='Каталог'
 					className='header__content-сatalog hidden-tablet'
 					size='s'
@@ -47,11 +65,20 @@ const Header = () => {
 			<div className='header__search'>
 				<Input
 					placeholder='Поиск'
+					value={searchValue}
+					onChange={e =>
+						dispatch(Search.actions.searchRequest(e.target.value))
+					}
 					button={
 						<IconButton
 							variant='primary'
 							size={32}
 							icon={<SearchIcon size={19} />}
+							onClick={() =>
+								dispatch(
+									Search.actions.searchRequest(searchValue)
+								)
+							}
 						/>
 					}
 				/>
