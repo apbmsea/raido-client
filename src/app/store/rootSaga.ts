@@ -4,8 +4,17 @@ import watchLogin from '@features/login/model/loginSaga';
 import watchRegister from '@features/register/model/registerSaga';
 import { WatchSearch } from '@features/search';
 import { watchCatalog } from '@pages/CatalogPage';
+import { watchProduct } from '@pages/ProductPage';
 import { all } from 'typed-redux-saga';
 
 export default function* rootSaga() {
-	yield all([watchCategories(), watchRegister(), WatchConfirm(), watchLogin(), watchCatalog(), WatchSearch()]);
+	yield all([
+		watchCategories(),
+		watchRegister(),
+		WatchConfirm(),
+		watchLogin(),
+		watchCatalog(),
+		WatchSearch(),
+		watchProduct()
+	]);
 }

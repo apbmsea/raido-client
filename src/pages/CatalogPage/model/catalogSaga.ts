@@ -66,9 +66,7 @@ function* catalogSaga() {
 				response.subcategory_name || response.category_name || 'Товары'
 			)
 		);
-		if (producers.length === 0) {
-			yield* put(Filters.actions.setProducers(response.producer_names));
-		}
+		yield* put(Filters.actions.setProducers(response.producer_names));
 		yield* put(Catalog.actions.catalogSuccess(response.items));
 	} catch (error) {
 		yield* put(Catalog.actions.catalogFailure());
@@ -142,4 +140,4 @@ export default function* watchCatalog() {
 	yield* takeLatest(Filters.actions.resetFilters.type, catalogSaga);
 
 	yield* takeLatest(Catalog.actions.resetFilters.type, resetSaga);
-}	
+}

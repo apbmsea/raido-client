@@ -4,6 +4,7 @@ import './Search.scss';
 import { Search } from '..';
 import { useNavigate } from 'react-router-dom';
 import { Catalog } from '@pages/CatalogPage';
+import { useEffect } from 'react';
 
 const SearchComponent = () => {
 	const dispatch = useAppDispatch();
@@ -20,7 +21,7 @@ const SearchComponent = () => {
 				items.map(suggestion => (
 					<div
 						className='search__suggestion'
-						key={suggestion.id}
+						key={`${suggestion.type}-${suggestion.id}`}
 						role='button'
 						onClick={() => {
 							navigate('/catalog');

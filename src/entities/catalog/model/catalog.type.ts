@@ -5,8 +5,8 @@ export interface Product {
 	category_id: number;
 	subcategory_id: number;
 	discount_percentage: string;
-	retail_price: 'string';
-	final_price: 'string';
+	retail_price: string;
+	final_price: string;
 	has_discount: boolean;
 	producer: string;
 	warranty: string;

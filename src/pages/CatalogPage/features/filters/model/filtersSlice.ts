@@ -7,6 +7,8 @@ interface FiltersState {
 	};
 	producers: string[];
 	selectedProducers: string[];
+	subcategories: string[];
+	selectedSubcategories: string[];
 }
 
 const initialState: FiltersState = {
@@ -15,7 +17,9 @@ const initialState: FiltersState = {
 		maxPrice: 10000000
 	},
 	producers: [],
-	selectedProducers: []
+	selectedProducers: [],
+	subcategories: [],
+	selectedSubcategories: []
 };
 
 export const { reducer, actions, name } = createSlice({
@@ -40,6 +44,20 @@ export const { reducer, actions, name } = createSlice({
 				state.selectedProducers.push(action.payload);
 			} else {
 				state.selectedProducers.splice(index, 1);
+			}
+		},
+		setSubcategories: (state, action: PayloadAction<string[]>) => {
+			state.subcategories = action.payload;
+		},
+		setSelectedSubcategories: (state, action: PayloadAction<string[]>) => {
+			state.selectedSubcategories = action.payload;
+		},
+		toggleSubcategories: (state, action: PayloadAction<string>) => {
+			const index = state.selectedSubcategories.indexOf(action.payload);
+			if (index === -1) {
+				state.selectedSubcategories.push(action.payload);
+			} else {
+				state.selectedSubcategories.splice(index, 1);
 			}
 		},
 		resetFilters: state => {

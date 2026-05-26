@@ -5,10 +5,12 @@ import { ImageSlider } from '@features/imageSlider';
 import './CatalogCard.scss';
 import { IconButton } from '@shared/ui/IconButton';
 import FavoriteIcon from '@shared/icons/Favorite';
+import { useNavigate } from 'react-router-dom';
 
 type CatalogCardProps = { item: Product; variant: 'grid' | 'list' };
 
 const CatalogCard = ({ item, variant }: CatalogCardProps) => {
+	const navigate = useNavigate();
 	return (
 		<div className={`catalog-card catalog-card--${variant}`}>
 			<ImageSlider images={item.images} />
@@ -49,7 +51,9 @@ const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 							<span className='catalog-card__info-name'>
 								{item.name}
 							</span>
-							<span className='catalog-card__info-code'>Код товара: 0000000</span>
+							<span className='catalog-card__info-code'>
+								Код товара: 0000000
+							</span>
 							<div className='catalog-card__delivery'>
 								<span>Доставка завтра, 10 марта</span>
 								<span>Самовывоз сегодня, 9 марта</span>

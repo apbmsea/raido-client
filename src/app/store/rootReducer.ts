@@ -9,6 +9,7 @@ import { Search } from '@features/search';
 import { Catalog } from '@pages/CatalogPage';
 import { Filters } from '@pages/CatalogPage/features/filters';
 import { Pagination } from '@pages/CatalogPage/features/pagination';
+import { Product } from '@pages/ProductPage';
 import { combineReducers } from '@reduxjs/toolkit';
 
 const rootReducer = combineReducers({
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
 	...Catalog.reducer,
 	...Pagination.reducer,
 	...Filters.reducer,
-	...Search.reducer
+	...Search.reducer,
+	...Product.reducer
 });
 
 export default rootReducer;
