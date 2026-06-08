@@ -1,0 +1,67 @@
+.tabs-container {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+
+}
+
+.tabs-list {
+	display: flex;
+	gap: 40px;
+}
+
+.tabs-button {
+	position: relative;
+	background: none;
+	border: none;
+	padding: 0 27px 16px 27px; 
+	font-size: 18px;
+	font-weight: 400;
+	color: var(--color-gray);
+	cursor: pointer;
+	transition: color 0.25s ease;
+	outline: none;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+
+	&:hover {
+		color: var(--color-gray-dark);
+
+		.tabs-button__badge {
+			background-color: var(--color-white);
+			color: var(--color-gray-dark)
+		}
+	}
+
+	&--active {
+		color: var(--color-black);
+		font-weight: 800;
+
+		.tabs-button__badge {
+			background-color: var(--color-black);
+			color: #ffffff;
+		}
+	}
+
+	&__text {
+		white-space: nowrap;
+	}
+
+}
+
+.tabs-indicator {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 3px;
+	background-color: var(--color-primary);
+	border-radius: 2px 2px 0 0;
+	
+	width: var(--line-width, 0px);
+	transform: translateX(var(--line-left, 0px));
+	
+	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+	            width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	pointer-events: none;
+}

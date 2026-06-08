@@ -9,6 +9,11 @@ export interface Product {
 	final_price: string;
 	has_discount: boolean;
 	producer: string;
+	properties: {
+		name: string;
+		value: string;
+		unit: string;
+	}[];
 	warranty: string;
 	is_favorite: boolean;
 	favorite_item_id: number;
