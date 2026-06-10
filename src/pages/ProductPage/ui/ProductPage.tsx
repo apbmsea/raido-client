@@ -12,7 +12,7 @@ import SharedIcon from '@shared/icons/Shared';
 import { ImageGallery } from '../features/imageGallery';
 import Tabs, { type TabItem } from '@shared/ui/Tabs/ui/Tabs';
 import { ProductFeatures } from '../features/productFeatures';
-import { ProductReviews } from '../features/productReviews';
+import { ProductReviews } from '../features/review';
 
 type ProductTabType = 'features' | 'reviews' | 'questions';
 

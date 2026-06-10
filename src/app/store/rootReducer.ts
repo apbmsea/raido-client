@@ -1,4 +1,5 @@
 import { Categories } from '@entities/category';
+import { Review } from '@entities/review';
 import { CatalogMenu } from '@features/catalogMenu';
 import { Confirm } from '@features/confirm';
 import { Login } from '@features/login';
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
 	...Pagination.reducer,
 	...Filters.reducer,
 	...Search.reducer,
-	...Product.reducer
+	...Product.reducer,
+	...Review.reducer
 });
 
 export default rootReducer;

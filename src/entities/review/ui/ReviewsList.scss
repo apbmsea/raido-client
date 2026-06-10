@@ -1,0 +1,30 @@
+.reviews {
+	&-wrapper {
+		display: flex;
+		flex-direction: column;
+		gap: 40px;
+		align-items: start;
+	}
+
+	&-list {
+		display: flex;
+		flex-direction: column;
+		gap: 40px;
+		max-width: 850px;
+	}
+
+	&-empty {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+
+        &__title {
+            font-size: 18px;
+            color: var(--color-black);
+        }
+
+		&__icon {
+			color: var(--color-primary);
+		}
+	}
+}

@@ -1,0 +1,48 @@
+.textarea {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	width: 100%;
+
+	&__label {
+		font-size: 14px;
+		color: #333;
+	}
+
+	&__wrapper {
+		position: relative;
+		display: flex;
+		align-items: flex-start;
+		width: 100%;
+	}
+
+	&__field {
+		width: 100%;
+		min-height: 100px;
+		padding: 16px;
+		border: 1px solid var(--color-gray);
+		border-radius: 15px;
+		resize: vertical;
+		font-family: inherit;
+
+		&:focus {
+			outline: none;
+			border-color: var(--color-primary);
+		}
+
+		&--error {
+			border-color: var(--color-red);
+		}
+	}
+
+	&__button {
+		position: absolute;
+		right: 12px;
+		bottom: 12px; // Или top: 12px, зависит от дизайна кнопки
+	}
+
+	&__error {
+		font-size: 12px;
+		color: #ff0000;
+	}
+}
