@@ -8,7 +8,8 @@ import { isApiError } from '@shared/utils/errorHandler';
 
 function* loginSaga(action: PayloadAction<LoginPayload>) {
 	try {
-		yield* call(login, action.payload);
+		const response = yield* call(login, action.payload);
+		localStorage.setItem('token', response.token)
 		yield* put(Confirm.actions.setEmail(action.payload.email));
 		yield* put(Confirm.actions.setType('login'));
 		yield* put(Login.actions.loginSuccess());

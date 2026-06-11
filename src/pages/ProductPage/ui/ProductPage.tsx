@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Product } from '..';
 import { Button } from '@shared/ui/Button';
-import { ImageSlider } from '@features/imageSlider';
 import CartIcon from '@shared/icons/Cart';
 import FavoriteIcon from '@shared/icons/Favorite';
 import { IconButton } from '@shared/ui/IconButton';
@@ -13,6 +12,7 @@ import { ImageGallery } from '../features/imageGallery';
 import Tabs, { type TabItem } from '@shared/ui/Tabs/ui/Tabs';
 import { ProductFeatures } from '../features/productFeatures';
 import { ProductReviews } from '../features/review';
+import { QuestionsWidget } from '@widgets/QuestionsWidget';
 
 type ProductTabType = 'features' | 'reviews' | 'questions';
 
@@ -31,7 +31,7 @@ const ProductPage = () => {
 	const tabContent: Record<ProductTabType, React.ReactNode> = {
 		features: <ProductFeatures />,
 		reviews: <ProductReviews />,
-		questions: <div>Компонент Вопросов</div>
+		questions: <QuestionsWidget />
 	};
 
 	useEffect(() => {

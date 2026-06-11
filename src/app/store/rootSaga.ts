@@ -1,4 +1,5 @@
 import { watchCategories } from '@entities/category';
+import watchQuestion from '@entities/question/model/questionSaga';
 import watchReview from '@entities/review/model/reviewSaga';
 import { WatchConfirm } from '@features/confirm';
 import watchLogin from '@features/login/model/loginSaga';
@@ -17,6 +18,7 @@ export default function* rootSaga() {
 		watchCatalog(),
 		WatchSearch(),
 		watchProduct(),
-		watchReview()
+		watchReview(),
+		watchQuestion()
 	]);
 }

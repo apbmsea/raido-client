@@ -20,11 +20,7 @@ const RegisterForm = () => {
 		terms: true,
 		is_corporate: false
 	});
-
-	useEffect(() => {
-		console.log(errors);
-	}, [errors]);
-
+	
 	useEffect(() => {
 		const errors: Record<string, string> = {};
 
