@@ -19,7 +19,7 @@ function* catalogSaga() {
 			(state: RootState) => state.filters.price
 		);
 
-		const { producers, selectedProducers } = yield* select(
+		const { selectedProducers } = yield* select(
 			(state: RootState) => state.filters
 		);
 

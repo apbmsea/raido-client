@@ -12,7 +12,6 @@ interface RatingStarsProps {
 
 const RatingStars: React.FC<RatingStarsProps> = ({
 	rating,
-	size = 25,
 	activeColor = '#FFE51E',
 	inactiveColor = '#D9D9D9',
 	className = ''

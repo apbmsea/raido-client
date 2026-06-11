@@ -4,7 +4,6 @@ import './Search.scss';
 import { Search } from '..';
 import { useNavigate } from 'react-router-dom';
 import { Catalog } from '@pages/CatalogPage';
-import { useEffect } from 'react';
 
 const SearchComponent = () => {
 	const dispatch = useAppDispatch();
