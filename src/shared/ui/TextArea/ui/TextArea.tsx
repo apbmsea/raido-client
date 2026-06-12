@@ -2,7 +2,7 @@ import React, {
 	type TextareaHTMLAttributes,
 	type ReactNode
 } from 'react';
-import './Textarea.scss';
+import './TextArea.scss';
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 	label?: string;
