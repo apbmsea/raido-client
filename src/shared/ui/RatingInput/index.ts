@@ -1,0 +1,1 @@
+export { default as RatingInput } from './ui/RatingInput'

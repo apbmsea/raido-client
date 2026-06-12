@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import './StarRating.scss';
+import './RatingInput.scss';
 import StarIcon from '@shared/icons/Star';
 
-interface StarRatingProps {
+interface RatingInputProps {
 	label?: string;
 	maxStars?: number;
 	value?: number;
@@ -12,7 +12,7 @@ interface StarRatingProps {
 	disabled?: boolean;
 }
 
-export const StarRating: React.FC<StarRatingProps> = ({
+export const RatingInput: React.FC<RatingInputProps> = ({
 	label,
 	maxStars = 5,
 	value = 0,
@@ -54,8 +54,6 @@ export const StarRating: React.FC<StarRatingProps> = ({
 								disabled={disabled}
 								className="star-rating__radio-input"
 							/>
-							{/* Передаем currentColor в саму иконку, если она поддерживает проп color, 
-							    либо управляем через CSS ниже */}
 							<div className={`star-rating__icon ${isActive ? 'star-rating__icon--active' : ''}`}>
 								<StarIcon />
 							</div>
@@ -69,4 +67,4 @@ export const StarRating: React.FC<StarRatingProps> = ({
 	);
 };
 
-export default StarRating;
+export default RatingInput;

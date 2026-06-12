@@ -11,8 +11,8 @@ import SharedIcon from '@shared/icons/Shared';
 import { ImageGallery } from '../features/imageGallery';
 import Tabs, { type TabItem } from '@shared/ui/Tabs/ui/Tabs';
 import { ProductFeatures } from '../features/productFeatures';
-import { ProductReviews } from '../features/review';
 import { QuestionsWidget } from '@widgets/QuestionsWidget';
+import { ReviewsWidget } from '@widgets/ReviewsWidget';
 
 type ProductTabType = 'features' | 'reviews' | 'questions';
 
@@ -30,7 +30,7 @@ const ProductPage = () => {
 
 	const tabContent: Record<ProductTabType, React.ReactNode> = {
 		features: <ProductFeatures />,
-		reviews: <ProductReviews />,
+		reviews: <ReviewsWidget />,
 		questions: <QuestionsWidget />
 	};
 
@@ -91,7 +91,7 @@ const ProductPage = () => {
 				</div>
 			</section>
 			<section>
-				<div className='product-widget' style={{ display: "flex", flexDirection: "column", gap: "40px"}}>
+				<div className='product-widget' style={{ display: "flex", flexDirection: "column", gap: "40px" }}>
 					<Tabs
 						items={PRODUCT_TABS}
 						activeTab={activeTab}

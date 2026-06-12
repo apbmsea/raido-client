@@ -1,0 +1,11 @@
+.reviews-widget {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &__title {
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--color-black);
+    }
+}

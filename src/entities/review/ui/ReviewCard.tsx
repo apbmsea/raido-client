@@ -21,7 +21,7 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
 			<div className='review-card__content'>
 				<div className='review-card__information'>
 					<span className='review-card__information-name'>
-						{review.first_name} {review.last_name}
+						{review.first_name && review.last_name ? `${review.first_name} ${review.last_name}` : "Анонимный пользователь"} 
 					</span>
 					<div className='review-card__information-date'>
 						{formatDate(review.created_at)}

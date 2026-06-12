@@ -1,131 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
-import { Review } from '@entities/review';
 import { Button } from '@shared/ui/Button';
-import { StarRating } from '@shared/ui/StarRating';
+import { Checkbox } from '@shared/ui/Checkbox';
 import { TextArea } from '@shared/ui/TextArea';
-
-interface ReviewFormState {
-	rating: number;
-	comment: string;
-}
-
-interface FormErrorsState {
-	rating: string;
-	comment: string;
-}
+import './AddReviewForm.scss';
+import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { RatingInput } from '@shared/ui/RatingInput';
+import { Review } from '@entities/review';
 
 export const AddReviewForm = () => {
 	const dispatch = useAppDispatch();
-	const { id: productId } = useParams<{ id: string }>();
+	const { isFetch } = useAppSelector(state => state.question);
 
-	// Берем состояние загрузки из сущности отзыва, чтобы делать лоадер на кнопке
-	const { isLoading } = useAppSelector(state => state.review);
+	const { id } = useParams();
 
-	const [formData, setFormData] = useState<ReviewFormState>({
-		rating: 0,
-		comment: ''
+	const [formData, setFormData] = useState({
+		comment: '',
+		is_anonymous: false,
+		rating: 0
 	});
 
-	const [errors, setErrors] = useState<Partial<FormErrorsState>>({});
-	const [isSubmittedSuccessfully, setIsSubmittedSuccessfully] =
-		useState(false);
-
-	const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-		setFormData(prev => ({ ...prev, comment: e.target.value }));
-		if (errors.comment) {
-			setErrors(prev => ({ ...prev, comment: undefined }));
-		}
-	};
-
-	const handleRatingChange = (newRating: number) => {
-		setFormData(prev => ({ ...prev, rating: newRating }));
-		if (errors.rating) {
-			setErrors(prev => ({ ...prev, rating: undefined }));
-		}
-	};
-
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSumbit = (e: React.FormEvent) => {
 		e.preventDefault();
-
-		if (!productId) {
-			console.error('Product ID не найден в URL');
-			return;
+		if (id) {
+			dispatch(
+				Review.actions.addReviewRequest({
+					productId: Number(id),
+					payload: {
+						comment: formData.comment,
+						rating: formData.rating,
+						is_anonymous: formData.is_anonymous
+					}
+				})
+			);
 		}
-
-		const newErrors: Partial<FormErrorsState> = {};
-		if (formData.rating === 0) {
-			newErrors.rating = 'Пожалуйста, выберите оценку';
-		}
-		if (!formData.comment.trim()) {
-			newErrors.comment = 'Пожалуйста, напишите текст отзыва';
-		} else if (formData.comment.trim().length < 10) {
-			newErrors.comment = 'Минимальная длина отзыва — 10 символов';
-		}
-
-		if (Object.keys(newErrors).length > 0) {
-			setErrors(newErrors);
-			return;
-		}
-		dispatch(
-			Review.actions.addReviewRequest({
-				productId: Number(productId),
-				payload: {
-					rating: formData.rating,
-					comment: formData.comment,
-					is_anonymous: false
-				}
-			})
-		);
-
-		setIsSubmittedSuccessfully(true);
 	};
 
-	useEffect(() => {
-		if (
-			!isLoading &&
-			isSubmittedSuccessfully &&
-			Object.keys(errors).length === 0
-		) {
-			setFormData({ rating: 0, comment: '' });
-			setIsSubmittedSuccessfully(false);
-		}
-	}, [isLoading, isSubmittedSuccessfully, errors]);
+	const handleChange = (
+		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) => {
+		const { name, value, type } = e.target;
+
+		setFormData(prev => ({
+			...prev,
+			[name]:
+				type === 'checkbox'
+					? (e.target as HTMLInputElement).checked
+					: value
+		}));
+	};
 
 	return (
-		<form onSubmit={handleSubmit} noValidate>
-			<h3
-				style={{
-					margin: 0,
-					fontSize: '20px',
-					fontWeight: 600,
-					color: '#111827'
-				}}
-			>
-				Оставить отзыв
-			</h3>
-
-			<StarRating
-				label='Ваша оценка'
+		<form onSubmit={handleSumbit} className='add-review'>
+			<Checkbox
+				name='is_anonymous'
+				checked={formData.is_anonymous}
+				onChange={handleChange}
+				label='Оставить отзыв анонимно'
+			/>
+			<RatingInput
 				value={formData.rating}
-				onChange={handleRatingChange}
-				error={errors.rating}
-				disabled={isLoading}
+				onChange={(value) => setFormData(prev => ({ ...prev, rating: value }))}
 			/>
 
 			<TextArea
-				label='Ваш комментарий'
-				placeholder='Поделитесь впечатлениями о товаре: что понравилось, а что можно улучшить?'
+				name='comment'
 				value={formData.comment}
-				onChange={handleTextChange}
-				error={errors.comment}
-				disabled={isLoading}
-				rows={5}
+				onChange={handleChange}
+				placeholder='Опишите товар'
 			/>
-
-			<Button type='submit' disabled={isLoading}>
-				{isLoading ? 'Отправка...' : 'Отправить'}
+			<Button disabled={isFetch} size='s' type='submit'>
+				Отправить
 			</Button>
 		</form>
 	);
