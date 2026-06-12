@@ -1,6 +1,7 @@
 import { actions, reducer, name } from './model/reviewSlice';
 
 export { ReviewsList } from './ui/ReviewsList';
+export { ReviewTotal } from './ui/ReviewTotal';
 export type {
 	GetReviewsPayload,
 	GetReviewsResponse,

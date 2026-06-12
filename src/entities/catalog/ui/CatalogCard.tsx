@@ -39,14 +39,14 @@ const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 									maximumFractionDigits: 0
 								}).format(
 									Number(
-										item.retail_price !== ''
+										item.retail_price === ''
 											? Number(item.final_price) * 1.25
 											: item.retail_price
 									)
 								)}
 							</span>
 							<span className='catalog-card__content-discount'>
-								{item.discount_percentage !== ''
+								{item.discount_percentage === '' || '0'
 									? '25'
 									: `${item.discount_percentage}`}
 								%

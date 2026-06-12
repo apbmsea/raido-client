@@ -7,12 +7,14 @@ import type {
 } from './questionType';
 
 interface QuestionState {
+	total: number;
 	questions: QuestionType[];
 	isLoading: boolean;
 	isFetch: boolean;
 }
 
 const initialState: QuestionState = {
+	total: 0,
 	questions: [],
 	isLoading: true,
 	isFetch: false
@@ -34,6 +36,7 @@ export const { reducer, actions, name } = createSlice({
 		) => {
 			state.isLoading = false;
 			state.questions = action.payload.items;
+			state.total = action.payload.total;
 		},
 		getQuestionFailure: state => {
 			state.isLoading = false;

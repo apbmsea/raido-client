@@ -16,17 +16,21 @@ import { ReviewsWidget } from '@widgets/ReviewsWidget';
 
 type ProductTabType = 'features' | 'reviews' | 'questions';
 
-const PRODUCT_TABS: TabItem<ProductTabType>[] = [
-	{ id: 'features', label: 'Характеристики' },
-	{ id: 'reviews', label: 'Отзывы', count: 3 },
-	{ id: 'questions', label: 'Вопросы', count: 6 }
-];
 
 const ProductPage = () => {
 	const { id } = useParams();
 	const dispatch = useAppDispatch();
 	const item = useAppSelector(state => state.product.item);
+	const orginalReviewCount = useAppSelector(state => state.review.total);
+	const orginalQuestionsCount = useAppSelector(state => state.question.total);
 	const [activeTab, setActiveTab] = useState<ProductTabType>('features');
+
+	const PRODUCT_TABS: TabItem<ProductTabType>[] = [
+		{ id: 'features', label: 'Характеристики' },
+		{ id: 'reviews', label: 'Отзывы', count: orginalReviewCount || item?.review_count },
+		{ id: 'questions', label: 'Вопросы', count: orginalQuestionsCount || item?.question_count }
+	];
+
 
 	const tabContent: Record<ProductTabType, React.ReactNode> = {
 		features: <ProductFeatures />,
@@ -68,14 +72,14 @@ const ProductPage = () => {
 								maximumFractionDigits: 0
 							}).format(
 								Number(
-									item.retail_price !== ''
+									item.retail_price === ''
 										? Number(item.final_price) * 1.25
 										: item.retail_price
 								)
 							)}
 						</span>
 						<span className='product-page__content-discount'>
-							{item.discount_percentage !== ''
+							{item.discount_percentage === '' || "0"
 								? '25'
 								: `${item.discount_percentage}`}
 							%

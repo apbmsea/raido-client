@@ -18,6 +18,8 @@ export interface Product {
 	is_favorite: boolean;
 	favorite_item_id: number;
 	delivery_date: string;
+	review_count: number;
+	question_count: number;
 	images: {
 		image_250x250?: string;
 	}[];

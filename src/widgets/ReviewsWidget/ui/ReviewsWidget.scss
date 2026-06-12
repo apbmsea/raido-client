@@ -3,6 +3,11 @@
     flex-direction: column;
     gap: 20px;
 
+    &__top {
+        display: flex;
+        justify-content: space-between;
+    }
+
     &__title {
         font-size: 18px;
         font-weight: bold;

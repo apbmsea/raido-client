@@ -4,6 +4,14 @@ export interface GetReviewsPayload {
 
 export interface GetReviewsResponse {
 	total: number;
+	rating: number;
+	counts_of_reviews: {
+		1: number;
+		2: number;
+		3: number;
+		4: number;
+		5: number;
+	};
 	page: number;
 	limit: number;
 	totalPages: number;
