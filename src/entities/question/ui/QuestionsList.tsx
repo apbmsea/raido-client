@@ -6,6 +6,7 @@ import { QuestionCard } from './QuestionCard';
 import './QuestionsList.scss';
 import { Button } from '@shared/ui/Button';
 import MessageIcon from '@shared/icons/Message';
+import { Loader } from '@shared/ui/Loader';
 
 export const QuestionsList = () => {
 	const dispatch = useAppDispatch();
@@ -18,12 +19,13 @@ export const QuestionsList = () => {
 	};
 
 	useEffect(() => {
-		if (id) {
-			dispatch(
-				Question.actions.getQuestionRequest({ productId: Number(id) })
-			);
+		if (id && questions.length === 0) {
+			dispatch(Question.actions.getQuestionRequest({ productId: Number(id) }));
 		}
-	}, [id, dispatch]);
+	}, [id, dispatch, questions.length]);
+
+
+	if (isLoading) return <Loader />
 
 	if (!questions.length) {
 		return (
@@ -34,10 +36,6 @@ export const QuestionsList = () => {
 				</span>
 			</div>
 		);
-	}
-
-	if (isLoading) {
-		return <div>Загрузка...</div>; //заменить на лоадер
 	}
 
 	return (

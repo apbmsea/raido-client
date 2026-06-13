@@ -6,11 +6,11 @@ import { ReviewCard } from './ReviewCard';
 import './ReviewsList.scss';
 import { Button } from '@shared/ui/Button';
 import MessageIcon from '@shared/icons/Message';
+import { Loader } from '@shared/ui/Loader';
 
 export const ReviewsList = () => {
 	const dispatch = useAppDispatch();
 	const { reviews, isLoading } = useAppSelector(state => state.review);
-
 	const { id } = useParams();
 	const [visibleCount, setVisibleCount] = useState(3);
 	const visibleReviews = reviews.slice(0, visibleCount);
@@ -19,10 +19,12 @@ export const ReviewsList = () => {
 	};
 
 	useEffect(() => {
-		if (id) {
+		if (id && reviews.length === 0) {
 			dispatch(Review.actions.getReviewRequest({ productId: Number(id) }));
 		}
-	}, [id, dispatch]);
+	}, [id, dispatch, reviews.length]);
+
+	if (isLoading) return <Loader />
 
 	if (!reviews.length) {
 		return (
@@ -33,9 +35,7 @@ export const ReviewsList = () => {
 		);
 	}
 
-	if (isLoading) {
-		return <div>Загрузка...</div>; //заменить на лоадер
-	}
+
 
 	return (
 		<div className='reviews-wrapper'>

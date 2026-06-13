@@ -1,6 +1,8 @@
 import { AddReviewForm } from '@features/addReview'
 import './ReviewsWidget.scss'
 import { ReviewsList, ReviewTotal } from '@entities/review'
+import { useAppSelector } from '@shared/hooks/store.hooks'
+import { Loader } from '@shared/ui/Loader'
 
 export const ReviewsWidget = () => {
     return (

@@ -52,6 +52,11 @@ export const { reducer, actions, name } = createSlice({
 		},
 		askQuestionFailure: state => {
 			state.isFetch = false;
+		},
+		clearQuestions: (state) => {
+			state.questions = [];
+			state.total = 0;
+			state.isLoading = true;
 		}
 	}
 });

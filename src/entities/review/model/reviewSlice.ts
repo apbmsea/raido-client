@@ -70,6 +70,11 @@ export const { reducer, actions, name } = createSlice({
 		},
 		addReviewFailure: state => {
 			state.isFetch = false;
+		},
+		clearReviews: (state) => {
+			state.reviews = [];
+			state.total = 0;
+			state.isLoading = true;
 		}
 	}
 });

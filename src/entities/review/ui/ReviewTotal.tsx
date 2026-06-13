@@ -6,6 +6,8 @@ export const ReviewTotal = () => {
   const { rating, total, counts_of_reviews } = useAppSelector((state) => state.review)
   const ratingLevels = [5, 4, 3, 2, 1] as const
 
+  if (total === 0) return null
+
   return (
     <div className="review-total">
       <div className="review-total__information">

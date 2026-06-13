@@ -13,6 +13,8 @@ import Tabs, { type TabItem } from '@shared/ui/Tabs/ui/Tabs';
 import { ProductFeatures } from '../features/productFeatures';
 import { QuestionsWidget } from '@widgets/QuestionsWidget';
 import { ReviewsWidget } from '@widgets/ReviewsWidget';
+import { Question } from '@entities/question';
+import { Review } from '@entities/review';
 
 type ProductTabType = 'features' | 'reviews' | 'questions';
 
@@ -42,8 +44,14 @@ const ProductPage = () => {
 		if (id) {
 			dispatch(Product.actions.productRequest({ id }));
 		}
-		console.log('1');
 	}, []);
+
+	useEffect(() => {
+		return () => {
+			dispatch(Question.actions.clearQuestions());
+			dispatch(Review.actions.clearReviews());
+		};
+	}, [id, dispatch]);
 
 	if (!item) {
 		return <main className='product-page'>Загрузка...</main>;
@@ -64,26 +72,23 @@ const ProductPage = () => {
 								minimumFractionDigits: 0
 							}).format(Number(item.final_price))}
 						</span>
-						<span className='product-page__content-retailprice'>
-							{new Intl.NumberFormat('ru-RU', {
-								style: 'currency',
-								currency: 'RUB',
-								minimumFractionDigits: 0,
-								maximumFractionDigits: 0
-							}).format(
-								Number(
-									item.retail_price === ''
-										? Number(item.final_price) * 1.25
-										: item.retail_price
-								)
-							)}
-						</span>
-						<span className='product-page__content-discount'>
-							{item.discount_percentage === '' || "0"
-								? '25'
-								: `${item.discount_percentage}`}
-							%
-						</span>
+						{item.has_discount && <>
+							<span className='product-page__content-retailprice'>
+								{new Intl.NumberFormat('ru-RU', {
+									style: 'currency',
+									currency: 'RUB',
+									minimumFractionDigits: 0,
+									maximumFractionDigits: 0
+								}).format(
+									Number(item.retail_price)
+								)}
+							</span>
+							<span className='product-page__content-discount'>
+								{item.discount_percentage}
+								%
+							</span>
+						</>
+						}
 					</div>
 					<div className='product-page__buttons'>
 						<Button size='l' rightIcon={<CartIcon />}>
