@@ -25,6 +25,8 @@ const Layout = () => {
 	useEffect(() => {
 		if (localStorage.getItem('token')) {
 			dispatch(User.actions.getUserRequest());
+		} else {
+			dispatch(User.actions.getUserFailure());
 		}
 	}, [dispatch]);
 
