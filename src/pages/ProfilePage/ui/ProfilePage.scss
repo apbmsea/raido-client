@@ -1,0 +1,14 @@
+.profile-page {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 40px 100px;
+
+    &__content {
+        display: flex;
+        gap: 80px;
+    }
+}

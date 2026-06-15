@@ -12,7 +12,6 @@ import MenuIcon from '@shared/icons/Menu';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Menu } from '@features/menu';
 import { CatalogMenu } from '@features/catalogMenu';
-import { Modal } from '@features/modal';
 import { useNavigate } from 'react-router-dom';
 import { Search } from '@features/search';
 import { useEffect } from 'react';
@@ -103,9 +102,7 @@ const Header = () => {
 					icon={<CartIcon />}
 				/>
 				<IconButton
-					onClick={() =>
-						dispatch(Modal.actions.openModal('register'))
-					}
+					onClick={() => navigate('/profile/options')}
 					title='Профиль'
 					size={45}
 					icon={<ProfileIcon />}

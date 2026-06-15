@@ -5,6 +5,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { Confirm } from '@features/confirm';
 import { Modal } from '@features/modal';
 import { isApiError } from '@shared/utils/errorHandler';
+import { User } from '@entities/user';
 
 function* loginSaga(action: PayloadAction<LoginPayload>) {
 	try {
@@ -14,6 +15,7 @@ function* loginSaga(action: PayloadAction<LoginPayload>) {
 		yield* put(Confirm.actions.setType('login'));
 		yield* put(Login.actions.loginSuccess());
 		yield* put(Modal.actions.closeModal());
+		yield* put(User.actions.getUserRequest())
 	} catch (error) {
 		if (isApiError(error)) {
 			yield* put(Login.actions.loginFailure(error.errors));

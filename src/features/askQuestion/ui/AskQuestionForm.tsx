@@ -6,10 +6,12 @@ import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Question } from '@entities/question';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { UnauthWidget } from '@widgets/UnauthWidget';
 
 export const AskQuestionForm = () => {
 	const dispatch = useAppDispatch();
 	const { isFetch } = useAppSelector(state => state.question);
+	const { isLogin } = useAppSelector(state => state.user);
 
 	const { id } = useParams();
 
@@ -17,6 +19,14 @@ export const AskQuestionForm = () => {
 		comment: '',
 		is_anonymous: false
 	});
+
+	if (!isLogin) {
+		return (
+			<div style={{ paddingBlock: "20px"}}>
+				<UnauthWidget message='Войдите в профиль, чтобы оставить вопрос' />
+			</div>
+		);
+	}
 
 	const handleSumbit = (e: React.FormEvent) => {
 		e.preventDefault();

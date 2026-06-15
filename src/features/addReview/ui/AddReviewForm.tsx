@@ -7,10 +7,12 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { RatingInput } from '@shared/ui/RatingInput';
 import { Review } from '@entities/review';
+import { UnauthWidget } from '@widgets/UnauthWidget';
 
 export const AddReviewForm = () => {
 	const dispatch = useAppDispatch();
 	const { isFetch } = useAppSelector(state => state.question);
+	const { isLogin } = useAppSelector(state => state.user);
 
 	const { id } = useParams();
 
@@ -19,6 +21,21 @@ export const AddReviewForm = () => {
 		is_anonymous: false,
 		rating: 0
 	});
+
+	if (!isLogin) {
+		return (
+			<div
+				style={{
+					height: '100%',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center'
+				}}
+			>
+				<UnauthWidget message='Войдите в профиль, чтобы оставить отзыв' />{' '}
+			</div>
+		);
+	}
 
 	const handleSumbit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -60,7 +77,9 @@ export const AddReviewForm = () => {
 			/>
 			<RatingInput
 				value={formData.rating}
-				onChange={(value) => setFormData(prev => ({ ...prev, rating: value }))}
+				onChange={value =>
+					setFormData(prev => ({ ...prev, rating: value }))
+				}
 			/>
 
 			<TextArea

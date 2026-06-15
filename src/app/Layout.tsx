@@ -11,6 +11,7 @@ import { Categories } from '@entities/category';
 import { CatalogMenuModal } from '@features/catalogMenu';
 import { ModalWindow } from '@features/modal';
 import { SearchComponent } from '@features/search';
+import { User } from '@entities/user';
 
 const Layout = () => {
 	const dispatch = useAppDispatch();
@@ -20,6 +21,12 @@ const Layout = () => {
 	useEffect(() => {
 		setNavigate(navigate);
 	}, [navigate]);
+
+	useEffect(() => {
+		if (localStorage.getItem('token')) {
+			dispatch(User.actions.getUserRequest());
+		}
+	}, [dispatch]);
 
 	useEffect(() => {
 		dispatch(Categories.actions.getCategoriesRequest());
@@ -32,8 +39,11 @@ const Layout = () => {
 			<Header />
 			<Navbar />
 			<SearchComponent />
-			{isOpen && <CatalogMenuModal />}
-			{!isOpen && <Outlet />}
+
+			<main className='app-content'>
+				{isOpen ? <CatalogMenuModal /> : <Outlet />}
+			</main>
+
 			{!isOpen && <Footer />}
 		</div>
 	);
