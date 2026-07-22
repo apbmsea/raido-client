@@ -5,6 +5,7 @@ import { CatalogPage } from '@pages/CatalogPage';
 import { ProductPage } from '@pages/ProductPage';
 import { ProfilePage } from '@pages/ProfilePage';
 import { EditUserForm } from '@features/editUser';
+import { CartPage } from '@pages/CartPage';
 
 export const router = createBrowserRouter([
 	{
@@ -14,6 +15,7 @@ export const router = createBrowserRouter([
 			{ index: true, element: <HomePage /> },
 			{ path: 'catalog', element: <CatalogPage /> },
 			{ path: 'product/:id', element: <ProductPage /> },
+			{ path: 'cart', element: <CartPage /> },
 			{
 				path: 'profile',
 				element: <ProfilePage />,

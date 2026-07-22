@@ -1,6 +1,6 @@
 .catalog-card {
 	width: 100%;
-	
+
 	display: flex;
 
 	&__content {
@@ -12,6 +12,13 @@
 		&-name {
 			font-size: 14px;
 			color: var(--color-black);
+			transition: all 0.2s ease-in-out;
+
+			&:hover {
+				text-decoration: underline;
+				cursor: pointer;
+				color: var(--color-primary);
+			}
 		}
 
 		&-prices {
@@ -39,7 +46,6 @@
 			color: var(--color-white);
 			background-color: var(--color-red);
 		}
-		
 	}
 
 	&__content--grid {
@@ -54,7 +60,6 @@
 	&--list {
 		width: 100%;
 		flex-direction: row;
-		
 	}
 
 	&--grid {
@@ -79,7 +84,6 @@
 			font-size: 14px;
 			color: var(--color-gray);
 		}
-
 	}
 
 	&__buttons {

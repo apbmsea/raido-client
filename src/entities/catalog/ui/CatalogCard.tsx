@@ -6,6 +6,7 @@ import './CatalogCard.scss';
 import { IconButton } from '@shared/ui/IconButton';
 import FavoriteIcon from '@shared/icons/Favorite';
 import { useNavigate } from 'react-router-dom';
+import { AddItemToCartButton } from '@features/addItemToCart';
 
 type CatalogCardProps = { item: Product; variant: 'grid' | 'list' };
 
@@ -15,12 +16,14 @@ const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 		<div className={`catalog-card catalog-card--${variant}`}>
 			<ImageSlider images={item.images} />
 			<div
-				onClick={() => navigate(`/product/${item.id}`)}
 				className={`catalog-card__content catalog-card__content--${variant}`}
 			>
 				{variant === 'grid' ? (
 					<>
-						<span className='catalog-card__content-name'>
+						<span
+							onClick={() => navigate(`/product/${item.id}`)}
+							className='catalog-card__content-name'
+						>
 							{item.name}
 						</span>
 						<div className='catalog-card__content-prices'>
@@ -52,12 +55,15 @@ const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 								%
 							</span>
 						</div>
-						<Button rightIcon={<CartIcon />}>В корзину</Button>
+						<AddItemToCartButton productId={item.id} />
 					</>
 				) : (
 					<>
 						<div className='catalog-card__info'>
-							<span className='catalog-card__info-name'>
+							<span
+								onClick={() => navigate(`/product/${item.id}`)}
+								className='catalog-card__info-name'
+							>
 								{item.name}
 							</span>
 							<span className='catalog-card__info-code'>
@@ -100,7 +106,7 @@ const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 						</div>
 						<div className='catalog-card__buttons'>
 							<IconButton icon={<FavoriteIcon />} />
-							<Button rightIcon={<CartIcon />}>В корзину</Button>
+							<AddItemToCartButton productId={item.id} />
 						</div>
 					</>
 				)}
