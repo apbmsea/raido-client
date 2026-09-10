@@ -1,7 +1,8 @@
 import { CatalogCard } from '@entities/catalog';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Cart } from '..';
+import './CartList.scss'
 
 export const CartList = () => {
 	const dispatch = useAppDispatch();
@@ -12,10 +13,10 @@ export const CartList = () => {
 	}, [dispatch]);
 
 	return (
-		<div>
-			{/* {items.map(item => (
-				<CatalogCard item={item} variant='list' />
-			))} */}
+		<div className='cart-list'>
+			{items.map(item => (
+				<CatalogCard item={item.product} variant='list' />
+			))}
 		</div>
 	);
 };

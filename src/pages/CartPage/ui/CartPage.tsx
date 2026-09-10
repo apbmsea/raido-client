@@ -1,11 +1,16 @@
-import { CartList } from '@entities/cart'
+import { CartList } from '@entities/cart';
+import './CartPage.scss';
 
 const CartPage = () => {
-  return (
-    <main>CartPage
+	return (
+		<main className='cart-page'>
+      <h1>Корзина</h1>
+			<section className='cart-page__main'>
         <CartList />
-    </main>
-  )
-}
+        <div>1</div>
+      </section>
+		</main>
+	);
+};
 
-export default CartPage
+export default CartPage;

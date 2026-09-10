@@ -1,5 +1,6 @@
 import watchCart from '@entities/cart/model/cartSaga';
 import { watchCategories } from '@entities/category';
+import watchFavorite from '@entities/favorite/model/favoriteSaga';
 import watchQuestion from '@entities/question/model/questionSaga';
 import watchReview from '@entities/review/model/reviewSaga';
 import watchUser from '@entities/user/model/userSaga';
@@ -23,6 +24,7 @@ export default function* rootSaga() {
 		watchReview(),
 		watchQuestion(),
 		watchUser(),
-		watchCart()
+		watchCart(),
+		watchFavorite()
 	]);
 }

@@ -91,11 +91,13 @@ const Header = () => {
 					icon={<OrdersIcon />}
 				/>
 				<IconButton
+					onClick={() => navigate('/favorite')}
 					title='Избранное'
 					size={45}
 					icon={<FavoriteIcon />}
 				/>
 				<IconButton
+					onClick={() => navigate('/cart')}
 					title='Корзина'
 					size={45}
 					counter={2}

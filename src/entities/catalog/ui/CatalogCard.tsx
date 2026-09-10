@@ -1,6 +1,4 @@
-import { Button } from '@shared/ui/Button';
 import type { Product } from '../model/catalog.type';
-import CartIcon from '@shared/icons/Cart';
 import { ImageSlider } from '@features/imageSlider';
 import './CatalogCard.scss';
 import { IconButton } from '@shared/ui/IconButton';
@@ -55,7 +53,10 @@ const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 								%
 							</span>
 						</div>
-						<AddItemToCartButton productId={item.id} />
+						<div className='catalog-card__buttons-stack'>
+							<AddItemToCartButton productId={item.id} />
+							<IconButton size={45} icon={<FavoriteIcon />} />
+						</div>
 					</>
 				) : (
 					<>
