@@ -21,6 +21,7 @@ const Header = () => {
 	const { isOpen } = useAppSelector(state => state.catalogMenu);
 	const navigate = useNavigate();
 	const searchValue = useAppSelector(state => state.search.search);
+	const favoriteTotal = useAppSelector(state => state.favorite.total);
 
 	useEffect(() => {
 		if (!searchValue.trim()) return;
@@ -93,6 +94,7 @@ const Header = () => {
 				<IconButton
 					onClick={() => navigate('/favorite')}
 					title='Избранное'
+					counter={favoriteTotal}
 					size={45}
 					icon={<FavoriteIcon />}
 				/>

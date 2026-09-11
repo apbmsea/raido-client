@@ -1,9 +1,10 @@
 import { FavoriteList } from '@entities/favorite';
+import './FavoritePage.scss';
 
 const FavoritePage = () => {
 	return (
-		<main>
-			<h2>Избранное</h2>
+		<main className='favorite-page'>
+			<h1 className='favorite-page__title'>Избранное</h1>
 			<FavoriteList />
             <h2>ВАМ МОЖЕТ ПОНРАВИТЬСЯ БЛОКК</h2>
 		</main>

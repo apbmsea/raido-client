@@ -2,10 +2,11 @@ import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { CatalogCard } from '@entities/catalog';
 import { useEffect } from 'react';
 import { Favorite } from '..';
-// import './FavoriteList.scss';
+import './FavoriteList.scss';
+import { Loader } from '@shared/ui/Loader';
 
 const FavoriteList = () => {
-	const { items, isLoading, isFetch } = useAppSelector(
+	const { items, isLoading } = useAppSelector(
 		state => state.favorite
 	);
 	const dispatch = useAppDispatch();
@@ -14,10 +15,24 @@ const FavoriteList = () => {
 		dispatch(Favorite.actions.getFavoriteRequest());
 	}, [dispatch]);
 
-	if (items.length === 0) return <div>sds</div>;
+	if (isLoading) return <Loader />;
+
+	if (items.length === 0)
+		return (
+			<div className='favorite-null'>
+				<img
+					className='favorite-null__image'
+					src='./public/favorite.png'
+					alt=''
+				/>
+				<span className='favorite-null__text'>
+					В избранном пока нет товаров
+				</span>
+			</div>
+		);
 
 	return (
-		<section className={`favorite-list view-list`}>
+		<section className={`favorite-list`}>
 			{items.map(item => (
 				<CatalogCard
 					item={item.product}

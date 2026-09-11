@@ -5,11 +5,13 @@ import { IconButton } from '@shared/ui/IconButton';
 import FavoriteIcon from '@shared/icons/Favorite';
 import { useNavigate } from 'react-router-dom';
 import { AddItemToCartButton } from '@features/addItemToCart';
+import { AddItemToFavoriteButton } from '@features/addItemToFavorite';
 
 type CatalogCardProps = { item: Product; variant: 'grid' | 'list' };
 
 const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 	const navigate = useNavigate();
+
 	return (
 		<div className={`catalog-card catalog-card--${variant}`}>
 			<ImageSlider images={item.images} />
@@ -55,7 +57,7 @@ const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 						</div>
 						<div className='catalog-card__buttons-stack'>
 							<AddItemToCartButton productId={item.id} />
-							<IconButton size={45} icon={<FavoriteIcon />} />
+							<AddItemToFavoriteButton productId={item.id} />
 						</div>
 					</>
 				) : (
@@ -106,7 +108,7 @@ const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 							</div>
 						</div>
 						<div className='catalog-card__buttons'>
-							<IconButton icon={<FavoriteIcon />} />
+							<AddItemToFavoriteButton productId={item.id} />
 							<AddItemToCartButton productId={item.id} />
 						</div>
 					</>

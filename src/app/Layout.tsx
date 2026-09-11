@@ -13,6 +13,7 @@ import { ModalWindow } from '@features/modal';
 import { SearchComponent } from '@features/search';
 import { User } from '@entities/user';
 import { Cart } from '@entities/cart';
+import { Favorite } from '@entities/favorite';
 
 const Layout = () => {
 	const dispatch = useAppDispatch();
@@ -42,6 +43,7 @@ const Layout = () => {
 	useEffect(() => {
 		dispatch(Categories.actions.getCategoriesRequest());
 		dispatch(Cart.actions.getCartRequest());
+		dispatch(Favorite.actions.getFavoriteRequest());
 	}, [dispatch]);
 
 	return (

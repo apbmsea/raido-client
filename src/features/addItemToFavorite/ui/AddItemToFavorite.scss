@@ -1,0 +1,13 @@
+.favorite-button {
+    &__icon {
+        transition: 0.3s;
+        &:hover {
+            color: var(--color-red);
+            fill: var(--color-red);
+        }
+        &--active {
+            color: var(--color-red);
+            fill: var(--color-red);
+        }
+    }
+}

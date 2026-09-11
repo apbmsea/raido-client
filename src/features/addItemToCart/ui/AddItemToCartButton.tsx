@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 
 import { Button } from '@shared/ui/Button';
 import CartIcon from '@shared/icons/Cart';
-import SearchIcon from '@shared/icons/Search';
 import PlusIcon from '@shared/icons/Plus';
 import MinusIcon from '@shared/icons/Minus';
 
