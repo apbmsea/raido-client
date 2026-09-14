@@ -7,6 +7,7 @@ import { ProfilePage } from '@pages/ProfilePage';
 import { EditUserForm } from '@features/editUser';
 import { CartPage } from '@pages/CartPage';
 import { FavoritePage } from '@pages/FavoritePage';
+import { OrdersPage } from '@pages/OrdersPage';
 
 export const router = createBrowserRouter([
 	{
@@ -28,7 +29,7 @@ export const router = createBrowserRouter([
 					},
 
 					// { index: true, element: <ProfileInfoPage /> }, // URL: /profile (Личные данные)
-					// { path: 'orders', element: <OrdersPage /> }, // URL: /profile/orders (Заказы)
+					{ path: 'orders', element: <OrdersPage /> }, // URL: /profile/orders (Заказы)
 					// { path: 'favorites', element: <FavoritesPage /> } // URL: /profile/favorites (Избранное)
 				]
 			}
