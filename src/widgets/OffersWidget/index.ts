@@ -1,0 +1,1 @@
+export { default as OffersWidget } from './ui/OffersWidget';

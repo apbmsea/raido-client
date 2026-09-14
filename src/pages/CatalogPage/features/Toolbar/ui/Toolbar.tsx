@@ -25,6 +25,11 @@ const Toolbar = () => {
 		setOpen(false);
 	};
 
+	const handleViewChange = (view: 'grid' | 'list') => {
+		dispatch(Catalog.actions.setView(view));
+		localStorage.setItem('catalog-view', view);
+	};
+
 	useEffect(() => {
 		const handleClickOutside = (e: MouseEvent) => {
 			if (
@@ -84,13 +89,13 @@ const Toolbar = () => {
 					size={45}
 					variant={view === 'list' ? 'primary' : 'outline'}
 					icon={<ListViewIcon size={24} />}
-					onClick={() => dispatch(Catalog.actions.setView('list'))}
+					onClick={() => handleViewChange('list')}
 				/>
 				<IconButton
 					size={45}
 					variant={view === 'grid' ? 'primary' : 'outline'}
 					icon={<GridViewIcon size={24} />}
-					onClick={() => dispatch(Catalog.actions.setView('grid'))}
+					onClick={() => handleViewChange('grid')}
 				/>
 			</div>
 		</section>

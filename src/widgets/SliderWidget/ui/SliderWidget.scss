@@ -1,6 +1,7 @@
-@use '../../../shared/styles/helpers/' as *;
+@use "../../../shared/styles/helpers/" as *;
 
 .slider-widget {
+
 	position: relative;
 	display: flex;
 	justify-content: space-between;
@@ -13,8 +14,7 @@
 	@include f(height, 354, 205, 125);
 
 	@include tablet {
-		padding: fluid-tm(32, 15) fluid-tm(19, 15) fluid-tm(17, 5)
-			fluid-tm(32, 15);
+		padding: fluid-tm(32, 15) fluid-tm(19, 15) fluid-tm(17, 5) fluid-tm(32, 15);
 		background-position: -5px 0;
 	}
 

@@ -1,26 +1,41 @@
-import { Button } from '@shared/ui/Button';
 import type { Product } from '../model/catalog.type';
-import CartIcon from '@shared/icons/Cart';
 import { ImageSlider } from '@features/imageSlider';
-import './CatalogCard.scss';
-import { IconButton } from '@shared/ui/IconButton';
-import FavoriteIcon from '@shared/icons/Favorite';
 import { useNavigate } from 'react-router-dom';
+import { AddItemToCartButton } from '@features/addItemToCart';
+import { AddItemToFavoriteButton } from '@features/addItemToFavorite';
+
+import './CatalogCard.scss';
 
 type CatalogCardProps = { item: Product; variant: 'grid' | 'list' };
 
 const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 	const navigate = useNavigate();
+
 	return (
 		<div className={`catalog-card catalog-card--${variant}`}>
-			<ImageSlider images={item.images} />
+			<div className='catalog-card__image'>
+				<ImageSlider images={item.images} />
+
+				{variant === 'grid' && (
+					<span className='catalog-card__discount'>
+						{item.discount_percentage === '' ||
+						item.discount_percentage === '0'
+							? '25'
+							: item.discount_percentage}
+						%
+					</span>
+				)}
+			</div>
+
 			<div
-				onClick={() => navigate(`/product/${item.id}`)}
 				className={`catalog-card__content catalog-card__content--${variant}`}
 			>
 				{variant === 'grid' ? (
 					<>
-						<span className='catalog-card__content-name'>
+						<span
+							onClick={() => navigate(`/product/${item.id}`)}
+							className='catalog-card__content-name'
+						>
 							{item.name}
 						</span>
 						<div className='catalog-card__content-prices'>
@@ -45,19 +60,19 @@ const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 									)
 								)}
 							</span>
-							<span className='catalog-card__content-discount'>
-								{item.discount_percentage === '' || '0'
-									? '25'
-									: `${item.discount_percentage}`}
-								%
-							</span>
 						</div>
-						<Button rightIcon={<CartIcon />}>В корзину</Button>
+						<div className='catalog-card__buttons-stack'>
+							<AddItemToCartButton productId={item.id} />
+							<AddItemToFavoriteButton productId={item.id} />
+						</div>
 					</>
 				) : (
 					<>
 						<div className='catalog-card__info'>
-							<span className='catalog-card__info-name'>
+							<span
+								onClick={() => navigate(`/product/${item.id}`)}
+								className='catalog-card__info-name'
+							>
 								{item.name}
 							</span>
 							<span className='catalog-card__info-code'>
@@ -99,8 +114,8 @@ const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 							</div>
 						</div>
 						<div className='catalog-card__buttons'>
-							<IconButton icon={<FavoriteIcon />} />
-							<Button rightIcon={<CartIcon />}>В корзину</Button>
+							<AddItemToFavoriteButton productId={item.id} />
+							<AddItemToCartButton productId={item.id} />
 						</div>
 					</>
 				)}

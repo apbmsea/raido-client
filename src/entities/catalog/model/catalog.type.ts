@@ -16,6 +16,9 @@ export interface Product {
 	}[];
 	warranty: string;
 	is_favorite: boolean;
+	is_in_cart: boolean;
+	in_stock: boolean;
+	quantity_in_cart: number;
 	favorite_item_id: number;
 	delivery_date: string;
 	review_count: number;
