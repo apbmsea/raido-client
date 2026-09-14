@@ -1,0 +1,116 @@
+@use "../../../shared/styles/helpers/" as *;
+
+.offers-widget {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 20px;
+
+    &__title {
+        font-weight: bold;
+        font-size: 32px;
+        color: var(--color-black);
+    }
+
+    &__carousel {
+        position: relative;
+        width: 100%;
+    }
+
+    &__list {
+        width: 100%;
+        max-width: 1200px;
+
+        display: flex;
+        gap: 0;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        padding-bottom: 8px;
+
+        scrollbar-width: none;
+
+        scroll-snap-type: x mandatory;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    &__item {
+        flex-shrink: 0;
+
+        scroll-snap-align: start;
+    }
+
+    &__button {
+        display: none;
+    }
+}
+
+@media (min-width: 1024px) {
+    .offers-widget {
+        &__carousel {
+            width: 100%;
+        }
+
+        &__list {
+            max-width: 1200px;
+        }
+
+        &__button {
+            position: absolute;
+            top: 50%;
+            z-index: 2;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            transform: translateY(-50%);
+
+            &:active {
+                transform: translateY(-50%) scale(0.95);
+            }
+
+            &--prev {
+                left: -60px;
+            }
+
+            &--next {
+                right: -60px;
+            }
+        }
+    }
+}
+
+@media (max-width: 1023.98px) {
+    .offers-widget {
+        &__list {
+            max-width: 100%;
+        }
+
+        &__item {
+            flex: 0 0 260px;
+        }
+    }
+}
+
+@media (max-width: 767.98px) {
+    .offers-widget {
+        gap: 20px;
+
+        &__title {
+            font-size: 24px;
+        }
+
+        &__list {
+            gap: 12px;
+        }
+
+        &__item {
+            flex: 0 0 180px;
+        }
+    }
+}

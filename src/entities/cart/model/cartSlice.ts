@@ -1,26 +1,28 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { AddItemToCartPayload } from './cartType';
-import type { Product } from '@entities/catalog/model/catalog.type';
-
-interface CartItem {
-	final_subtotal: string;
-	id: number;
-	product: Product;
-	product_id: number;
-	quantity: number;
-	retail_subtotal: string;
-}
+import type {
+	AddItemToCartPayload,
+	CartItem,
+	SetSelectedItemsPayload
+} from './cartType';
 
 interface CartState {
+	total: number;
 	items: CartItem[];
 	isLoading: boolean;
 	isFetch: boolean;
+	selectedItems: CartItem[];
+	totalSum: number;
+	totalSelectedItems: number;
 }
 
 const initialState: CartState = {
+	total: 0,
 	items: [],
 	isLoading: false,
-	isFetch: false
+	isFetch: false,
+	selectedItems: [],
+	totalSum: 0,
+	totalSelectedItems: 0
 };
 
 export const { reducer, actions, name } = createSlice({
@@ -66,9 +68,8 @@ export const { reducer, actions, name } = createSlice({
 				quantity: number;
 			}>
 		) => {
-
 			console.log(action.payload.product_id);
-			
+
 			const item = state.items.find(
 				item => item.id === action.payload.product_id
 			);
@@ -136,6 +137,17 @@ export const { reducer, actions, name } = createSlice({
 
 		removeItemFromCartFailure: state => {
 			state.isFetch = false;
+		},
+		setTotal: (state, action: PayloadAction<number>) => {
+			state.total = action.payload;
+		},
+		setSelectedItems: (
+			state,
+			action: PayloadAction<SetSelectedItemsPayload>
+		) => {
+			state.selectedItems = action.payload.selectedItems;
+			state.totalSum = action.payload.totalSum;
+			state.totalSelectedItems = action.payload.totalSelectedItems;
 		}
 	}
 });

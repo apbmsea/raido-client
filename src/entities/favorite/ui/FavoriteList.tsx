@@ -22,7 +22,7 @@ const FavoriteList = () => {
 			<div className='favorite-null'>
 				<img
 					className='favorite-null__image'
-					src='./public/favorite.png'
+					src='./favorite.png'
 					alt=''
 				/>
 				<span className='favorite-null__text'>

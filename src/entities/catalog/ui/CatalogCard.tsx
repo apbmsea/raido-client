@@ -1,11 +1,10 @@
 import type { Product } from '../model/catalog.type';
 import { ImageSlider } from '@features/imageSlider';
-import './CatalogCard.scss';
-import { IconButton } from '@shared/ui/IconButton';
-import FavoriteIcon from '@shared/icons/Favorite';
 import { useNavigate } from 'react-router-dom';
 import { AddItemToCartButton } from '@features/addItemToCart';
 import { AddItemToFavoriteButton } from '@features/addItemToFavorite';
+
+import './CatalogCard.scss';
 
 type CatalogCardProps = { item: Product; variant: 'grid' | 'list' };
 
@@ -14,7 +13,20 @@ const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 
 	return (
 		<div className={`catalog-card catalog-card--${variant}`}>
-			<ImageSlider images={item.images} />
+			<div className='catalog-card__image'>
+				<ImageSlider images={item.images} />
+
+				{variant === 'grid' && (
+					<span className='catalog-card__discount'>
+						{item.discount_percentage === '' ||
+						item.discount_percentage === '0'
+							? '25'
+							: item.discount_percentage}
+						%
+					</span>
+				)}
+			</div>
+
 			<div
 				className={`catalog-card__content catalog-card__content--${variant}`}
 			>
@@ -47,12 +59,6 @@ const CatalogCard = ({ item, variant }: CatalogCardProps) => {
 											: item.retail_price
 									)
 								)}
-							</span>
-							<span className='catalog-card__content-discount'>
-								{item.discount_percentage === '' || '0'
-									? '25'
-									: `${item.discount_percentage}`}
-								%
 							</span>
 						</div>
 						<div className='catalog-card__buttons-stack'>

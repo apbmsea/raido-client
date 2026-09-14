@@ -93,8 +93,8 @@ function* removeItemFromCartSaga(
 function* getCartSaga() {
 	try {
 		const response = yield* call(getCart);
-
 		yield* put(Cart.actions.getCartSuccess(response.items));
+		yield* put(Cart.actions.setTotal(response.total));
 	} catch (error) {
 		yield* put(Cart.actions.getCartFailure());
 	}
@@ -122,4 +122,6 @@ export default function* watchCart() {
 	);
 
 	yield* takeLatest(Cart.actions.getCartRequest.type, getCartSaga);
+	yield* takeLatest(Cart.actions.increaseQuantitySuccess.type, getCartSaga);
+	yield* takeLatest(Cart.actions.decreaseQuantitySuccess.type, getCartSaga);
 }

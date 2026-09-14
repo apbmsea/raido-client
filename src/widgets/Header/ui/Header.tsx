@@ -22,6 +22,7 @@ const Header = () => {
 	const navigate = useNavigate();
 	const searchValue = useAppSelector(state => state.search.search);
 	const favoriteTotal = useAppSelector(state => state.favorite.total);
+	const cartTotal = useAppSelector(state => state.cart.total);
 
 	useEffect(() => {
 		if (!searchValue.trim()) return;
@@ -86,6 +87,7 @@ const Header = () => {
 
 			<div className='header__buttons'>
 				<IconButton
+					onClick={() => navigate('/profile/orders')}
 					title='Заказы'
 					size={45}
 					counter={1}
@@ -102,7 +104,7 @@ const Header = () => {
 					onClick={() => navigate('/cart')}
 					title='Корзина'
 					size={45}
-					counter={2}
+					counter={cartTotal}
 					icon={<CartIcon />}
 				/>
 				<IconButton
