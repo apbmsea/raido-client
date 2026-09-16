@@ -9,6 +9,7 @@ import { CartPage } from '@pages/CartPage';
 import { FavoritePage } from '@pages/FavoritePage';
 import { OrdersPage } from '@pages/OrdersPage';
 import { NotFoundPage } from '@pages/NotFoundPage';
+import { WarrantyPage } from '@pages/WarrantyPage';
 
 export const router = createBrowserRouter([
 	{
@@ -34,6 +35,9 @@ export const router = createBrowserRouter([
 					// { path: 'favorites', element: <FavoritesPage /> } // URL: /profile/favorites (Избранное)
 				]
 			},
+
+			{ path: 'warranty', element: <WarrantyPage /> },
+
 			{ path: '*', element: <NotFoundPage /> }
 		]
 	}

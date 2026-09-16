@@ -12,7 +12,7 @@ export const NAV_ITEMS = [
 		title: 'Покупателям',
 		content: [
 			{ title: 'Доставка и оплата', link: 'delivery-and-payment' },
-			{ title: 'Гарантия', link: 'guarantee' },
+			{ title: 'Гарантия', link: '/warranty' },
 			{ title: 'Бонусы', link: 'bonuses' },
 			{ title: 'Ответы на вопросы', link: 'faq' }
 		]
