@@ -1,4 +1,3 @@
-
 @use "../../../shared/styles/helpers/" as *;
 
 .favorite-null {
@@ -16,13 +15,9 @@
 
 .favorite-list {
     width: 100%;
-
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     row-gap: 20px;
     column-gap: 16px;
-
     justify-items: center;
 }
-
