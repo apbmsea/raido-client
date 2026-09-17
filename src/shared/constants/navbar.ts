@@ -21,10 +21,10 @@ export const NAV_ITEMS = [
 		id: 'about',
 		title: 'О компании',
 		content: [
-			{ title: 'О нас', link: 'about-us' },
-			{ title: 'Реквизиты', link: 'details' },
-			{ title: 'Политика конфиденциальности', link: 'privacy-policy' },
-			{ title: 'Юридическая информация', link: 'legal-information' }
+			{ title: 'О нас', link: 'about-company' }
+			// { title: 'Реквизиты', link: 'details' },
+			// { title: 'Политика конфиденциальности', link: 'privacy-policy' },
+			// { title: 'Юридическая информация', link: 'legal-information' }
 		]
 	},
 	{

@@ -109,7 +109,7 @@ const Header = () => {
 					icon={<CartIcon />}
 				/>
 				<IconButton
-					onClick={() => navigate('/profile/options')}
+					onClick={() => navigate('/profile')}
 					title='Профиль'
 					size={45}
 					icon={<ProfileIcon />}

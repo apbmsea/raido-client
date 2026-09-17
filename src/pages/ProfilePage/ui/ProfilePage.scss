@@ -1,3 +1,5 @@
+@use "../../../shared/styles/helpers/" as *;
+
 .profile-page {
     display: flex;
     flex-direction: column;
@@ -7,8 +9,45 @@
     margin: 0 auto;
     padding: 40px 40px 100px;
 
+    &__title {
+        @include f(font-size, 32, 24, 24);
+        font-weight: bold;
+        color: var(--color-black);
+
+        @include tablet {
+            display: none;
+        }
+    }
+
     &__content {
         display: flex;
         gap: 80px;
+
+        @include tablet {
+            flex-direction: column;
+            gap: 40px;
+        }
+    }
+
+    &__tab {
+        border-bottom: 1px solid var(--color-gray);
+        padding-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        @include tablet-above {
+            display: none;
+        }
+
+        &-title {
+            @include f(font-size, 32, 24, 24);
+            font-weight: bold;
+            color: var(--color-black);
+        }
+    }
+
+    &__outlet {
+        flex: 1;
+        min-width: 0;
     }
 }

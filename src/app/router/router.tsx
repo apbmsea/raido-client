@@ -10,6 +10,7 @@ import { FavoritePage } from '@pages/FavoritePage';
 import { OrdersPage } from '@pages/OrdersPage';
 import { NotFoundPage } from '@pages/NotFoundPage';
 import { WarrantyPage } from '@pages/WarrantyPage';
+import { AboutCompanyPage } from '@pages/AboutCompanyPage';
 
 export const router = createBrowserRouter([
 	{
@@ -30,13 +31,15 @@ export const router = createBrowserRouter([
 						element: <EditUserForm />
 					},
 
-					// { index: true, element: <ProfileInfoPage /> }, // URL: /profile (Личные данные)
+					{ index: true, element: <>Заглушка</> }, // URL: /profile (Личные данные)
 					{ path: 'orders', element: <OrdersPage /> } // URL: /profile/orders (Заказы)
 					// { path: 'favorites', element: <FavoritesPage /> } // URL: /profile/favorites (Избранное)
 				]
 			},
 
 			{ path: 'warranty', element: <WarrantyPage /> },
+
+			{ path: 'about-company', element: <AboutCompanyPage /> },
 
 			{ path: '*', element: <NotFoundPage /> }
 		]
