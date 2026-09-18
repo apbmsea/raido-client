@@ -30,3 +30,19 @@ export interface Order {
 	total_amount: string;
 	user_id: number;
 }
+
+export interface CreateOrderPayload {
+	user: {
+		surname: string;
+		name: string;
+		patronymic: string;
+		phone: string;
+		date_of_birth: string;
+		inn: number;
+		organization_name: string;
+		post: string;
+	};
+	shipping: boolean,
+	shipping_address: string,
+	cart_item_ids: number[]
+}

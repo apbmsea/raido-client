@@ -11,6 +11,8 @@ import { OrdersPage } from '@pages/OrdersPage';
 import { NotFoundPage } from '@pages/NotFoundPage';
 import { WarrantyPage } from '@pages/WarrantyPage';
 import { AboutCompanyPage } from '@pages/AboutCompanyPage';
+import { PlaceAnOrderPage } from '@pages/PlaceAnOrderPage';
+
 
 export const router = createBrowserRouter([
 	{
@@ -40,6 +42,8 @@ export const router = createBrowserRouter([
 			{ path: 'warranty', element: <WarrantyPage /> },
 
 			{ path: 'about-company', element: <AboutCompanyPage /> },
+
+			{ path: 'place-an-order', element: <PlaceAnOrderPage /> },
 
 			{ path: '*', element: <NotFoundPage /> }
 		]

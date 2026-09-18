@@ -1,16 +1,18 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Order } from './orderTypes';
+import type { CreateOrderPayload, Order } from './orderTypes';
 
 interface OrderState {
 	total: number;
 	items: Order[];
 	isLoading: boolean;
+	isFetching: boolean;
 }
 
 const initialState: OrderState = {
 	total: 0,
 	items: [],
-	isLoading: false
+	isLoading: false,
+	isFetching: false
 };
 
 export const { reducer, actions, name } = createSlice({
@@ -26,6 +28,15 @@ export const { reducer, actions, name } = createSlice({
 		},
 		getOrdersFailure: state => {
 			state.isLoading = false;
+		},
+		createOrderRequest: (state, _action: PayloadAction<CreateOrderPayload>) => {
+			state.isFetching = true;
+		},
+		createOrderSuccess: state => {
+			state.isFetching = true;
+		},
+		createOrderFailure: state => {
+			state.isFetching = true;
 		},
 		setTotal: (state, action: PayloadAction<number>) => {
 			state.total = action.payload;

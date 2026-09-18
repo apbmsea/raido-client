@@ -1,11 +1,16 @@
+import React, { useEffect, useState } from 'react';
 import { Button } from '@shared/ui/Button';
 import { Input } from '@shared/ui/Input';
-import './RegisterForm.scss';
 import { Checkbox } from '@shared/ui/Checkbox';
-import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Register } from '..';
 import { Modal } from '@features/modal';
+import { Tabs } from '@shared/ui/Tabs'; // Предположим, путь такой
+import './RegisterForm.scss';
+import type { TabItem } from '@shared/ui/Tabs/ui/Tabs';
+
+// Описываем типы для табов на основе логики роли
+type RegisterRole = 'personal' | 'corporate';
 
 const RegisterForm = () => {
 	const [localErrors, setLocalErrors] = useState<Record<string, string>>({
@@ -20,7 +25,26 @@ const RegisterForm = () => {
 		terms: true,
 		is_corporate: false
 	});
-	
+
+	// Конфигурация табов
+	const tabItems: TabItem<RegisterRole>[] = [
+		{ id: 'personal', label: 'Для себя' },
+		{ id: 'corporate', label: 'Корпоративный' }
+	];
+
+	// Определяем активный таб на основе текущего formData.is_corporate
+	const activeTab: RegisterRole = formData.is_corporate
+		? 'corporate'
+		: 'personal';
+
+	// Обработчик смены таба
+	const handleTabChange = (tabId: RegisterRole) => {
+		setFormData(prev => ({
+			...prev,
+			is_corporate: tabId === 'corporate'
+		}));
+	};
+
 	useEffect(() => {
 		const errors: Record<string, string> = {};
 
@@ -63,6 +87,20 @@ const RegisterForm = () => {
 	return (
 		<form onSubmit={handleSumbit} className='register-form'>
 			<h2 className='register-form__title'>Регистрация</h2>
+			{/* Внедряем табы */}
+
+			{/* <div style={{ fontSize: 14, color: 'var(--color-red)' }}>
+				{errors.is_corporate?.message}
+			</div> */}
+
+			<Tabs<RegisterRole>
+				items={tabItems}
+				activeTab={activeTab}
+				onChange={handleTabChange}
+				className='register-form__tabs'
+			/>
+			
+
 			<Input
 				autoCapitalize='none'
 				spellCheck={false}
@@ -70,8 +108,12 @@ const RegisterForm = () => {
 				type='email'
 				autoComplete='email'
 				inputMode='email'
-				placeholder='Эл. Почта'
-				label='Эл. Почта'
+				placeholder={
+					formData.is_corporate ? 'Рабочая эл. почта' : 'Эл. почта'
+				}
+				label={
+					formData.is_corporate ? 'Рабочая эл. почта' : 'Эл. почта'
+				}
 				value={formData.email}
 				onChange={handleChange}
 				error={errors.email?.message}
@@ -98,12 +140,14 @@ const RegisterForm = () => {
 				error={localErrors.secondPassword}
 				onChange={handleChange}
 			/>
+
 			<span
 				onClick={() => dispatch(Modal.actions.openModal('login'))}
 				className='register-form__link'
 			>
 				Уже есть аккаунт? Войти
 			</span>
+
 			<Checkbox
 				id='terms'
 				name='terms'
@@ -111,6 +155,8 @@ const RegisterForm = () => {
 				checked={formData.terms}
 				onChange={handleChange}
 			/>
+			
+
 			<Button
 				type='submit'
 				disabled={!formData.terms || !!localErrors.secondPassword}
@@ -118,9 +164,9 @@ const RegisterForm = () => {
 			>
 				Зарегистрироваться
 			</Button>
-			{/* <span className='register-form__link'>
-				Зарегистрироваться как корпоративный клиент
-			</span> */}
+						<div style={{ fontSize: 14, color: 'var(--color-red)' }}>
+				{errors.is_corporate?.message}
+			</div>
 		</form>
 	);
 };
