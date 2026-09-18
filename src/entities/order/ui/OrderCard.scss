@@ -1,0 +1,136 @@
+ .order-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 180px;
+    gap: 30px;
+
+    width: 100%;
+    height: 185px;
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        min-width: 0;
+        height: 100%;
+    }
+
+    &__header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    &__title {
+        margin: 0;
+
+        color: var(--color-black);
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    &__status {
+        font-size: 14px;
+        font-weight: 700;
+
+        &--cancelled {
+            color: var(--color-red);
+        }
+
+        &--reservation_in_progress,
+        &--awaiting_manual_approval {
+            color: var(--color-yellow);
+        }
+
+        &--reserved,
+        &--created {
+            color: var(--color-green);
+        }
+    }
+
+    &__items {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        overflow: hidden;
+    }
+
+    &__item {
+        flex: 0 0 100px;
+
+        width: 100px;
+        height: 100px;
+
+        overflow: hidden;
+
+        border: 2px solid var(--color-white);
+        border-radius: 10px;
+
+        &--more {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-gray-light);
+
+            span {
+                color: var(--color-black);
+                font-size: 18px;
+                font-weight: 700;
+            }
+        }
+    }
+
+    &__image {
+        display: block;
+
+        width: 100%;
+        height: 100%;
+
+        object-fit: contain;
+    }
+
+    &__no-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        height: 100%;
+
+        padding: 5px;
+
+        color: var(--color-gray);
+        font-size: 12px;
+        text-align: center;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        align-self: start;
+
+        white-space: nowrap;
+    }
+
+    &__price {
+        color: var(--color-black);
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    &__payment-status {
+        font-size: 14px;
+        font-weight: 700;
+
+        &--paid {
+            color: var(--color-green);
+        }
+
+        &--unpaid {
+            color: var(--color-red);
+        }
+    }
+}

@@ -7,6 +7,12 @@ import { ProfilePage } from '@pages/ProfilePage';
 import { EditUserForm } from '@features/editUser';
 import { CartPage } from '@pages/CartPage';
 import { FavoritePage } from '@pages/FavoritePage';
+import { OrdersPage } from '@pages/OrdersPage';
+import { NotFoundPage } from '@pages/NotFoundPage';
+import { WarrantyPage } from '@pages/WarrantyPage';
+import { AboutCompanyPage } from '@pages/AboutCompanyPage';
+import { PlaceAnOrderPage } from '@pages/PlaceAnOrderPage';
+
 
 export const router = createBrowserRouter([
 	{
@@ -27,11 +33,19 @@ export const router = createBrowserRouter([
 						element: <EditUserForm />
 					},
 
-					// { index: true, element: <ProfileInfoPage /> }, // URL: /profile (Личные данные)
-					// { path: 'orders', element: <OrdersPage /> }, // URL: /profile/orders (Заказы)
+					{ index: true, element: <>Заглушка</> }, // URL: /profile (Личные данные)
+					{ path: 'orders', element: <OrdersPage /> } // URL: /profile/orders (Заказы)
 					// { path: 'favorites', element: <FavoritesPage /> } // URL: /profile/favorites (Избранное)
 				]
-			}
+			},
+
+			{ path: 'warranty', element: <WarrantyPage /> },
+
+			{ path: 'about-company', element: <AboutCompanyPage /> },
+
+			{ path: 'place-an-order', element: <PlaceAnOrderPage /> },
+
+			{ path: '*', element: <NotFoundPage /> }
 		]
 	}
 ]);

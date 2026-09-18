@@ -4,7 +4,7 @@ import React from 'react';
 import { Menu } from '@features/menu';
 import { SvgIcon } from '@features/svgIcon';
 
-const MobileCatalog = () => {
+const CatalogCategories = () => {
 	const { categories } = useAppSelector(state => state.сategories);
 	const dispatch = useAppDispatch();
 
@@ -52,4 +52,4 @@ const MobileCatalog = () => {
 	);
 };
 
-export default MobileCatalog;
+export default CatalogCategories;

@@ -1,0 +1,83 @@
+@use "../../../shared/styles/helpers/" as *;
+
+.about-company-page {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    @include f(padding-inline, 40, 40, 20);
+    @include f(padding-top, 40, 40, 20);
+    @include f(padding-bottom, 100, 100, 85);
+
+    &__title {
+        @include f(font-size, 32, 24, 18);
+        font-weight: bold;
+        color: var(--color-black);
+    }
+
+    p {
+        @include f(font-size, 20, 14, 14);
+        color: var(--color-black);
+    }
+
+    &__content {
+        display: flex;
+        justify-content: space-between;
+
+        @include laptop {
+            flex-direction: column;
+            gap: 40px;
+        }
+    }
+
+    &__location {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    &__subtitle {
+        @include f(font-size, 24, 18, 16);
+        font-weight: bold;
+        color: var(--color-black);
+    }
+
+    &__map {
+        border-radius: 15px;
+        @include f(width, 633, 633, 322);
+        @include f(height, 400, 400, 200);
+    }
+
+    &__adress {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+
+        &-title {
+            @include f(font-size, 18, 18, 16);
+            font-weight: bold;
+            color: var(--color-black);
+        }
+
+        &-text {
+            @include f(font-size, 16, 16, 14);
+            color: var(--color-black);
+        }
+    }
+
+    &__contacts {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        &-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            color: var(--color-black);
+            @include f(font-size, 18, 18, 16);
+        }
+    }
+}

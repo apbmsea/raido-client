@@ -1,0 +1,32 @@
+@use "../../../shared/styles/helpers/" as *;
+
+.place-an-order-page {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    @include f(padding-inline, 40, 40, 20);
+    @include f(padding-top, 40, 40, 20);
+    @include f(padding-bottom, 100, 100, 85);
+
+    &__title {
+        @include f(font-size, 32, 24, 18);
+        font-weight: bold;
+        color: var(--color-black);
+    }
+
+    &__content{
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row-reverse;
+    }
+
+    &__user-form {
+        max-width: 404px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+}

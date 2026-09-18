@@ -25,5 +25,8 @@ export interface Product {
 	question_count: number;
 	images: {
 		image_250x250?: string;
+		image_500x500?: string;
+		image_750x750?: string;
+		image_88x88?: string;
 	}[];
 }

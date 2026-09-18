@@ -1,0 +1,30 @@
+@use "../../../shared/styles/helpers/" as *;
+
+.not-found-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 40px 40px 100px;
+
+    &__code {
+        @include f(font-size, 270, 180, 72);
+        font-weight: bold;
+        color: var(--color-lilak);
+    }
+
+    &__title {
+        @include f(font-size, 40, 24, 18);
+        font-weight: bold;
+        color: var(--color-black);
+    }
+
+    &__text {
+        @include f(font-size, 20, 16, 14);
+        color: var(--color-black);
+        text-align: center;
+    }
+}

@@ -88,6 +88,7 @@ export const EditUserForm = () => {
 						onChange={handleChange}
 						disabled={isFetch}
 					/>
+
 				</div>
 				<div className='edit-user__block'>
 					<Input

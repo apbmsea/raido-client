@@ -12,7 +12,7 @@ export const NAV_ITEMS = [
 		title: 'Покупателям',
 		content: [
 			{ title: 'Доставка и оплата', link: 'delivery-and-payment' },
-			{ title: 'Гарантия', link: 'guarantee' },
+			{ title: 'Гарантия', link: '/warranty' },
 			{ title: 'Бонусы', link: 'bonuses' },
 			{ title: 'Ответы на вопросы', link: 'faq' }
 		]
@@ -21,10 +21,10 @@ export const NAV_ITEMS = [
 		id: 'about',
 		title: 'О компании',
 		content: [
-			{ title: 'О нас', link: 'about-us' },
-			{ title: 'Реквизиты', link: 'details' },
-			{ title: 'Политика конфиденциальности', link: 'privacy-policy' },
-			{ title: 'Юридическая информация', link: 'legal-information' }
+			{ title: 'О нас', link: 'about-company' }
+			// { title: 'Реквизиты', link: 'details' },
+			// { title: 'Политика конфиденциальности', link: 'privacy-policy' },
+			// { title: 'Юридическая информация', link: 'legal-information' }
 		]
 	},
 	{

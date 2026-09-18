@@ -2,6 +2,7 @@ import { Cart } from '@entities/cart';
 import { Categories } from '@entities/category';
 import { Favorite } from '@entities/favorite';
 import { Offers } from '@entities/offers';
+import { Order } from '@entities/order';
 import { Question } from '@entities/question';
 import { Review } from '@entities/review';
 import { User } from '@entities/user';
@@ -36,7 +37,8 @@ const rootReducer = combineReducers({
 	...User.reducer,
 	...Cart.reducer,
 	...Favorite.reducer,
-	...Offers.reducer
+	...Offers.reducer,
+	...Order.reducer
 });
 
 export default rootReducer;
