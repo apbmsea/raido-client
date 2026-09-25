@@ -61,7 +61,7 @@
 		margin-top: 5px;
 	}
 
-	@include tablet {
+	@include laptop {
 		visibility: hidden;
 		display: none;
 	}

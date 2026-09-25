@@ -5,6 +5,7 @@ import './MobileNavbar.scss';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '@shared/hooks/store.hooks';
 import { Menu } from '..';
+import { CatalogMenu } from '@features/catalogMenu';
 
 const MobileNavbar = () => {
 	const dispatch = useAppDispatch();
@@ -33,6 +34,12 @@ const MobileNavbar = () => {
 								key={link.link}
 								to={link.link}
 								className='mobile-navbar__links-item'
+								onClick={() => {
+									dispatch(
+										CatalogMenu.actions.setIsOpen(false)
+									);
+									dispatch(Menu.actions.setIsOpen(false));
+								}}
 							>
 								{link.title}
 							</Link>

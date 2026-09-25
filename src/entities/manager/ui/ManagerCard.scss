@@ -1,0 +1,28 @@
+.manager-card {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-gray-light);
+    padding-bottom: 10.5px;
+
+    &__information {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        &-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-black);
+        }
+        &-email {
+            font-size: 14px;
+            color: var(--color-gray);
+        }
+    }
+
+    &__delete-btn {
+        border: none;
+    }
+}

@@ -3,7 +3,7 @@ import { Login } from '..';
 import { login, type LoginPayload } from '@entities/login';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Confirm } from '@features/confirm';
-import { Modal } from '@features/modal';
+import { Modal } from '@entities/modal';
 import { isApiError } from '@shared/utils/errorHandler';
 import { User } from '@entities/user';
 

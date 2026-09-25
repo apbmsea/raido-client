@@ -5,3 +5,16 @@
     display: flex;
     flex-direction: column;
 }
+
+.cart-null {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+
+    &__text {
+        color: var(--color-black);
+        font-size: 20px;
+    }
+}

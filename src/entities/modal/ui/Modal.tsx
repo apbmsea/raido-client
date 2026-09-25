@@ -7,6 +7,8 @@ import './Modal.scss';
 import CloseIcon from '@shared/icons/Close';
 import { ConfirmForm } from '@features/confirm';
 import { LoginForm } from '@features/login';
+import { AddManagerForm, AddManagerSuccessWindow } from '@features/addManager';
+import { DeleteManagerModal } from '@features/deleteManager';
 
 const ModalComponent = () => {
 	const dispatch = useAppDispatch();
@@ -34,6 +36,10 @@ const ModalComponent = () => {
 				{type === 'register' && <RegisterForm />}
 				{type === 'login' && <LoginForm />}
 				{type === 'confirm' && <ConfirmForm />}
+				{type === 'addManager' && <AddManagerForm />}
+				{type === 'addManagerSuccess' && <AddManagerSuccessWindow />}
+
+				{type === 'deleteManager' && <DeleteManagerModal />}
 				<CloseIcon
 					onClick={() => dispatch(Modal.actions.closeModal())}
 					className='modal__content-close'

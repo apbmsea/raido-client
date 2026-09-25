@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Confirm } from '..';
 import './ConfirmForm.scss';
-import { Modal } from '@features/modal';
+import { Modal } from '@entities/modal';
 
 const ConfirmForm = () => {
 	const dispatch = useAppDispatch();

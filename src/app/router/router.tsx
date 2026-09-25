@@ -13,6 +13,7 @@ import { WarrantyPage } from '@pages/WarrantyPage';
 import { AboutCompanyPage } from '@pages/AboutCompanyPage';
 import { PlaceAnOrderPage } from '@pages/PlaceAnOrderPage';
 import { FaqPage } from '@pages/FaqPage';
+import ManagersPage from '@pages/ManagersPage/ui/ManagersPage';
 
 export const router = createBrowserRouter([
 	{
@@ -34,8 +35,8 @@ export const router = createBrowserRouter([
 					},
 
 					{ index: true, element: <>Заглушка</> }, // URL: /profile (Личные данные)
-					{ path: 'orders', element: <OrdersPage /> } // URL: /profile/orders (Заказы)
-					// { path: 'favorites', element: <FavoritesPage /> } // URL: /profile/favorites (Избранное)
+					{ path: 'orders', element: <OrdersPage /> }, // URL: /profile/orders (Заказы)
+					{ path: 'managers', element: <ManagersPage /> }
 				]
 			},
 

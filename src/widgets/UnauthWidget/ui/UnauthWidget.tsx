@@ -1,7 +1,7 @@
 import { Button } from '@shared/ui/Button';
 import './UnauthWidget.scss';
 import { useAppDispatch } from '@shared/hooks/store.hooks';
-import { Modal } from '@features/modal';
+import { Modal } from '@entities/modal';
 
 type UnauthWidget = {
 	message: string;

@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-type ModalType = 'register' | 'login' | 'confirm';
+type ModalType = 'register' | 'login' | 'confirm' | 'addManager' | 'addManagerSuccess' | 'deleteManager';
 
 interface ModalState {
 	isOpen: boolean;

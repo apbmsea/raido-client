@@ -24,7 +24,7 @@
 
         &:hover {
             background-color: #f5f7ff;
-            
+
             .search__title {
                 color: var(--color-primary);
             }
@@ -62,7 +62,7 @@
         transition: color 0.2s ease;
     }
 
-        &__empty {
+    &__empty {
         padding: 20px;
         text-align: center;
         color: #8e8e93;
