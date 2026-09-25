@@ -6,3 +6,11 @@ export interface Manager {
 	patronymic: string;
 	surname: string;
 }
+
+export interface Organization {
+	assignment_id: number;
+	organization_id: number;
+	email: string;
+	organization_name: string;
+	inn: number;
+}

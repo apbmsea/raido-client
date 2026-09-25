@@ -18,7 +18,7 @@ const ManagerList = () => {
 	if (managers.length === 0)
 		return (
 			<div className='managers-null'>
-				У вашей органищации пока нет менеджеров.
+				У вашей организации пока нет менеджеров.
 			</div>
 		);
 

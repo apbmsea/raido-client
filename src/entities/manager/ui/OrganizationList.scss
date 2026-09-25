@@ -1,0 +1,15 @@
+.organization-null {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+    color: var(--color-black);
+    font-size: 32px;
+}
+
+.organization-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

@@ -1,8 +1,9 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Manager } from './managerTypes';
+import type { Manager, Organization } from './managerTypes';
 
 interface ManagerState {
 	managers: Manager[];
+	organizations: Organization[];
 	isLoading: boolean;
 	isFetch: boolean;
 	errors: Record<string, { message: string }>;
@@ -10,6 +11,7 @@ interface ManagerState {
 }
 
 const initialState: ManagerState = {
+	organizations: [],
 	managers: [],
 	isLoading: false,
 	isFetch: false,
@@ -29,6 +31,16 @@ export const { reducer, actions, name } = createSlice({
 			state.managers = action.payload;
 		},
 		getManagersFailure: state => {
+			state.isLoading = false;
+		},
+		getManagedOrganizationsRequest: state => {
+			state.isLoading = true;
+		},
+		getManagedOrganizationsSuccess: (state, action) => {
+			state.isLoading = false;
+			state.organizations = action.payload;
+		},
+		getManagedOrganizationsFailure: state => {
 			state.isLoading = false;
 		},
 		addManagerRequest: (

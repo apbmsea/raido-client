@@ -5,6 +5,11 @@ export async function getManagers() {
 	return response.data;
 }
 
+export async function getManagedOrganizations() {
+	const response = await $api.get(`/managed-organizations`);
+	return response.data;
+}
+
 export async function addManager(email: string) {
 	const response = await $api.post(`/manager-invitations`, {
 		email

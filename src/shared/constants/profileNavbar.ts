@@ -30,8 +30,15 @@ export const PROFILE_NAVIGATION: ProfileNavigationItem[] = [
 		isCorporate: true
 	},
 	{
-		label: 'Профиль для бизнеса',
-		path: '/profile/business',
-		icon: BusinessProfileIcon
-	}
+		label: 'Организации',
+		path: '/profile/organizations',
+		icon: BusinessProfileIcon,
+		isCorporate: false
+	},
+
+	// {
+	// 	label: 'Профиль для бизнеса',
+	// 	path: '/profile/business',
+	// 	icon: BusinessProfileIcon
+	// }
 ];

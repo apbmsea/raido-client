@@ -1,6 +1,11 @@
 import { call, put, takeLatest } from 'typed-redux-saga';
 import { Manager } from '..';
-import { addManager, getManagers, removeManager } from './managerApi';
+import {
+	addManager,
+	getManagedOrganizations,
+	getManagers,
+	removeManager
+} from './managerApi';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { isApiError } from '@shared/utils/errorHandler';
 import { Modal } from '@entities/modal';
@@ -11,6 +16,15 @@ function* getManagersSaga() {
 		yield* put(Manager.actions.getManagersSuccess(response));
 	} catch (error) {
 		yield* put(Manager.actions.getManagersFailure());
+	}
+}
+
+function* getManagedOrganizationsSaga() {
+	try {
+		const response = yield* call(getManagedOrganizations);
+		yield* put(Manager.actions.getManagedOrganizationsSuccess(response));
+	} catch (error) {
+		yield* put(Manager.actions.getManagedOrganizationsFailure());
 	}
 }
 
@@ -40,6 +54,10 @@ function* removeManagerSaga(action: PayloadAction<{ assignment_id: number }>) {
 
 export default function* watchManager() {
 	yield* takeLatest(Manager.actions.getManagersRequest.type, getManagersSaga);
+	yield* takeLatest(
+		Manager.actions.getManagedOrganizationsRequest.type,
+		getManagedOrganizationsSaga
+	);
 	yield* takeLatest(
 		Manager.actions.removeManagerSuccess.type,
 		getManagersSaga
