@@ -2,7 +2,6 @@ import { ManagerList } from '@entities/manager';
 import { Button } from '@shared/ui/Button';
 
 import './ManagersPage.scss';
-import { useState } from 'react';
 import { useAppDispatch } from '@shared/hooks/store.hooks';
 import { Modal } from '@entities/modal';
 
