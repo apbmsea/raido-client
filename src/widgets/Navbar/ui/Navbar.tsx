@@ -2,10 +2,15 @@ import { useEffect, useRef, useState } from 'react';
 import './Navbar.scss';
 import { NAV_ITEMS } from '@shared/constants/navbar';
 import ArrowDownIcon from '@shared/icons/ArrowDown';
+import { useAppDispatch } from '@shared/hooks/store.hooks';
+import { CatalogMenu } from '@features/catalogMenu';
+import { Menu } from '@features/menu';
 
 export default function Navbar() {
 	const [active, setActive] = useState<string | null>(null);
 	const [submenuHeight, setSubmenuHeight] = useState(0);
+
+	const dispatch = useAppDispatch();
 
 	const ref = useRef<HTMLDivElement>(null);
 
@@ -52,6 +57,12 @@ export default function Navbar() {
 								<a
 									key={link.title}
 									href={link.link}
+									onClick={() => {
+										dispatch(
+											CatalogMenu.actions.setIsOpen(false)
+										);
+										dispatch(Menu.actions.setIsOpen(false));
+									}}
 									className='nav__submenu-link'
 								>
 									{link.title}

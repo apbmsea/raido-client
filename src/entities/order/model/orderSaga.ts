@@ -23,6 +23,7 @@ function* createOrderSaga(action: PayloadAction<CreateOrderPayload>) {
 
 		const orderResponse = yield* call(createOrder, action.payload);
 
+		console.log(response, orderResponse)
 		yield* put(Order.actions.createOrderSuccess());
 	} catch (error) {
 		yield* put(Order.actions.createOrderFailure());

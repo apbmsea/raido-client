@@ -5,24 +5,27 @@ import { Button } from '@shared/ui/Button';
 import { useAppDispatch } from '@shared/hooks/store.hooks';
 import { Menu } from '@features/menu';
 import { CatalogMenu } from '@features/catalogMenu';
+import { useNavigate } from 'react-router-dom';
+import { Catalog } from '@pages/CatalogPage';
 
 export const CATALOG_ITEMS = [
-	{ id: '1', title: 'Компьютеры и ноутбуки', image: 'catalog1.png' },
-	{ id: '2', title: 'Печать и сканирование', image: 'catalog2.png' },
+	{ id: '3', title: 'Компьютеры и ноутбуки', image: 'catalog1.png' },
+	{ id: '5', title: 'Печать и сканирование', image: 'catalog2.png' },
 	{
-		id: '3',
+		id: '5',
 		title: 'Расходные материалы для оргтехники',
 		image: 'catalog3.png'
 	},
-	{ id: '4', title: 'Комплектующие', image: 'catalog4.png' },
-	{ id: '5', title: 'Бытовая техника для кухни', image: 'catalog5.png' },
-	{ id: '6', title: 'Смартфоны и телефония', image: 'catalog6.png' },
-	{ id: '7', title: 'Периферия', image: 'catalog7.png' },
-	{ id: '8', title: 'Телевизоры и мультимедиа', image: 'catalog8.png' }
+	{ id: '2', title: 'Комплектующие', image: 'catalog4.png' },
+	{ id: '4', title: 'Бытовая техника для кухни', image: 'catalog5.png' },
+	{ id: '10', title: 'Смартфоны и телефония', image: 'catalog6.png' },
+	{ id: '13', title: 'Периферия', image: 'catalog7.png' },
+	{ id: '6', title: 'Телевизоры и мультимедиа', image: 'catalog8.png' }
 ];
 
 const CatalogWidget = () => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const firstRow = CATALOG_ITEMS.slice(0, 4);
 	const secondRow = CATALOG_ITEMS.slice(4);
 
@@ -49,7 +52,18 @@ const CatalogWidget = () => {
 			<div className='catalog-widget__items'>
 				<div className='catalog-widget__row'>
 					{firstRow.map(item => (
-						<div key={item.id} className='catalog-widget__item'>
+						<div
+							key={item.id}
+							className='catalog-widget__item'
+							onClick={() => {
+								dispatch(
+									Catalog.actions.setCategoryId(
+										Number(item.id)
+									)
+								);
+								navigate(`/catalog`);
+							}}
+						>
 							<p className='catalog-widget__item-title'>
 								{item.title}
 							</p>
@@ -66,7 +80,18 @@ const CatalogWidget = () => {
 
 				<div className='catalog-widget__row'>
 					{secondRow.map(item => (
-						<div key={item.id} className='catalog-widget__item'>
+						<div
+							key={item.id}
+							className='catalog-widget__item'
+							onClick={() => {
+								dispatch(
+									Catalog.actions.setCategoryId(
+										Number(item.id)
+									)
+								);
+								navigate(`/catalog`);
+							}}
+						>
 							<p className='catalog-widget__item-title'>
 								{item.title}
 							</p>

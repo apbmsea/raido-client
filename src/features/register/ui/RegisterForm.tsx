@@ -4,7 +4,7 @@ import { Input } from '@shared/ui/Input';
 import { Checkbox } from '@shared/ui/Checkbox';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Register } from '..';
-import { Modal } from '@features/modal';
+import { Modal } from '@entities/modal';
 import { Tabs } from '@shared/ui/Tabs'; // Предположим, путь такой
 import './RegisterForm.scss';
 import type { TabItem } from '@shared/ui/Tabs/ui/Tabs';

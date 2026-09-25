@@ -9,7 +9,7 @@ import { Footer } from '@widgets/Footer';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Categories } from '@entities/category';
 import { CatalogMenuModal } from '@features/catalogMenu';
-import { ModalWindow } from '@features/modal';
+import { ModalWindow } from '@entities/modal';
 import { SearchComponent } from '@features/search';
 import { User } from '@entities/user';
 import { Cart } from '@entities/cart';

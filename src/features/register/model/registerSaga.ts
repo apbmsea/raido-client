@@ -3,7 +3,7 @@ import { Register } from '..';
 import { register, type RegisterPayload } from '@entities/register';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Confirm } from '@features/confirm';
-import { Modal } from '@features/modal';
+import { Modal } from '@entities/modal';
 import { isApiError } from '@shared/utils/errorHandler';
 
 function* registerSaga(action: PayloadAction<RegisterPayload>) {

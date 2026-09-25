@@ -6,9 +6,7 @@ import './FavoriteList.scss';
 import { Loader } from '@shared/ui/Loader';
 
 const FavoriteList = () => {
-	const { items, isLoading } = useAppSelector(
-		state => state.favorite
-	);
+	const { items, isLoading } = useAppSelector(state => state.favorite);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {

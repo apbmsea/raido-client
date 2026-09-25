@@ -1,9 +1,9 @@
 import type { ComponentType } from 'react';
 
 import OrdersIcon from '@shared/icons/Orders';
-import BonusIcon from '@shared/icons/Bonus';
 import SettingsIcon from '@shared/icons/Settings';
 import BusinessProfileIcon from '@shared/icons/BusinessProfile';
+import ManagersIcon from '@shared/icons/Managers';
 
 type ProfileNavigationItem = {
 	label: string;
@@ -19,18 +19,26 @@ export const PROFILE_NAVIGATION: ProfileNavigationItem[] = [
 		icon: OrdersIcon
 	},
 	{
-		label: 'Мои бонусы',
-		path: '/profile/bonus',
-		icon: BonusIcon,
-	},
-	{
 		label: 'Настройки профиля',
 		path: '/profile/options',
-		icon: SettingsIcon,
+		icon: SettingsIcon
 	},
 	{
-		label: 'Профиль для бизнеса',
-		path: '/profile/business',
+		label: 'Менеджеры',
+		path: '/profile/managers',
+		icon: ManagersIcon,
+		isCorporate: true
+	},
+	{
+		label: 'Организации',
+		path: '/profile/organizations',
 		icon: BusinessProfileIcon,
-	}
+		isCorporate: false
+	},
+
+	// {
+	// 	label: 'Профиль для бизнеса',
+	// 	path: '/profile/business',
+	// 	icon: BusinessProfileIcon
+	// }
 ];

@@ -2,7 +2,7 @@ import { call, put, takeLatest } from 'typed-redux-saga';
 import { Confirm } from '..';
 import { confirm, type ConfirmPayload } from '@entities/confirm';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { Modal } from '@features/modal';
+import { Modal } from '@entities/modal';
 import { isApiError } from '@shared/utils/errorHandler';
 import { User } from '@entities/user';
 

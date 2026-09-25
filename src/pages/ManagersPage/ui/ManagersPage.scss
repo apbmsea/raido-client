@@ -1,0 +1,23 @@
+.managers-page {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 51px;
+
+    &__information {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        &-title {
+            font-size: 16px;
+            color: var(--color-black);
+            font-weight: 600;
+        }
+
+        &-content {
+            color: var(--color-black);
+            font-size: 14px;
+        }
+    }
+}

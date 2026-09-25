@@ -1,6 +1,7 @@
 import { Cart } from '@entities/cart';
 import { Categories } from '@entities/category';
 import { Favorite } from '@entities/favorite';
+import { Manager } from '@entities/manager';
 import { Offers } from '@entities/offers';
 import { Order } from '@entities/order';
 import { Question } from '@entities/question';
@@ -10,7 +11,7 @@ import { CatalogMenu } from '@features/catalogMenu';
 import { Confirm } from '@features/confirm';
 import { Login } from '@features/login';
 import { Menu } from '@features/menu';
-import { Modal } from '@features/modal';
+import { Modal } from '@entities/modal';
 import { Register } from '@features/register';
 import { Search } from '@features/search';
 import { Catalog } from '@pages/CatalogPage';
@@ -38,7 +39,8 @@ const rootReducer = combineReducers({
 	...Cart.reducer,
 	...Favorite.reducer,
 	...Offers.reducer,
-	...Order.reducer
+	...Order.reducer,
+	...Manager.reducer
 });
 
 export default rootReducer;

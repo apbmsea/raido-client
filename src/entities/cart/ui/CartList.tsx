@@ -64,9 +64,15 @@ export const CartList = () => {
 		return <Loader />;
 	}
 
-	if (!items.length) {
-		return null;
-	}
+	if (items.length === 0)
+		return (
+			<div className='cart-null'>
+				<img className='cart-null__image' src='./cart.png' alt='' />
+				<span className='cart-null__text'>
+					В корзине пока нет товаров
+				</span>
+			</div>
+		);
 
 	return (
 		<div className='cart-list'>

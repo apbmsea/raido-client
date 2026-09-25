@@ -4,7 +4,7 @@ import './LoginForm.scss';
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Login } from '..';
-import { Modal } from '@features/modal';
+import { Modal } from '@entities/modal';
 
 const LoginForm = () => {
 	const dispatch = useAppDispatch();
