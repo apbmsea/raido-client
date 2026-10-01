@@ -42,7 +42,11 @@ export interface CreateOrderPayload {
 		organization_name: string;
 		post: string;
 	};
-	shipping: boolean,
-	shipping_address: string,
-	cart_item_ids: number[]
+	shipping: boolean;
+	shipping_address: string;
+	cart_item_ids: number[];
+	comment: string;
+	comment_delivery: string;
+	terms: boolean;
+	use_bonus: boolean;
 }

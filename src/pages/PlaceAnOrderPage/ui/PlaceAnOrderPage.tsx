@@ -26,6 +26,10 @@ interface FormFields {
 const PlaceAnOrderPage = () => {
 	const dispacth = useAppDispatch();
 	const { user } = useAppSelector(state => state.user);
+	const [comment, setComment] = useState('');
+	const [commentDelivery, setCommentDelivery] = useState('');
+	const [terms, setTerms] = useState(false);
+	const [useBonus, setUseBonus] = useState(false);
 
 	const [searchParams] = useSearchParams();
 
@@ -76,7 +80,7 @@ const PlaceAnOrderPage = () => {
 		{ id: 'pickup', label: 'Самовывоз' }
 	];
 
-	const submitForm = (e: React.FormEvent) => {
+	const submitForm = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		dispacth(
 			Order.actions.createOrderRequest({
@@ -93,7 +97,12 @@ const PlaceAnOrderPage = () => {
 				shipping: activeMethod === 'delivery',
 				shipping_address:
 					activeMethod === 'delivery' ? formData.shipping_adress : '',
-				cart_item_ids: cartItemIds
+				cart_item_ids: cartItemIds,
+				comment,
+				comment_delivery:
+					activeMethod === 'delivery' ? commentDelivery : '',
+				terms,
+				use_bonus: useBonus
 			})
 		);
 	};
@@ -103,13 +112,9 @@ const PlaceAnOrderPage = () => {
 			<h1 className='place-an-order-page__title'>Оформление заказа</h1>
 			<div className='place-an-order-page__content'>
 				<OrderItemsWidget />
-				<div
-					style={{
-						width: '626px',
-						display: 'flex',
-						flexDirection: 'column',
-						gap: '40px'
-					}}
+				<form
+					className='place-an-order-page__form'
+					onSubmit={submitForm}
 				>
 					<div className='place-an-order-page__user-form'>
 						<h2>Данные покупателя</h2>
@@ -170,25 +175,25 @@ const PlaceAnOrderPage = () => {
 							// disabled={isFetch}
 						/>
 						<Input
-							label='POST POST POST'
-							placeholder='POST POST POST'
+							label='Должность'
+							placeholder='Должность'
 							name='post'
 							value={formData.post}
 							onChange={handleChange}
 							// disabled={isFetch}
 						/>
 					</div>
-					<div>
+					<div className='place-an-order-page__section'>
 						<h2>Способ получения</h2>
 						<Tabs<DeliveryMethod>
 							items={tabItems}
 							activeTab={activeMethod}
-							onChange={id => setActiveMethod(id)} // Переключаем стейт
-							className='order-tabs'
+							onChange={id => setActiveMethod(id)}
+							className='place-an-order-page__tabs'
 						/>
 						{activeMethod === 'delivery' ? (
 							<>
-								Доставка
+								<h3>Доставка</h3>
 								<Input
 									label='Адрес'
 									placeholder='Адрес'
@@ -196,8 +201,8 @@ const PlaceAnOrderPage = () => {
 									value={formData.shipping_adress}
 									onChange={handleChange}
 								/>
-								<div>
-									<div>
+								<div className='place-an-order-page__address-fields'>
+									<div className='place-an-order-page__address-row'>
 										<Input
 											label='Квартира'
 											placeholder='Квартира'
@@ -209,7 +214,7 @@ const PlaceAnOrderPage = () => {
 											name='name'
 										/>
 									</div>
-									<div>
+									<div className='place-an-order-page__address-row'>
 										<Input
 											label='Этаж'
 											placeholder='Этаж'
@@ -225,36 +230,49 @@ const PlaceAnOrderPage = () => {
 								<TextArea
 									label='Комментарий к доставке'
 									placeholder='Комментарий к доставке'
+									name='comment_delivery'
+									value={commentDelivery}
+									onChange={e =>
+										setCommentDelivery(e.target.value)
+									}
 								/>
 							</>
 						) : (
-							<>Самовывоз</>
+							<div className='place-an-order-page__delivery-location'>
+								<h3>г. Екатеринбург, ул. Свердлова 22 </h3>
+								<span>Ежедневно с 10:00 до 22:00</span>
+							</div>
 						)}
 					</div>
-					<div>
-						<h2>Баллы</h2>
-						<Checkbox
-							id='terms'
-							name='terms'
-							label='Начислить value'
-						/>
-						<Checkbox
-							id='terms'
-							name='terms'
-							label='Списать value'
-						/>
-					</div>
+					{user && user.bonus_balance > 0 && (
+						<div className='place-an-order-page__section'>
+							<h2>Баллы</h2>
+							<Checkbox
+								id='coins'
+								name='use_bonus'
+								label={`Списать ${user?.bonus_balance} баллов`}
+								checked={useBonus}
+								onChange={e => setUseBonus(e.target.checked)}
+							/>
+						</div>
+					)}
 					<TextArea
 						label='Комментарий к заказу'
 						placeholder='Комментарий к заказу'
+						name='comment'
+						value={comment}
+						onChange={e => setComment(e.target.value)}
 					/>
 					<Checkbox
 						id='terms'
 						name='terms'
 						label='Принимаю условия обработки персональных данных'
+						checked={terms}
+						onChange={e => setTerms(e.target.checked)}
+						required
 					/>
-					<Button onClick={submitForm}>Оформить заказ</Button>
-				</div>
+					<Button type='submit'>Оформить заказ</Button>
+				</form>
 			</div>
 		</main>
 	);

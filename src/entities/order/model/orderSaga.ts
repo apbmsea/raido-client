@@ -17,13 +17,17 @@ function* getOrdersSaga() {
 
 function* createOrderSaga(action: PayloadAction<CreateOrderPayload>) {
 	try {
-		const response = yield* call(editUser, {
-			payload: action.payload.user
-		});
+		try {
+			yield* call(editUser, {
+				payload: action.payload.user
+			});
+		} catch (error) {
+			console.error('Failed to update user before order creation', error);
+		}
 
 		const orderResponse = yield* call(createOrder, action.payload);
 
-		console.log(response, orderResponse)
+		console.log(orderResponse);
 		yield* put(Order.actions.createOrderSuccess());
 	} catch (error) {
 		yield* put(Order.actions.createOrderFailure());
