@@ -6,8 +6,26 @@ export async function getOrders() {
 	return response.data;
 }
 
-export async function createOrder(data: CreateOrderPayload) {
-	const response = await $api.post(`/orders/from_cart_items`, data);
+export async function createOrder({
+	user,
+	shipping,
+	shipping_address,
+	cart_item_ids,
+	comment,
+	comment_delivery,
+	terms,
+	use_bonus
+}: CreateOrderPayload) {
+	const response = await $api.post(`/orders/from_cart_items`, {
+		user,
+		shipping,
+		shipping_address,
+		cart_item_ids,
+		comment,
+		comment_delivery,
+		terms,
+		use_bonus
+	});
 	return response.data;
 }
 
