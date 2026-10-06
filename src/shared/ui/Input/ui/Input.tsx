@@ -9,6 +9,7 @@ import PasswordIcon from '@shared/icons/Password';
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 	label?: string;
 	button?: ReactNode;
+	startAdornment?: ReactNode;
 	className?: string;
 	error?: string;
 }
@@ -16,6 +17,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input: React.FC<InputProps> = ({
 	label,
 	button,
+	startAdornment,
 	className,
 	type,
 	error,
@@ -33,10 +35,15 @@ const Input: React.FC<InputProps> = ({
 			{label && <label className='input__label'>{label}</label>}
 
 			<div className='input__wrapper'>
+				{startAdornment && (
+					<span className='input__prefix' aria-hidden='true'>
+						{startAdornment}
+					</span>
+				)}
 				<input
 					className={`input__field ${
 						isPassword ? 'input__field--with-icon' : ''
-					} ${error ? 'input__field--error' : ''}`}
+					} ${startAdornment ? 'input__field--with-prefix' : ''} ${error ? 'input__field--error' : ''}`}
 					type={inputType}
 					aria-invalid={!!error}
 					{...props}

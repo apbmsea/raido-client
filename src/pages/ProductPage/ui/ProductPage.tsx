@@ -63,7 +63,7 @@ const ProductPage = () => {
 				<ImageGallery images={item.images} />
 				<div className='product-page__content'>
 					<h2 className='product-page__content-name'>{item.name}</h2>
-					<div style={{ height: '100%' }}>Секция выбора данных</div>
+					<div style={{ height: '100%' }}></div>
 					<div className='product-page__content-prices'>
 						<span className='product-page__content-finalprice'>
 							{new Intl.NumberFormat('ru-RU', {

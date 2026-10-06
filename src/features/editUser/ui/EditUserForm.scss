@@ -13,10 +13,30 @@
     &__block {
         display: flex;
         gap: 20px;
+
+        > * {
+            flex: 1 1 0;
+            min-width: 0;
+        }
     }
 
     &__buttons {
         display: flex;
         gap: 10px;
+    }
+}
+
+@media (max-width: 640px) {
+    .edit-user {
+        gap: 28px;
+
+        &__block {
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        &__buttons {
+            flex-wrap: wrap;
+        }
     }
 }

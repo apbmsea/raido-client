@@ -17,6 +17,15 @@
 		width: 100%;
 	}
 
+	&__prefix {
+		position: absolute;
+		left: 17px;
+		z-index: 1;
+		color: var(--color-black);
+		font-size: 15px;
+		pointer-events: none;
+	}
+
 	&__field {
 		width: 100%;
 		padding: 10px 48px 10px 17px;
@@ -28,6 +37,10 @@
 
 		&:focus {
 			border-color: var(--color-primary);
+		}
+
+		&--with-prefix {
+			padding-left: 45px;
 		}
 
 		&--error {
