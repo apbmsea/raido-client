@@ -7,8 +7,8 @@ export interface OrderProduct {
 		image_250x250: string;
 		image_500x500: string;
 		image_700x700: string;
+		order: number;
 	};
-	order: number;
 	product_name: string;
 	quantity: number;
 	retail_price: string;
@@ -29,6 +29,21 @@ export interface Order {
 	support_phone: string;
 	total_amount: string;
 	user_id: number;
+}
+
+export interface OrderDetails extends Order {
+	comment: string;
+	created_by_manager: boolean;
+	final_subtotal: string;
+	manager_email: string;
+	manager_name: string;
+	manager_patronymic: string;
+	manager_surname: string;
+	is_organization_order: boolean;
+	organization_name: string;
+	receipt_code: string;
+	retail_subtotal: string;
+	shipping_address: string;
 }
 
 export interface CreateOrderPayload {

@@ -1,8 +1,13 @@
 import { $api } from '@shared/api/instance';
-import type { CreateOrderPayload } from './orderTypes';
+import type { CreateOrderPayload, OrderDetails } from './orderTypes';
 
 export async function getOrders() {
 	const response = await $api.get(`/orders/`);
+	return response.data;
+}
+
+export async function getOrderById(orderId: string) {
+	const response = await $api.get<OrderDetails>(`/orders/${orderId}`);
 	return response.data;
 }
 

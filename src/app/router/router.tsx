@@ -7,7 +7,7 @@ import { ProfileHome, ProfilePage } from '@pages/ProfilePage';
 import { EditUserForm } from '@features/editUser';
 import { CartPage } from '@pages/CartPage';
 import { FavoritePage } from '@pages/FavoritePage';
-import { OrdersPage } from '@pages/OrdersPage';
+import { OrderDetailPage, OrdersPage } from '@pages/OrdersPage';
 import { NotFoundPage } from '@pages/NotFoundPage';
 import { WarrantyPage } from '@pages/WarrantyPage';
 import { AboutCompanyPage } from '@pages/AboutCompanyPage';
@@ -37,6 +37,7 @@ export const router = createBrowserRouter([
 
 					{ index: true, element: <ProfileHome /> },
 					{ path: 'orders', element: <OrdersPage /> }, // URL: /profile/orders (Заказы)
+					{ path: 'orders/:orderId', element: <OrderDetailPage /> },
 					{ path: 'managers', element: <ManagersPage /> },
 					{ path: 'organizations', element: <OrganizationList /> }
 				]

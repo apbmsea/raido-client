@@ -1,5 +1,11 @@
 .order-list {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: 16px;
+
+    &__message {
+        padding: 24px 0;
+        color: var(--color-gray);
+        font-size: 16px;
+    }
 }

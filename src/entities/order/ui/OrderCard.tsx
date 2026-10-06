@@ -1,5 +1,6 @@
 import { formatIso } from '@shared/utils/formatIso';
 import { formatPrice } from '@shared/utils/formatPrice';
+import { Link } from 'react-router-dom';
 
 import type { Order } from '../model/orderTypes';
 
@@ -20,12 +21,15 @@ export const OrderCard = ({ item }: OrderCardProps) => {
 	const hiddenItemsCount = item.items.length - visibleItems.length;
 
 	return (
-		<div className='order-card'>
+		<Link className='order-card' to={`/profile/orders/${item.id}`}>
 			<div className='order-card__content'>
 				<div className='order-card__header'>
-					<h2 className='order-card__title'>
-						Заказ от {formatIso(item.created_at)}
-					</h2>
+					<div className='order-card__heading'>
+						<h2 className='order-card__title'>Заказ №{item.id}</h2>
+						<span className='order-card__date'>
+							{formatIso(item.created_at)}
+						</span>
+					</div>
 
 					<span
 						className={`order-card__status order-card__status--${item.status}`}
@@ -70,6 +74,6 @@ export const OrderCard = ({ item }: OrderCardProps) => {
 					{item.payment_status_label}
 				</span>
 			</div>
-		</div>
+		</Link>
 	);
 };

@@ -1,0 +1,41 @@
+.orders-page {
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+	width: 100%;
+
+	&__header {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		padding-bottom: 8px;
+	}
+
+	&__eyebrow {
+		color: var(--color-primary);
+		font-size: 12px;
+		font-weight: 700;
+	}
+
+	&__title {
+		color: var(--color-black);
+		font-size: 28px;
+		font-weight: 600;
+	}
+
+	&__description {
+		color: var(--color-gray);
+		font-size: 15px;
+		line-height: 1.5;
+	}
+}
+
+@media (max-width: 600px) {
+	.orders-page {
+		gap: 20px;
+
+		&__title {
+			font-size: 24px;
+		}
+	}
+}
