@@ -3,7 +3,7 @@ import Layout from '@app/Layout';
 import { HomePage } from '@pages/HomePage';
 import { CatalogPage } from '@pages/CatalogPage';
 import { ProductPage } from '@pages/ProductPage';
-import { ProfilePage } from '@pages/ProfilePage';
+import { ProfileHome, ProfilePage } from '@pages/ProfilePage';
 import { EditUserForm } from '@features/editUser';
 import { CartPage } from '@pages/CartPage';
 import { FavoritePage } from '@pages/FavoritePage';
@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
 						element: <EditUserForm />
 					},
 
-					{ index: true, element: <>Заглушка</> }, // URL: /profile (Личные данные)
+					{ index: true, element: <ProfileHome /> },
 					{ path: 'orders', element: <OrdersPage /> }, // URL: /profile/orders (Заказы)
 					{ path: 'managers', element: <ManagersPage /> },
 					{ path: 'organizations', element: <OrganizationList /> }

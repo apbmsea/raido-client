@@ -4,9 +4,90 @@ import { Button } from '@shared/ui/Button';
 import './ManagersPage.scss';
 import { useAppDispatch } from '@shared/hooks/store.hooks';
 import { Modal } from '@entities/modal';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import {
+	acceptManagerInvitation,
+	getManagerInvitationDetails
+} from '@entities/manager/model/managerApi';
+
+interface InvitationDetails {
+	organization_name: string;
+	organization_email: string;
+}
+
+const ManagerInvitation = ({ token }: { token: string }) => {
+	const [details, setDetails] = useState<InvitationDetails | null>(null);
+	const [error, setError] = useState('');
+	const [isLoading, setIsLoading] = useState(true);
+	const [isAccepting, setIsAccepting] = useState(false);
+
+	useEffect(() => {
+		let isCurrent = true;
+
+		getManagerInvitationDetails(token)
+			.then(data => {
+				if (isCurrent) setDetails(data);
+			})
+			.catch(() => {
+				if (isCurrent) {
+					setError('Не удалось загрузить данные приглашения.');
+				}
+			})
+			.finally(() => {
+				if (isCurrent) setIsLoading(false);
+			});
+
+		return () => {
+			isCurrent = false;
+		};
+	}, [token]);
+
+	const handleAccept = async () => {
+		setIsAccepting(true);
+		setError('');
+		try {
+			await acceptManagerInvitation(token);
+			window.location.assign(
+				'https://raido-client.vercel.app/profile/managers'
+			);
+		} catch {
+			setError('Не удалось принять приглашение. Попробуйте еще раз.');
+			setIsAccepting(false);
+		}
+	};
+
+	return (
+		<main className='manager-invitation'>
+			{isLoading ? (
+				<p>Загружаем приглашение...</p>
+			) : details ? (
+				<>
+					<h1 className='manager-invitation__title'>
+						{details.organization_name} приглашает вас стать
+						менеджером
+					</h1>
+					<p className='manager-invitation__email'>
+						{details.organization_email}
+					</p>
+					<Button onClick={handleAccept} loading={isAccepting}>
+						Принять приглашение
+					</Button>
+				</>
+			) : null}
+			{error && <p className='manager-invitation__error'>{error}</p>}
+		</main>
+	);
+};
 
 const ManagersPage = () => {
+	const [searchParams] = useSearchParams();
+	const invitationToken = searchParams.get('invitation_token');
 	const dispatch = useAppDispatch();
+
+	if (invitationToken) {
+		return <ManagerInvitation token={invitationToken} />;
+	}
 
 	return (
 		<main className='managers-page'>

@@ -17,6 +17,23 @@ export async function addManager(email: string) {
 	return response.data;
 }
 
+export async function getManagerInvitationDetails(invitationToken: string) {
+	const response = await $api.get(`/manager-invitations/details`, {
+		params: { invitation_token: invitationToken }
+	});
+	return response.data as {
+		organization_name: string;
+		organization_email: string;
+	};
+}
+
+export async function acceptManagerInvitation(invitationToken: string) {
+	const response = await $api.post(`/manager-invitations/accept`, {
+		invitation_token: invitationToken
+	});
+	return response.data;
+}
+
 export async function removeManager(assigment_id: number) {
 	const response = await $api.delete(`/manager-assignments/${assigment_id}`);
 	return response.data;
