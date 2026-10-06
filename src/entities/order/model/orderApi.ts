@@ -13,6 +13,7 @@ export async function getOrderById(orderId: string) {
 
 export async function createOrder({
 	user,
+	organization_id,
 	shipping,
 	shipping_address,
 	cart_item_ids,
@@ -23,6 +24,7 @@ export async function createOrder({
 }: CreateOrderPayload) {
 	const response = await $api.post(`/orders/from_cart_items`, {
 		user,
+		organization_id,
 		shipping,
 		shipping_address,
 		cart_item_ids,

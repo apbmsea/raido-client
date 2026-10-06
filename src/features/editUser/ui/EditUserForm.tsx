@@ -8,6 +8,8 @@ import { UnauthWidget } from '@widgets/UnauthWidget';
 import { Loader } from '@shared/ui/Loader';
 import type { UserType } from '@entities/user/model/userTypes';
 import { logoutUser } from '@entities/user/model/userApi';
+import { formatPhone, normalizePhone } from '@shared/utils/phone';
+import { isValidBirthDate, toDateInputValue } from '@shared/utils/birthDate';
 
 interface FormFields {
 	surname: string;
@@ -15,38 +17,6 @@ interface FormFields {
 	phone: string;
 	date_of_birth: string;
 }
-
-const normalizePhone = (value: string | null | undefined) => {
-	const digits = (value || '').replace(/\D/g, '');
-	return digits.length === 11 && /^[78]/.test(digits)
-		? digits.slice(1)
-		: digits.slice(0, 10);
-};
-
-const formatPhone = (digits: string) => {
-	const first = digits.slice(0, 3);
-	const second = digits.slice(3, 6);
-	const third = digits.slice(6, 8);
-	const fourth = digits.slice(8, 10);
-	return `${first}${second ? ` ${second}` : ''}${third ? `-${third}` : ''}${fourth ? `-${fourth}` : ''}`;
-};
-
-const toDateInputValue = (value: string | null | undefined) => {
-	const match = value?.match(/^\d{4}-\d{2}-\d{2}/);
-	return match ? match[0] : '';
-};
-
-const isValidBirthDate = (value: string) => {
-	if (!value) return true;
-	if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
-
-	const date = new Date(`${value}T00:00:00.000Z`);
-	return (
-		!Number.isNaN(date.getTime()) &&
-		date.toISOString().slice(0, 10) === value &&
-		value <= new Date().toISOString().slice(0, 10)
-	);
-};
 
 const today = new Date().toISOString().slice(0, 10);
 

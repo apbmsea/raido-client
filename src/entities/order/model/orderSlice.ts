@@ -6,13 +6,17 @@ interface OrderState {
 	items: Order[];
 	isLoading: boolean;
 	isFetching: boolean;
+	isJustCreated: boolean;
+	errors: Record<string, { message: string }>;
 }
 
 const initialState: OrderState = {
 	total: 0,
 	items: [],
 	isLoading: false,
-	isFetching: false
+	isFetching: false,
+	isJustCreated: false,
+	errors: {}
 };
 
 export const { reducer, actions, name } = createSlice({
@@ -31,12 +35,27 @@ export const { reducer, actions, name } = createSlice({
 		},
 		createOrderRequest: (state, _action: PayloadAction<CreateOrderPayload>) => {
 			state.isFetching = true;
+			state.errors = {};
 		},
 		createOrderSuccess: state => {
-			state.isFetching = true;
+			state.isFetching = false;
+			state.isJustCreated = true;
 		},
-		createOrderFailure: state => {
-			state.isFetching = true;
+		createOrderFailure: (
+			state,
+			action: PayloadAction<Record<string, { message: string }>>
+		) => {
+			state.isFetching = false;
+			state.errors = action.payload;
+		},
+		clearJustCreated: state => {
+			state.isJustCreated = false;
+		},
+		clearError: (state, action: PayloadAction<string>) => {
+			delete state.errors[action.payload];
+		},
+		clearAllErrors: state => {
+			state.errors = {};
 		},
 		setTotal: (state, action: PayloadAction<number>) => {
 			state.total = action.payload;

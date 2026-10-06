@@ -10,7 +10,6 @@ import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Categories } from '@entities/category';
 import { CatalogMenuModal } from '@features/catalogMenu';
 import { ModalWindow } from '@entities/modal';
-import { SearchComponent } from '@features/search';
 import { User } from '@entities/user';
 import { Cart } from '@entities/cart';
 import { Favorite } from '@entities/favorite';
@@ -54,7 +53,6 @@ const Layout = () => {
 			<BurgerMenu />
 			<Header />
 			<Navbar />
-			<SearchComponent />
 
 			<main className='app-content'>
 				{isOpen ? <CatalogMenuModal /> : <Outlet />}

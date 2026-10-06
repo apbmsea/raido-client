@@ -64,10 +64,14 @@ export const ProfilePage = () => {
 	const isManagerInvitation = searchParams.has('invitation_token');
 
 	useEffect(() => {
-		if (!isLoading && !isLogin) {
+		if (!isLoading && !isLogin && !isManagerInvitation) {
 			dispatch(Modal.actions.openModal('login'));
 		}
-	}, [dispatch, isLoading, isLogin]);
+	}, [dispatch, isLoading, isLogin, isManagerInvitation]);
+
+	if (isManagerInvitation) {
+		return <Outlet />;
+	}
 
 	if (isLoading) {
 		return (
@@ -87,10 +91,6 @@ export const ProfilePage = () => {
 				<UnauthWidget message='Войдите, чтобы перейти к разделам профиля.' />
 			</div>
 		);
-	}
-
-	if (isManagerInvitation) {
-		return <Outlet />;
 	}
 
 	return (

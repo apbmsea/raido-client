@@ -13,14 +13,23 @@ import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Menu } from '@features/menu';
 import { CatalogMenu } from '@features/catalogMenu';
 import { useNavigate } from 'react-router-dom';
-import { Search } from '@features/search';
-import { useEffect } from 'react';
+import {
+	Search,
+	SearchComponent,
+	useSelectSuggestion
+} from '@features/search';
+import { type KeyboardEvent, useEffect, useState } from 'react';
 
 const Header = () => {
 	const dispatch = useAppDispatch();
 	const { isOpen } = useAppSelector(state => state.catalogMenu);
 	const navigate = useNavigate();
 	const searchValue = useAppSelector(state => state.search.search);
+	const { items: suggestions, isLoading: isSearchLoading } = useAppSelector(
+		state => state.search
+	);
+	const [activeIndex, setActiveIndex] = useState(0);
+	const selectSuggestion = useSelectSuggestion();
 	const favoriteTotal = useAppSelector(state => state.favorite.total);
 	const cartTotal = useAppSelector(state => state.cart.total);
 	const orderTotal = useAppSelector(state => state.order.total);
@@ -34,6 +43,33 @@ const Header = () => {
 
 		return () => clearTimeout(timer);
 	}, [searchValue, dispatch]);
+
+	useEffect(() => {
+		setActiveIndex(0);
+	}, [suggestions]);
+
+	const handleSearchKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Escape') {
+			dispatch(Search.actions.searchRequest(''));
+			return;
+		}
+
+		if (suggestions.length === 0) return;
+
+		if (e.key === 'ArrowDown') {
+			e.preventDefault();
+			setActiveIndex(index => (index + 1) % suggestions.length);
+		} else if (e.key === 'ArrowUp') {
+			e.preventDefault();
+			setActiveIndex(
+				index =>
+					(index - 1 + suggestions.length) % suggestions.length
+			);
+		} else if (e.key === 'Enter' && !isSearchLoading) {
+			e.preventDefault();
+			selectSuggestion(suggestions[activeIndex] ?? suggestions[0]);
+		}
+	};
 
 	return (
 		<header className='header'>
@@ -71,6 +107,7 @@ const Header = () => {
 					onChange={e =>
 						dispatch(Search.actions.searchRequest(e.target.value))
 					}
+					onKeyDown={handleSearchKeyDown}
 					button={
 						<IconButton
 							variant='primary'
@@ -83,6 +120,10 @@ const Header = () => {
 							}
 						/>
 					}
+				/>
+				<SearchComponent
+					activeIndex={activeIndex}
+					onActiveChange={setActiveIndex}
 				/>
 			</div>
 

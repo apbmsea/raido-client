@@ -1,7 +1,11 @@
 .search {
     position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 10000;
     width: 100%;
+    min-width: min(300px, calc(100vw - 40px));
     background-color: var(--color-white);
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -22,7 +26,7 @@
             border-bottom: none;
         }
 
-        &:hover {
+        &--active {
             background-color: #f5f7ff;
 
             .search__title {

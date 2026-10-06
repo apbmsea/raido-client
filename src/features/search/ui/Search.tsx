@@ -1,13 +1,18 @@
 import { SvgIcon } from '@features/svgIcon';
-import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
+import { useAppSelector } from '@shared/hooks/store.hooks';
 import './Search.scss';
-import { Search } from '..';
-import { useNavigate } from 'react-router-dom';
-import { Catalog } from '@pages/CatalogPage';
+import { useSelectSuggestion } from '../model/useSelectSuggestion';
 
-const SearchComponent = () => {
-	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
+interface SearchComponentProps {
+	activeIndex: number;
+	onActiveChange: (index: number) => void;
+}
+
+const SearchComponent = ({
+	activeIndex,
+	onActiveChange
+}: SearchComponentProps) => {
+	const selectSuggestion = useSelectSuggestion();
 	const { items, search } = useAppSelector(state => state.search);
 
 	if (search === '') {
@@ -17,28 +22,17 @@ const SearchComponent = () => {
 	return (
 		<div className='search'>
 			{items.length > 0 ? (
-				items.map(suggestion => (
+				items.map((suggestion, index) => (
 					<div
-						className='search__suggestion'
+						className={`search__suggestion ${
+							index === activeIndex
+								? 'search__suggestion--active'
+								: ''
+						}`}
 						key={`${suggestion.type}-${suggestion.id}`}
 						role='button'
-						onClick={() => {
-							navigate('/catalog');
-
-							suggestion.type === 'category'
-								? dispatch(
-										Catalog.actions.navigateToСategory({
-											id: suggestion.id
-										})
-									)
-								: dispatch(
-										Catalog.actions.navigateToSubcategory({
-											id: suggestion.id
-										})
-									);
-
-							dispatch(Search.actions.searchRequest(''));
-						}}
+						onMouseEnter={() => onActiveChange(index)}
+						onClick={() => selectSuggestion(suggestion)}
 					>
 						<div className='search__icon-wrapper'>
 							<SvgIcon

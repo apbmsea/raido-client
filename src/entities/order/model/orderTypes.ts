@@ -53,10 +53,11 @@ export interface CreateOrderPayload {
 		patronymic: string;
 		phone: string;
 		date_of_birth: string;
-		inn: number;
-		organization_name: string;
-		post: string;
+		inn?: number;
+		organization_name?: string;
+		post?: string;
 	};
+	organization_id?: number;
 	shipping: boolean;
 	shipping_address: string;
 	cart_item_ids: number[];

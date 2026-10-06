@@ -2,10 +2,10 @@ import { ManagerList } from '@entities/manager';
 import { Button } from '@shared/ui/Button';
 
 import './ManagersPage.scss';
-import { useAppDispatch } from '@shared/hooks/store.hooks';
+import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Modal } from '@entities/modal';
 import { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
 	acceptManagerInvitation,
 	getManagerInvitationDetails
@@ -17,6 +17,11 @@ interface InvitationDetails {
 }
 
 const ManagerInvitation = ({ token }: { token: string }) => {
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+	const { isLogin, isLoading: isUserLoading } = useAppSelector(
+		state => state.user
+	);
 	const [details, setDetails] = useState<InvitationDetails | null>(null);
 	const [error, setError] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +32,10 @@ const ManagerInvitation = ({ token }: { token: string }) => {
 
 		getManagerInvitationDetails(token)
 			.then(data => {
-				if (isCurrent) setDetails(data);
+				if (isCurrent) {
+					setDetails(data);
+					setError('');
+				}
 			})
 			.catch(() => {
 				if (isCurrent) {
@@ -41,16 +49,21 @@ const ManagerInvitation = ({ token }: { token: string }) => {
 		return () => {
 			isCurrent = false;
 		};
-	}, [token]);
+	}, [token, isLogin]);
+
+	const openLogin = () => dispatch(Modal.actions.openModal('login'));
 
 	const handleAccept = async () => {
+		if (!isLogin) {
+			openLogin();
+			return;
+		}
+
 		setIsAccepting(true);
 		setError('');
 		try {
 			await acceptManagerInvitation(token);
-			window.location.assign(
-				'https://raido-client.vercel.app/profile/managers'
-			);
+			navigate('/profile/organizations', { replace: true });
 		} catch {
 			setError('Не удалось принять приглашение. Попробуйте еще раз.');
 			setIsAccepting(false);
@@ -70,12 +83,24 @@ const ManagerInvitation = ({ token }: { token: string }) => {
 					<p className='manager-invitation__email'>
 						{details.organization_email}
 					</p>
-					<Button onClick={handleAccept} loading={isAccepting}>
-						Принять приглашение
+					<Button
+						onClick={handleAccept}
+						loading={isAccepting || isUserLoading}
+					>
+						{isLogin || isUserLoading
+							? 'Принять приглашение'
+							: 'Войти и принять приглашение'}
 					</Button>
 				</>
+			) : !isLogin && !isUserLoading ? (
+				<>
+					<p>Войдите в аккаунт, чтобы посмотреть приглашение.</p>
+					<Button onClick={openLogin}>Войти</Button>
+				</>
 			) : null}
-			{error && <p className='manager-invitation__error'>{error}</p>}
+			{error && (isLogin || details) && (
+				<p className='manager-invitation__error'>{error}</p>
+			)}
 		</main>
 	);
 };
