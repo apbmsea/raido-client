@@ -1,4 +1,6 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf, type PayloadAction } from '@reduxjs/toolkit';
+import { actions as catalogActions } from '../../../model/catalogSlice';
+import { actions as filtersActions } from '../../filters/model/filtersSlice';
 
 interface PaginationState {
 	isLoading: boolean;
@@ -23,5 +25,20 @@ export const { reducer, actions, name } = createSlice({
 			state.isLoading = false;
 			state.totalPages = action.payload
 		}
+	},
+	extraReducers: builder => {
+		builder.addMatcher(
+			isAnyOf(
+				catalogActions.navigateToСategory,
+				catalogActions.navigateToSubcategory,
+				catalogActions.setSort,
+				filtersActions.setPrice,
+				filtersActions.toggleProducer,
+				filtersActions.resetFilters
+			),
+			state => {
+				state.currentPage = 1;
+			}
+		);
 	}
 });

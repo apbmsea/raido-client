@@ -57,9 +57,9 @@ const CatalogWidget = () => {
 							className='catalog-widget__item'
 							onClick={() => {
 								dispatch(
-									Catalog.actions.setCategoryId(
-										Number(item.id)
-									)
+									Catalog.actions.navigateToСategory({
+										id: Number(item.id)
+									})
 								);
 								navigate(`/catalog`);
 							}}
@@ -85,9 +85,9 @@ const CatalogWidget = () => {
 							className='catalog-widget__item'
 							onClick={() => {
 								dispatch(
-									Catalog.actions.setCategoryId(
-										Number(item.id)
-									)
+									Catalog.actions.navigateToСategory({
+										id: Number(item.id)
+									})
 								);
 								navigate(`/catalog`);
 							}}

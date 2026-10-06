@@ -4,6 +4,12 @@
     flex-direction: column;
     gap: 40px;
 
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+
     &__content {
         display: flex;
         flex-direction: column;
@@ -29,6 +35,10 @@
 @media (max-width: 640px) {
     .edit-user {
         gap: 28px;
+
+        &__form {
+            gap: 28px;
+        }
 
         &__block {
             flex-direction: column;

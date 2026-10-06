@@ -1,18 +1,21 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { EditUserPayload, UserType } from './userTypes';
+import { readTwoFactorEnabled } from './twoFactorStorage';
 
 interface UserState {
 	user: null | UserType;
 	isLoading: boolean;
 	isLogin: boolean;
 	isFetch: boolean;
+	isTwoFactorEnabled: null | boolean;
 }
 
 const initialState: UserState = {
 	user: null,
 	isLoading: true,
 	isLogin: false,
-	isFetch: false
+	isFetch: false,
+	isTwoFactorEnabled: readTwoFactorEnabled()
 };
 
 export const { reducer, actions, name } = createSlice({
@@ -42,7 +45,19 @@ export const { reducer, actions, name } = createSlice({
 		},
 		clearUser: state => {
 			state.user = null;
-			state.isLogin = false
+			state.isLogin = false;
+			state.isTwoFactorEnabled = null;
+		},
+		setTwoFactorEnabled: (
+			state,
+			action: PayloadAction<null | boolean>
+		) => {
+			state.isTwoFactorEnabled = action.payload;
+		},
+		toggleTwoFactorEnabled: state => {
+			if (state.isTwoFactorEnabled !== null) {
+				state.isTwoFactorEnabled = !state.isTwoFactorEnabled;
+			}
 		}
 	}
 });

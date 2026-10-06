@@ -10,6 +10,7 @@ import type { UserType } from '@entities/user/model/userTypes';
 import { logoutUser } from '@entities/user/model/userApi';
 import { formatPhone, normalizePhone } from '@shared/utils/phone';
 import { isValidBirthDate, toDateInputValue } from '@shared/utils/birthDate';
+import { SecuritySettings } from '@features/security';
 
 interface FormFields {
 	surname: string;
@@ -123,63 +124,67 @@ const EditUserFields = ({
 	};
 
 	return (
-		<form className='edit-user' onSubmit={handleSubmit}>
-			<div className='edit-user__content'>
-				<h2>{user.email}</h2>
-				<div className='edit-user__block'>
-					<Input
-						label='Фамилия'
-						placeholder='Фамилия'
-						name='surname'
-						value={formData.surname}
-						onChange={handleChange}
-						disabled={isFetch}
-					/>
-					<Input
-						label='Имя'
-						placeholder='Имя'
-						name='name'
-						value={formData.name}
-						onChange={handleChange}
-						disabled={isFetch}
-					/>
+		<div className='edit-user'>
+			<form className='edit-user__form' onSubmit={handleSubmit}>
+				<div className='edit-user__content'>
+					<h2>{user.email}</h2>
+					<div className='edit-user__block'>
+						<Input
+							label='Фамилия'
+							placeholder='Фамилия'
+							name='surname'
+							value={formData.surname}
+							onChange={handleChange}
+							disabled={isFetch}
+						/>
+						<Input
+							label='Имя'
+							placeholder='Имя'
+							name='name'
+							value={formData.name}
+							onChange={handleChange}
+							disabled={isFetch}
+						/>
+					</div>
+					<div className='edit-user__block'>
+						<Input
+							label='Телефон'
+							placeholder='999 999-99-99'
+							startAdornment='+7'
+							name='phone'
+							type='tel'
+							inputMode='numeric'
+							value={formatPhone(formData.phone)}
+							onChange={handleChange}
+							disabled={isFetch}
+							error={phoneError}
+						/>
+						<Input
+							label='Дата рождения'
+							type='date'
+							name='date_of_birth'
+							value={formData.date_of_birth}
+							onChange={handleChange}
+							disabled={isFetch}
+							max={today}
+							error={dateError}
+						/>
+					</div>
 				</div>
-				<div className='edit-user__block'>
-					<Input
-						label='Телефон'
-						placeholder='999 999-99-99'
-						startAdornment='+7'
-						name='phone'
-						type='tel'
-						inputMode='numeric'
-						value={formatPhone(formData.phone)}
-						onChange={handleChange}
-						disabled={isFetch}
-						error={phoneError}
-					/>
-					<Input
-						label='Дата рождения'
-						type='date'
-						name='date_of_birth'
-						value={formData.date_of_birth}
-						onChange={handleChange}
-						disabled={isFetch}
-						max={today}
-						error={dateError}
-					/>
-				</div>
-			</div>
 
-			{isChanged && (
-				<Button
-					type='submit'
-					variant='primary'
-					className='edit-user__save-btn'
-					loading={isFetch}
-				>
-					Сохранить
-				</Button>
-			)}
+				{isChanged && (
+					<Button
+						type='submit'
+						variant='primary'
+						className='edit-user__save-btn'
+						loading={isFetch}
+					>
+						Сохранить
+					</Button>
+				)}
+			</form>
+
+			<SecuritySettings email={user.email} />
 
 			<div className='edit-user__buttons'>
 				<Button
@@ -191,6 +196,6 @@ const EditUserFields = ({
 					Выйти
 				</Button>
 			</div>
-		</form>
+		</div>
 	);
 };

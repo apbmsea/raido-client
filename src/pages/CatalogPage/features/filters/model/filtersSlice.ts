@@ -1,4 +1,5 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf, type PayloadAction } from '@reduxjs/toolkit';
+import { actions as catalogActions } from '../../../model/catalogSlice';
 
 interface FiltersState {
 	price: {
@@ -61,8 +62,22 @@ export const { reducer, actions, name } = createSlice({
 			}
 		},
 		resetFilters: state => {
-			state.price = { maxPrice: 10000000, minPrice: 0 };
+			state.price = initialState.price;
 			state.selectedProducers = [];
+			state.selectedSubcategories = [];
 		}
+	},
+	extraReducers: builder => {
+		builder.addMatcher(
+			isAnyOf(
+				catalogActions.navigateToСategory,
+				catalogActions.navigateToSubcategory
+			),
+			state => {
+				state.price = initialState.price;
+				state.selectedProducers = [];
+				state.selectedSubcategories = [];
+			}
+		);
 	}
 });

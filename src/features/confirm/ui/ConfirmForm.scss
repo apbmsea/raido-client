@@ -8,10 +8,23 @@
 	// position: relative;
 	width: 100%;
 
+	&--success {
+		max-width: 340px;
+
+		// Чтобы длинный заголовок не заходил под крестик модального окна
+		.confirm-form__title {
+			padding-right: 32px;
+		}
+	}
+
 	&__title {
 		margin: 0;
 		font-weight: 700;
 		font-size: fluid-tm(20, 16);
+	}
+
+	&__error {
+		color: var(--color-red);
 	}
 
 	&__link {

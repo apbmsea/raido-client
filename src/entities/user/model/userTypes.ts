@@ -14,6 +14,11 @@ export interface UserType {
 	post: string;
 }
 
+export interface ChangePasswordPayload {
+	email: string;
+	new_password: string;
+}
+
 export interface EditUserPayload {
 	payload: {
 		phone?: null | string;

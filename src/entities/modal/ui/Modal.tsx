@@ -5,7 +5,7 @@ import { Modal } from '..';
 import { RegisterForm } from '@features/register';
 import './Modal.scss';
 import CloseIcon from '@shared/icons/Close';
-import { ConfirmForm } from '@features/confirm';
+import { ConfirmForm, ConfirmSuccessWindow } from '@features/confirm';
 import { LoginForm } from '@features/login';
 import { AddManagerForm, AddManagerSuccessWindow } from '@features/addManager';
 import { DeleteManagerModal } from '@features/deleteManager';
@@ -36,6 +36,7 @@ const ModalComponent = () => {
 				{type === 'register' && <RegisterForm />}
 				{type === 'login' && <LoginForm />}
 				{type === 'confirm' && <ConfirmForm />}
+				{type === 'confirmSuccess' && <ConfirmSuccessWindow />}
 				{type === 'addManager' && <AddManagerForm />}
 				{type === 'addManagerSuccess' && <AddManagerSuccessWindow />}
 

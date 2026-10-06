@@ -1,7 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { ConfirmPayload } from '@entities/confirm';
-
-type ConfirmType = 'register' | 'login' | '2fa/switch';
+import type { ConfirmPayload, ConfirmType } from '@entities/confirm';
 
 interface ConfirmState {
 	isLoading: boolean;

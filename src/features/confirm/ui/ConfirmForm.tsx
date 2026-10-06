@@ -12,6 +12,11 @@ const ConfirmForm = () => {
 	);
 	const [code, setCode] = useState('');
 	const inputRef = useRef<HTMLInputElement>(null);
+	const errorMessage = errors.code?.message || errors._form?.message;
+
+	useEffect(() => {
+		dispatch(Confirm.actions.clearAllErrors());
+	}, [dispatch]);
 
 	const handleSumbit = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -71,16 +76,30 @@ const ConfirmForm = () => {
 					})}
 				</div>
 			</div>
-			{errors && <span style={{color: 'red'}}>{errors.code?.message}</span>}
+			{errorMessage && (
+				<span className='confirm-form__error'>{errorMessage}</span>
+			)}
 			<Button type='submit' loading={isLoading}>
 				Подтвердить
 			</Button>
-			<span
-				onClick={() => dispatch(Modal.actions.openModal('register'))}
-				className='confirm-form__link'
-			>
-				Изменить почту
-			</span>
+			{type === 'register' && (
+				<span
+					onClick={() =>
+						dispatch(Modal.actions.openModal('register'))
+					}
+					className='confirm-form__link'
+				>
+					Изменить почту
+				</span>
+			)}
+			{type === 'login' && (
+				<span
+					onClick={() => dispatch(Modal.actions.openModal('login'))}
+					className='confirm-form__link'
+				>
+					Вернуться ко входу
+				</span>
+			)}
 		</form>
 	);
 };

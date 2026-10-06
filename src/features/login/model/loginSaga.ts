@@ -10,10 +10,17 @@ import { User } from '@entities/user';
 function* loginSaga(action: PayloadAction<LoginPayload>) {
 	try {
 		const response = yield* call(login, action.payload);
-		localStorage.setItem('token', response.token)
 		yield* put(Confirm.actions.setEmail(action.payload.email));
 		yield* put(Confirm.actions.setType('login'));
 		yield* put(Login.actions.loginSuccess());
+
+		if (response.isConfirmRequired) {
+			yield* put(Modal.actions.openModal('confirm'));
+			return;
+		}
+
+		localStorage.setItem('token', response.token)
+		yield* put(User.actions.setTwoFactorEnabled(false));
 		yield* put(Modal.actions.closeModal());
 		yield* put(User.actions.getUserRequest())
 	} catch (error) {

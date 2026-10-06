@@ -54,7 +54,6 @@ export const { reducer, actions, name } = createSlice({
 		setView: (state, action: PayloadAction<'grid' | 'list'>) => {
 			state.view = action.payload;
 		},
-		resetFilters: () => initialState,
 		navigateToСategory: (state, action: PayloadAction<{ id: number }>) => {
 			state.subcategoryId = null;
 			state.categoryId = action.payload.id;

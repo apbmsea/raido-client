@@ -1,4 +1,6 @@
-import { call, put, takeLatest } from 'typed-redux-saga';
+import { call, put, select, takeEvery, takeLatest } from 'typed-redux-saga';
+import type { RootState } from '@shared/types/store.types';
+import { saveTwoFactorEnabled } from './twoFactorStorage';
 import { User } from '..';
 import { editUser, getUser } from './userApi';
 import type { PayloadAction } from '@reduxjs/toolkit';
@@ -22,7 +24,22 @@ function* editUserSaga(action: PayloadAction<EditUserPayload>) {
 	}
 }
 
+function* persistTwoFactorSaga() {
+	const isTwoFactorEnabled = yield* select(
+		(state: RootState) => state.user.isTwoFactorEnabled
+	);
+	saveTwoFactorEnabled(isTwoFactorEnabled);
+}
+
 export default function* watchUser() {
+	yield* takeEvery(
+		[
+			User.actions.setTwoFactorEnabled.type,
+			User.actions.toggleTwoFactorEnabled.type,
+			User.actions.clearUser.type
+		],
+		persistTwoFactorSaga
+	);
 	yield* takeLatest(User.actions.getUserRequest, getUserSaga);
 	yield* takeLatest(User.actions.editUserRequest, editUserSaga);
 	yield* takeLatest(User.actions.editUserSuccess, getUserSaga);

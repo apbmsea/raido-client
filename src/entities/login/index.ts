@@ -1,2 +1,2 @@
-export { type LoginPayload } from './model/login.type';
+export { type LoginPayload, type LoginResponse } from './model/login.type';
 export { login } from './model/login.api';

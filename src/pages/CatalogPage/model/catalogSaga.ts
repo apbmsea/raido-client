@@ -5,6 +5,8 @@ import { Pagination } from '../features/pagination';
 import type { RootState } from '@shared/types/store.types';
 import { Filters } from '../features/filters';
 
+const isCatalogPage = () => /^\/catalog\/?$/.test(window.location.pathname);
+
 function* catalogSaga() {
 	try {
 		const { categoryId, subcategoryId, sort } = yield* select(
@@ -55,7 +57,13 @@ function* catalogSaga() {
 
 		const queryString = params.toString();
 
-		window.history.replaceState(null, '', `?${queryString}`);
+		if (isCatalogPage()) {
+			window.history.replaceState(
+				window.history.state,
+				'',
+				`?${queryString}`
+			);
+		}
 
 		const response = yield* call(getProducts, queryString);
 
@@ -74,6 +82,8 @@ function* catalogSaga() {
 }
 
 function* initCatalogFromQuery() {
+	if (!isCatalogPage()) return;
+
 	const params = new URLSearchParams(window.location.search);
 
 	const categoryId = params.get('category_id');
@@ -96,10 +106,6 @@ function* initCatalogFromQuery() {
 		yield* put(Catalog.actions.setSubcategoryId(Number(subcategoryId)));
 	}
 
-	if (page) {
-		yield* put(Pagination.actions.setCurrentPage(Number(page)));
-	}
-
 	if (minPrice || maxPrice) {
 		yield* put(
 			Filters.actions.setPrice({
@@ -113,31 +119,29 @@ function* initCatalogFromQuery() {
 		yield* put(Filters.actions.setSelectedProducers(producers));
 	}
 
-	yield* put(Catalog.actions.catalogRequest());
-}
-
-function* resetSaga() {
-	try {
-		yield* put(Pagination.actions.setCurrentPage(1));
-		yield* put(Pagination.actions.setTotalPages(1));
-		yield* put(Filters.actions.resetFilters());
-	} catch (error) {
-		yield* put(Catalog.actions.catalogFailure());
+	// страница последней: смена сортировки и фильтров сбрасывает её на первую
+	if (page) {
+		yield* put(Pagination.actions.setCurrentPage(Number(page)));
 	}
+
+	yield* put(Catalog.actions.catalogRequest());
 }
 
 export default function* watchCatalog() {
 	yield* call(initCatalogFromQuery);
 
-	yield* takeLatest(Catalog.actions.catalogRequest.type, catalogSaga);
-	yield* takeLatest(Catalog.actions.setSubcategoryId.type, catalogSaga);
-	yield* takeLatest(Catalog.actions.navigateToСategory.type, catalogSaga);
-	yield* takeLatest(Catalog.actions.navigateToSubcategory.type, catalogSaga);
-	yield* takeLatest(Pagination.actions.setCurrentPage.type, catalogSaga);
-	yield* takeLatest(Catalog.actions.setSort.type, catalogSaga);
-	yield* takeLatest(Filters.actions.setPrice.type, catalogSaga);
-	yield* takeLatest(Filters.actions.toggleProducer.type, catalogSaga);
-	yield* takeLatest(Filters.actions.resetFilters.type, catalogSaga);
-
-	yield* takeLatest(Catalog.actions.resetFilters.type, resetSaga);
+	yield* takeLatest(
+		[
+			Catalog.actions.catalogRequest.type,
+			Catalog.actions.setSubcategoryId.type,
+			Catalog.actions.navigateToСategory.type,
+			Catalog.actions.navigateToSubcategory.type,
+			Pagination.actions.setCurrentPage.type,
+			Catalog.actions.setSort.type,
+			Filters.actions.setPrice.type,
+			Filters.actions.toggleProducer.type,
+			Filters.actions.resetFilters.type
+		],
+		catalogSaga
+	);
 }

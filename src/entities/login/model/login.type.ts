@@ -4,3 +4,6 @@ export interface LoginPayload {
 	is_corporate: boolean;
 }
 
+export type LoginResponse =
+	| { isConfirmRequired: true }
+	| { isConfirmRequired: false; token: string };
