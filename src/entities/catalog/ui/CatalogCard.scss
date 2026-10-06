@@ -55,15 +55,12 @@
 	}
 
 	&__content--list {
+		flex: 1;
+		min-width: 0;
 		flex-direction: row;
-
-		@include tablet-above {
-			width: 100%;
-		}
 
 		@include tablet {
 			flex-direction: column;
-			justify-content: start;
 			gap: 20px;
 		}
 	}
@@ -76,12 +73,13 @@
 			.catalog-card {
 				&__buttons {
 					gap: 10px;
-					justify-content: start;
+					justify-content: space-between;
+					align-items: center;
 					flex-direction: row-reverse;
 				}
 
 				&__info {
-					height: 100%;
+					flex: 1;
 				}
 			}
 		}
