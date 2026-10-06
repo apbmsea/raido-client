@@ -7,6 +7,7 @@ import { User } from '@entities/user';
 import { UnauthWidget } from '@widgets/UnauthWidget';
 import { Loader } from '@shared/ui/Loader';
 import type { UserType } from '@entities/user/model/userTypes';
+import { logoutUser } from '@entities/user/model/userApi';
 
 interface FormFields {
 	surname: string;
@@ -73,6 +74,7 @@ const EditUserFields = ({
 	isFetch: boolean;
 }) => {
 	const dispatch = useAppDispatch();
+	const [isLoggingOut, setIsLoggingOut] = useState(false);
 	const [formData, setFormData] = useState<FormFields>(() => ({
 		surname: user.surname || '',
 		name: user.name || '',
@@ -138,6 +140,18 @@ const EditUserFields = ({
 		);
 	};
 
+	const handleLogout = async () => {
+		setIsLoggingOut(true);
+		try {
+			await logoutUser();
+		} catch (error) {
+			console.error('Не удалось завершить сессию на сервере', error);
+		} finally {
+			localStorage.removeItem('token');
+			dispatch(User.actions.clearUser());
+		}
+	};
+
 	return (
 		<form className='edit-user' onSubmit={handleSubmit}>
 			<div className='edit-user__content'>
@@ -199,17 +213,12 @@ const EditUserFields = ({
 
 			<div className='edit-user__buttons'>
 				<Button
-					onClick={() => {
-						localStorage.removeItem('token');
-						dispatch(User.actions.clearUser());
-					}}
+					onClick={handleLogout}
 					type='button'
 					variant='outline'
+					loading={isLoggingOut}
 				>
 					Выйти
-				</Button>
-				<Button type='button' variant='outline'>
-					Удалить профиль
 				</Button>
 			</div>
 		</form>

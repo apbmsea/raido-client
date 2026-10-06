@@ -6,6 +6,11 @@ export async function getUser() {
 	return response.data;
 }
 
+export async function logoutUser() {
+	const response = await $api.post(`/users/logout`);
+	return response.data;
+}
+
 export async function editUser(data: EditUserPayload) {
 	const response = await $api.patch(`/users`, data.payload);
 	return response.data;
