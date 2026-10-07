@@ -71,7 +71,8 @@ export const { reducer, actions, name } = createSlice({
 		builder.addMatcher(
 			isAnyOf(
 				catalogActions.navigateToСategory,
-				catalogActions.navigateToSubcategory
+				catalogActions.navigateToSubcategory,
+				catalogActions.navigateToSearch
 			),
 			state => {
 				state.price = initialState.price;

@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import {
 	Search,
 	SearchComponent,
+	useSearchProducts,
 	useSelectSuggestion
 } from '@features/search';
 import { type KeyboardEvent, useEffect, useState } from 'react';
@@ -28,8 +29,9 @@ const Header = () => {
 	const { items: suggestions, isLoading: isSearchLoading } = useAppSelector(
 		state => state.search
 	);
-	const [activeIndex, setActiveIndex] = useState(0);
+	const [activeIndex, setActiveIndex] = useState(-1);
 	const selectSuggestion = useSelectSuggestion();
+	const searchProducts = useSearchProducts();
 	const favoriteTotal = useAppSelector(state => state.favorite.total);
 	const cartTotal = useAppSelector(state => state.cart.total);
 	const orderTotal = useAppSelector(state => state.order.total);
@@ -45,12 +47,25 @@ const Header = () => {
 	}, [searchValue, dispatch]);
 
 	useEffect(() => {
-		setActiveIndex(0);
+		setActiveIndex(-1);
 	}, [suggestions]);
 
 	const handleSearchKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
 		if (e.key === 'Escape') {
 			dispatch(Search.actions.searchRequest(''));
+			return;
+		}
+
+		if (e.key === 'Enter') {
+			e.preventDefault();
+
+			const suggestion = suggestions[activeIndex];
+
+			if (suggestion && !isSearchLoading) {
+				selectSuggestion(suggestion);
+			} else {
+				searchProducts(searchValue);
+			}
 			return;
 		}
 
@@ -61,13 +76,9 @@ const Header = () => {
 			setActiveIndex(index => (index + 1) % suggestions.length);
 		} else if (e.key === 'ArrowUp') {
 			e.preventDefault();
-			setActiveIndex(
-				index =>
-					(index - 1 + suggestions.length) % suggestions.length
+			setActiveIndex(index =>
+				index <= 0 ? suggestions.length - 1 : index - 1
 			);
-		} else if (e.key === 'Enter' && !isSearchLoading) {
-			e.preventDefault();
-			selectSuggestion(suggestions[activeIndex] ?? suggestions[0]);
 		}
 	};
 
@@ -113,11 +124,7 @@ const Header = () => {
 							variant='primary'
 							size={32}
 							icon={<SearchIcon size={19} />}
-							onClick={() =>
-								dispatch(
-									Search.actions.searchRequest(searchValue)
-								)
-							}
+							onClick={() => searchProducts(searchValue)}
 						/>
 					}
 				/>

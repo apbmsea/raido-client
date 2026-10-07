@@ -20,7 +20,7 @@ const SearchComponent = ({
 	}
 
 	return (
-		<div className='search'>
+		<div className='search' onMouseLeave={() => onActiveChange(-1)}>
 			{items.length > 0 ? (
 				items.map((suggestion, index) => (
 					<div

@@ -8,6 +8,7 @@ interface CatalogState {
 	items: Product[];
 	categoryId: number | null;
 	subcategoryId: number | null;
+	search: string;
 	title: string;
 	sort: SortType;
 	view: 'grid' | 'list';
@@ -18,6 +19,7 @@ const initialState: CatalogState = {
 	items: [],
 	categoryId: null,
 	subcategoryId: null,
+	search: '',
 	title: 'Товары',
 	sort: 'name_asc',
 	view: 'grid'
@@ -45,6 +47,9 @@ export const { reducer, actions, name } = createSlice({
 			state.subcategoryId = action.payload;
 			state.categoryId = null;
 		},
+		setSearch: (state, action: PayloadAction<string>) => {
+			state.search = action.payload;
+		},
 		setTitle: (state, action: PayloadAction<string>) => {
 			state.title = action.payload;
 		},
@@ -57,6 +62,7 @@ export const { reducer, actions, name } = createSlice({
 		navigateToСategory: (state, action: PayloadAction<{ id: number }>) => {
 			state.subcategoryId = null;
 			state.categoryId = action.payload.id;
+			state.search = '';
 			state.sort = initialState.sort;
 		},
 		navigateToSubcategory: (
@@ -65,6 +71,13 @@ export const { reducer, actions, name } = createSlice({
 		) => {
 			state.subcategoryId = action.payload.id;
 			state.categoryId = null;
+			state.search = '';
+			state.sort = initialState.sort;
+		},
+		navigateToSearch: (state, action: PayloadAction<string>) => {
+			state.search = action.payload;
+			state.categoryId = null;
+			state.subcategoryId = null;
 			state.sort = initialState.sort;
 		}
 	}

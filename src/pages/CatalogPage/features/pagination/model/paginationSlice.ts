@@ -31,6 +31,7 @@ export const { reducer, actions, name } = createSlice({
 			isAnyOf(
 				catalogActions.navigateToСategory,
 				catalogActions.navigateToSubcategory,
+				catalogActions.navigateToSearch,
 				catalogActions.setSort,
 				filtersActions.setPrice,
 				filtersActions.toggleProducer,

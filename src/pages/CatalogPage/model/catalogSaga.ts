@@ -9,7 +9,7 @@ const isCatalogPage = () => /^\/catalog\/?$/.test(window.location.pathname);
 
 function* catalogSaga() {
 	try {
-		const { categoryId, subcategoryId, sort } = yield* select(
+		const { categoryId, subcategoryId, search, sort } = yield* select(
 			(state: RootState) => state.catalog
 		);
 
@@ -33,6 +33,10 @@ function* catalogSaga() {
 
 		if (subcategoryId) {
 			params.set('subcategory_id', String(subcategoryId));
+		}
+
+		if (search) {
+			params.set('search', search);
 		}
 
 		if (sort) {
@@ -71,7 +75,9 @@ function* catalogSaga() {
 
 		yield* put(
 			Catalog.actions.setTitle(
-				response.subcategory_name || response.category_name || 'Товары'
+				response.subcategory_name ||
+					response.category_name ||
+					(search ? `Результаты поиска «${search}»` : 'Товары')
 			)
 		);
 		yield* put(Filters.actions.setProducers(response.producer_names));
@@ -88,6 +94,7 @@ function* initCatalogFromQuery() {
 
 	const categoryId = params.get('category_id');
 	const subcategoryId = params.get('subcategory_id');
+	const search = params.get('search');
 	const page = params.get('page');
 	const sort = params.get('sort_by');
 	const minPrice = params.get('min_price');
@@ -104,6 +111,10 @@ function* initCatalogFromQuery() {
 
 	if (subcategoryId) {
 		yield* put(Catalog.actions.setSubcategoryId(Number(subcategoryId)));
+	}
+
+	if (search) {
+		yield* put(Catalog.actions.setSearch(search));
 	}
 
 	if (minPrice || maxPrice) {
@@ -136,6 +147,7 @@ export default function* watchCatalog() {
 			Catalog.actions.setSubcategoryId.type,
 			Catalog.actions.navigateToСategory.type,
 			Catalog.actions.navigateToSubcategory.type,
+			Catalog.actions.navigateToSearch.type,
 			Pagination.actions.setCurrentPage.type,
 			Catalog.actions.setSort.type,
 			Filters.actions.setPrice.type,
