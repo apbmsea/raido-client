@@ -23,7 +23,9 @@ const ProductFeatures = ({ properties }: { properties: ProductProperty[] }) => {
 			<dl className='product-features__list'>
 				{properties.map(property => (
 					<div key={property.name} className='product-features__row'>
-						<dt className='product-features__name'>{property.name}</dt>
+						<dt className='product-features__name'>
+							{property.name}
+						</dt>
 						<dd className='product-features__value'>
 							{property.value}
 							{property.unit && property.unit !== NO_UNIT

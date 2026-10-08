@@ -6,9 +6,12 @@ import { Loader } from '@shared/ui/Loader';
 import { CartList } from '@widgets/CartList';
 import { CartWidget } from '@widgets/CartWidget';
 import { OffersWidget } from '@widgets/OffersWidget';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './CartPage.scss';
 
 const CartPage = () => {
+	usePageTitle('Корзина');
+
 	const dispatch = useAppDispatch();
 	const { isLogin, isLoading } = useAppSelector(state => state.user);
 

@@ -1,9 +1,12 @@
 import { LogoutButton, SecuritySettings } from '@features/auth';
 import { EditUserForm } from '@features/editUser';
 import { useAppSelector } from '@shared/hooks/store.hooks';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './ProfileSettingsPage.scss';
 
 const ProfileSettingsPage = () => {
+	usePageTitle('Настройки профиля');
+
 	const user = useAppSelector(state => state.user.user);
 
 	// Раздел открывается только внутри ProfilePage, который уже проверил вход

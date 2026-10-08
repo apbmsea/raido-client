@@ -10,9 +10,12 @@ import {
 	BUSINESS_FAQ,
 	BUSINESS_STEPS
 } from '../model/businessConditions';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './BusinessConditionsPage.scss';
 
 const BusinessConditionsPage = () => {
+	usePageTitle('Условия для бизнеса');
+
 	const dispatch = useAppDispatch();
 	const isLogin = useAppSelector(state => state.user.isLogin);
 

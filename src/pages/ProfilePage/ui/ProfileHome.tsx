@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '@shared/hooks/store.hooks';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './ProfileHome.scss';
 
 const ProfileHome = () => {
+	usePageTitle('Профиль');
+
 	const user = useAppSelector(state => state.user.user);
 	const name = [user?.name, user?.surname].filter(Boolean).join(' ');
 	const welcomeName = name || user?.email || 'пользователь';
@@ -14,8 +17,8 @@ const ProfileHome = () => {
 				Добро пожаловать, {welcomeName}!
 			</h1>
 			<p className='profile-home__description'>
-				Здесь собраны ваши заказы и настройки аккаунта. Выберите подходящий
-				раздел в меню.
+				Здесь собраны ваши заказы и настройки аккаунта. Выберите
+				подходящий раздел в меню.
 			</p>
 			<ul className='profile-home__sections'>
 				<li>

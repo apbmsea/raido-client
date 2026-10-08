@@ -21,6 +21,7 @@ import { Tabs, type TabItem } from '@shared/ui/Tabs';
 import { formatPrice } from '@shared/utils/formatPrice';
 import { QuestionsWidget } from '@widgets/QuestionsWidget';
 import { ReviewsWidget } from '@widgets/ReviewsWidget';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import ImageGallery from './ImageGallery';
 import ProductFeatures from './ProductFeatures';
 import './ProductPage.scss';
@@ -201,6 +202,7 @@ const ProductPage = () => {
 
 	// В сторе может лежать товар с предыдущей страницы, пока не пришёл новый
 	const product = item && String(item.id) === id ? item : null;
+	usePageTitle(product?.name);
 
 	if (isError && !product) {
 		return (
@@ -244,7 +246,9 @@ const ProductPage = () => {
 		breadcrumbs.push({
 			label: category.name,
 			onClick: () => {
-				dispatch(Catalog.actions.navigateToCategory({ id: category.id }));
+				dispatch(
+					Catalog.actions.navigateToCategory({ id: category.id })
+				);
 				openCatalogPage();
 			}
 		});
@@ -255,7 +259,9 @@ const ProductPage = () => {
 			label: subcategory.name,
 			onClick: () => {
 				dispatch(
-					Catalog.actions.navigateToSubcategory({ id: subcategory.id })
+					Catalog.actions.navigateToSubcategory({
+						id: subcategory.id
+					})
 				);
 				openCatalogPage();
 			}

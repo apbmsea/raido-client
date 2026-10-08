@@ -3,9 +3,12 @@ import {
 	LATE_CLAIM_CASES,
 	WARRANTY_RIGHTS
 } from '../model/warranty';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './WarrantyPage.scss';
 
 const WarrantyPage = () => {
+	usePageTitle('Гарантия');
+
 	return (
 		<main className='warranty-page'>
 			<section className='warranty-page__hero'>
@@ -26,11 +29,15 @@ const WarrantyPage = () => {
 				<ol className='warranty-page__rights'>
 					{WARRANTY_RIGHTS.map((right, index) => (
 						<li className='warranty-page__right' key={right.title}>
-							<span className='warranty-page__number'>{index + 1}</span>
+							<span className='warranty-page__number'>
+								{index + 1}
+							</span>
 							<h3 className='warranty-page__card-title'>
 								{right.title}
 							</h3>
-							<p className='warranty-page__card-text'>{right.text}</p>
+							<p className='warranty-page__card-text'>
+								{right.text}
+							</p>
 						</li>
 					))}
 				</ol>
@@ -53,7 +60,10 @@ const WarrantyPage = () => {
 
 					<ul className='warranty-page__options'>
 						{COMPLEX_GOODS_RIGHTS.map(right => (
-							<li className='warranty-page__option' key={right.title}>
+							<li
+								className='warranty-page__option'
+								key={right.title}
+							>
 								<h3 className='warranty-page__card-title'>
 									{right.title}
 								</h3>
@@ -72,16 +82,21 @@ const WarrantyPage = () => {
 						Если 15 дней уже прошло
 					</h2>
 					<p className='warranty-page__description'>
-						Требования о возврате денег или замене технически сложного
-						товара подлежат удовлетворению в одном из следующих случаев.
+						Требования о возврате денег или замене технически
+						сложного товара подлежат удовлетворению в одном из
+						следующих случаев.
 					</p>
 				</div>
 
 				<ul className='warranty-page__cases'>
 					{LATE_CLAIM_CASES.map(item => (
 						<li className='warranty-page__case' key={item.title}>
-							<h3 className='warranty-page__card-title'>{item.title}</h3>
-							<p className='warranty-page__card-text'>{item.text}</p>
+							<h3 className='warranty-page__card-title'>
+								{item.title}
+							</h3>
+							<p className='warranty-page__card-text'>
+								{item.text}
+							</p>
 						</li>
 					))}
 				</ul>
@@ -96,10 +111,11 @@ const WarrantyPage = () => {
 						Уценённые и бывшие в употреблении товары
 					</h2>
 					<p className='warranty-page__card-text'>
-						Если вы приобрели уценённый или бывший в употреблении товар
-						ненадлежащего качества и были заранее в письменной форме
-						предупреждены о недостатках, из-за которых произошла уценка,
-						претензии по таким недостаткам не принимаются.
+						Если вы приобрели уценённый или бывший в употреблении
+						товар ненадлежащего качества и были заранее в письменной
+						форме предупреждены о недостатках, из-за которых
+						произошла уценка, претензии по таким недостаткам не
+						принимаются.
 					</p>
 				</div>
 			</aside>

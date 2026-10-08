@@ -38,7 +38,8 @@ const ImageLightbox = ({
 	useLockScroll(true);
 
 	// Листаем по кругу: после последнего фото идёт первое
-	const showPrev = () => onChange((index - 1 + images.length) % images.length);
+	const showPrev = () =>
+		onChange((index - 1 + images.length) % images.length);
 	const showNext = () => onChange((index + 1) % images.length);
 
 	useEffect(() => {
@@ -97,7 +98,10 @@ const ImageLightbox = ({
 		>
 			<div className='image-lightbox__top'>
 				{hasMany && (
-					<span className='image-lightbox__counter' aria-live='polite'>
+					<span
+						className='image-lightbox__counter'
+						aria-live='polite'
+					>
 						{index + 1} / {images.length}
 					</span>
 				)}
@@ -149,15 +153,23 @@ const ImageLightbox = ({
 			</div>
 
 			{hasMany && (
-				<div className='image-lightbox__thumbs' onClick={stopPropagation}>
+				<div
+					className='image-lightbox__thumbs'
+					onClick={stopPropagation}
+				>
 					{images.map((thumb, thumbIndex) => (
 						<button
 							type='button'
 							key={thumbIndex}
-							ref={thumbIndex === index ? activeThumbRef : undefined}
+							ref={
+								thumbIndex === index
+									? activeThumbRef
+									: undefined
+							}
 							className={clsx(
 								'image-lightbox__thumb',
-								thumbIndex === index && 'image-lightbox__thumb--active'
+								thumbIndex === index &&
+									'image-lightbox__thumb--active'
 							)}
 							onClick={() => onChange(thumbIndex)}
 							aria-label={`Фото ${thumbIndex + 1}`}

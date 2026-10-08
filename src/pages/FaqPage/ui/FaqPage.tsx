@@ -1,10 +1,13 @@
 import { CONTACTS } from '@shared/constants/contacts';
 import { FaqBlock } from '@shared/ui/FaqBlock';
 import { Reveal } from '@shared/ui/Reveal';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import { FAQ_ITEMS } from '../model/faq';
 import './FaqPage.scss';
 
 const FaqPage = () => {
+	usePageTitle('Ответы на вопросы');
+
 	return (
 		<main className='faq-page'>
 			<header className='faq-page__header'>

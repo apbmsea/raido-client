@@ -4,6 +4,7 @@ import { getOrderById, type OrderDetails } from '@entities/order';
 import { Loader } from '@shared/ui/Loader';
 import { formatDate } from '@shared/utils/formatDate';
 import { formatPrice } from '@shared/utils/formatPrice';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './OrderDetailPage.scss';
 
 type LoadResult = {
@@ -14,6 +15,8 @@ type LoadResult = {
 
 const OrderDetailPage = () => {
 	const { orderId = '' } = useParams();
+	usePageTitle(`Заказ №${orderId}`);
+
 	const [result, setResult] = useState<LoadResult | null>(null);
 
 	useEffect(() => {
@@ -96,11 +99,16 @@ const OrderDetailPage = () => {
 						</h2>
 						<div className='order-detail__items'>
 							{order.items.map(item => (
-								<article className='order-detail__item' key={item.id}>
+								<article
+									className='order-detail__item'
+									key={item.id}
+								>
 									{item.product_image?.image_250x250 ? (
 										<img
 											className='order-detail__image'
-											src={item.product_image.image_250x250}
+											src={
+												item.product_image.image_250x250
+											}
 											alt=''
 											loading='lazy'
 										/>
@@ -111,7 +119,9 @@ const OrderDetailPage = () => {
 									)}
 									<div className='order-detail__item-description'>
 										<h3>
-											<Link to={`/product/${item.product_id}`}>
+											<Link
+												to={`/product/${item.product_id}`}
+											>
 												{item.product_name}
 											</Link>
 										</h3>
@@ -126,7 +136,11 @@ const OrderDetailPage = () => {
 										</strong>
 										{Number(item.final_subtotal) !==
 											Number(item.retail_subtotal) && (
-											<del>{formatPrice(item.retail_subtotal)}</del>
+											<del>
+												{formatPrice(
+													item.retail_subtotal
+												)}
+											</del>
 										)}
 									</div>
 								</article>
@@ -142,7 +156,9 @@ const OrderDetailPage = () => {
 							<p>{order.shipping_address || 'Адрес не указан'}</p>
 						)}
 						{order.comment && (
-							<p className='order-detail__comment'>{order.comment}</p>
+							<p className='order-detail__comment'>
+								{order.comment}
+							</p>
 						)}
 					</section>
 
@@ -154,8 +170,12 @@ const OrderDetailPage = () => {
 							<p>{order.organization_name}</p>
 							{order.created_by_manager && (
 								<div className='order-detail__manager'>
-									<strong>{managerName || order.manager_email}</strong>
-									{managerName && <span>{order.manager_email}</span>}
+									<strong>
+										{managerName || order.manager_email}
+									</strong>
+									{managerName && (
+										<span>{order.manager_email}</span>
+									)}
 								</div>
 							)}
 						</section>
@@ -163,7 +183,9 @@ const OrderDetailPage = () => {
 				</div>
 
 				<aside className='order-detail__summary'>
-					<h2 className='order-detail__section-title'>Сумма заказа</h2>
+					<h2 className='order-detail__section-title'>
+						Сумма заказа
+					</h2>
 					<div className='order-detail__sum-row'>
 						<span>Розничная стоимость</span>
 						<span>{formatPrice(order.retail_subtotal)}</span>

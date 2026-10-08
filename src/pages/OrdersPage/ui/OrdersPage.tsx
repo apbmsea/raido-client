@@ -1,9 +1,12 @@
 import { useEffect } from 'react';
 import { Order, OrderList } from '@entities/order';
 import { useAppDispatch } from '@shared/hooks/store.hooks';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './OrdersPage.scss';
 
 const OrdersPage = () => {
+	usePageTitle('Мои заказы');
+
 	const dispatch = useAppDispatch();
 
 	// Статусы заказов меняются на сервере — обновляем список при каждом открытии

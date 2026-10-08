@@ -13,6 +13,7 @@ import ArrowLeftIcon from '@shared/icons/ArrowLeft';
 import { IconButton } from '@shared/ui/IconButton';
 import { Loader } from '@shared/ui/Loader';
 import { ProfileNavbar } from '@widgets/ProfileNavbar';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './ProfilePage.scss';
 
 /** Каркас личного кабинета: проверка входа, меню разделов и вложенная страница */
@@ -25,6 +26,11 @@ const ProfilePage = () => {
 	const isProfileRoot = /^\/profile\/?$/.test(pathname);
 	// Приглашение менеджера открывается по ссылке из письма и доступно без входа
 	const isManagerInvitation = searchParams.has('invitation_token');
+	// Заголовок вкладки задаёт вложенная страница. Пока её нет на экране
+	// (идёт проверка входа или гость не вошёл), ставим его сами
+	usePageTitle(
+		isManagerInvitation || (!isLoading && isLogin) ? null : 'Профиль'
+	);
 
 	useEffect(() => {
 		if (!isLoading && !isLogin && !isManagerInvitation) {

@@ -7,11 +7,14 @@ import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Breadcrumbs } from '@shared/ui/Breadcrumbs';
 import { plural } from '@shared/utils/plural';
 import { CatalogList } from '@widgets/CatalogList';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './CatalogPage.scss';
 
 const CatalogPage = () => {
 	const dispatch = useAppDispatch();
 	const { title, total, isLoading } = useAppSelector(state => state.catalog);
+	usePageTitle(title);
+
 	const currentPage = useAppSelector(state => state.pagination.currentPage);
 	const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
@@ -27,7 +30,10 @@ const CatalogPage = () => {
 		if (shownPageRef.current === currentPage) return;
 
 		shownPageRef.current = currentPage;
-		headerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		headerRef.current?.scrollIntoView({
+			behavior: 'smooth',
+			block: 'start'
+		});
 	}, [currentPage]);
 
 	return (
@@ -40,7 +46,8 @@ const CatalogPage = () => {
 					<h1 className='catalog-page__title'>{title}</h1>
 					{!isLoading && total > 0 && (
 						<span className='catalog-page__total'>
-							{total} {plural(total, ['товар', 'товара', 'товаров'])}
+							{total}{' '}
+							{plural(total, ['товар', 'товара', 'товаров'])}
 						</span>
 					)}
 				</div>

@@ -3,12 +3,15 @@ import { Manager, ManagerList, type ManagerType } from '@entities/manager';
 import { Modal } from '@entities/modal';
 import { useAppDispatch } from '@shared/hooks/store.hooks';
 import { Button } from '@shared/ui/Button';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import ManagerInvitation from './ManagerInvitation';
 import './ManagersPage.scss';
 
 const ManagersPage = () => {
 	const [searchParams] = useSearchParams();
 	const invitationToken = searchParams.get('invitation_token');
+	usePageTitle(invitationToken ? 'Приглашение менеджера' : 'Менеджеры');
+
 	const dispatch = useAppDispatch();
 
 	if (invitationToken) {
@@ -24,7 +27,9 @@ const ManagersPage = () => {
 		<section className='managers-page'>
 			<h1 className='managers-page__title'>Менеджеры</h1>
 			<ManagerList onDelete={handleDelete} />
-			<Button onClick={() => dispatch(Modal.actions.openModal('addManager'))}>
+			<Button
+				onClick={() => dispatch(Modal.actions.openModal('addManager'))}
+			>
 				Добавить менеджера
 			</Button>
 			<div className='managers-page__information'>
@@ -32,17 +37,17 @@ const ManagersPage = () => {
 					Кто такие менеджеры?
 				</h2>
 				<p>
-					Менеджеры — это люди, которые могут оформлять заказы от имени
-					вашей компании и обрабатывать их. Это удобно для ограничения
-					доступа к основному аккаунту или распределения заказов между
-					менеджерами. В любой момент менеджера можно отвязать от
-					корпоративного аккаунта.
+					Менеджеры — это люди, которые могут оформлять заказы от
+					имени вашей компании и обрабатывать их. Это удобно для
+					ограничения доступа к основному аккаунту или распределения
+					заказов между менеджерами. В любой момент менеджера можно
+					отвязать от корпоративного аккаунта.
 				</p>
 				<p>
 					Чтобы добавить менеджера, нажмите «Добавить менеджера» и
-					укажите его email. Если аккаунт с таким email существует, ему
-					будет присвоен статус менеджера. Если нет, будет создан новый
-					аккаунт, а пароль отправлен на указанный email.
+					укажите его email. Если аккаунт с таким email существует,
+					ему будет присвоен статус менеджера. Если нет, будет создан
+					новый аккаунт, а пароль отправлен на указанный email.
 				</p>
 			</div>
 		</section>

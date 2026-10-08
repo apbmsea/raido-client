@@ -5,9 +5,12 @@ import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Loader } from '@shared/ui/Loader';
 import { FavoriteList } from '@widgets/FavoriteList';
 import { OffersWidget } from '@widgets/OffersWidget';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './FavoritePage.scss';
 
 const FavoritePage = () => {
+	usePageTitle('Избранное');
+
 	const dispatch = useAppDispatch();
 	const { isLogin, isLoading } = useAppSelector(state => state.user);
 

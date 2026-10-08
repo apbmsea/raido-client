@@ -4,6 +4,7 @@ import CatalogIcon from '@shared/icons/Catalog';
 import MessageIcon from '@shared/icons/Message';
 import PasswordIcon from '@shared/icons/Password';
 import StarIcon from '@shared/icons/Star';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './AboutCompanyPage.scss';
 
 interface Advantage {
@@ -36,6 +37,8 @@ const ADVANTAGES: Advantage[] = [
 ];
 
 const AboutCompanyPage = () => {
+	usePageTitle('О компании');
+
 	return (
 		<main className='about-company-page'>
 			<section className='about-company-page__hero'>
@@ -51,7 +54,9 @@ const AboutCompanyPage = () => {
 			</section>
 
 			<section className='about-company-page__section'>
-				<h2 className='about-company-page__subtitle'>Почему выбирают нас</h2>
+				<h2 className='about-company-page__subtitle'>
+					Почему выбирают нас
+				</h2>
 
 				<ul className='about-company-page__advantages'>
 					{ADVANTAGES.map(advantage => (
@@ -97,13 +102,17 @@ const AboutCompanyPage = () => {
 						<div className='about-company-page__contact'>
 							<dt>Телефон</dt>
 							<dd>
-								<a href={CONTACTS.phoneHref}>{CONTACTS.phone}</a>
+								<a href={CONTACTS.phoneHref}>
+									{CONTACTS.phone}
+								</a>
 							</dd>
 						</div>
 						<div className='about-company-page__contact'>
 							<dt>Эл. почта</dt>
 							<dd>
-								<a href={CONTACTS.emailHref}>{CONTACTS.email}</a>
+								<a href={CONTACTS.emailHref}>
+									{CONTACTS.email}
+								</a>
 							</dd>
 						</div>
 					</dl>

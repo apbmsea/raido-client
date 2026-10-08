@@ -1,8 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@shared/ui/Button';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './NotFoundPage.scss';
 
 const NotFoundPage = () => {
+	usePageTitle('Страница не найдена');
+
 	const navigate = useNavigate();
 
 	return (

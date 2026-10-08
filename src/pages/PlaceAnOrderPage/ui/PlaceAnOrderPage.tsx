@@ -8,9 +8,12 @@ import { EmptyState } from '@shared/ui/EmptyState';
 import { Loader } from '@shared/ui/Loader';
 import { hasNextPage } from '@shared/utils/pagination';
 import { OrderSummary } from '@widgets/OrderSummary';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './PlaceAnOrderPage.scss';
 
 const PlaceAnOrderPage = () => {
+	usePageTitle('Оформление заказа');
+
 	const dispatch = useAppDispatch();
 	const [searchParams] = useSearchParams();
 	const { user, isLoading: isUserLoading } = useAppSelector(

@@ -1,7 +1,10 @@
 import { OrganizationList } from '@entities/manager';
+import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './OrganizationsPage.scss';
 
 const OrganizationsPage = () => {
+	usePageTitle('Организации');
+
 	return (
 		<section className='organizations-page'>
 			<header className='organizations-page__header'>

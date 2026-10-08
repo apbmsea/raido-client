@@ -41,7 +41,8 @@ const ImageGallery = ({ images, alt }: ImageGalleryProps) => {
 							key={index}
 							className={clsx(
 								'image-gallery__thumb',
-								index === activeIndex && 'image-gallery__thumb--active'
+								index === activeIndex &&
+									'image-gallery__thumb--active'
 							)}
 							onMouseEnter={() => setHovered(index)}
 							onClick={e => {

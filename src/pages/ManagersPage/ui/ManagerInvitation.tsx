@@ -74,7 +74,8 @@ const ManagerInvitation = ({ token }: { token: string }) => {
 			{details ? (
 				<>
 					<h1 className='manager-invitation__title'>
-						{details.organization_name} приглашает вас стать менеджером
+						{details.organization_name} приглашает вас стать
+						менеджером
 					</h1>
 					<p className='manager-invitation__email'>
 						{details.organization_email}
