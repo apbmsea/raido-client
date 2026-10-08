@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
+import clsx from 'clsx';
 import './RatingInput.scss';
 import StarIcon from '@shared/icons/Star';
 
@@ -19,21 +20,21 @@ export const RatingInput: React.FC<RatingInputProps> = ({
 	onChange,
 	error,
 	className,
-	disabled = false,
+	disabled = false
 }) => {
+	const groupName = useId();
 	const [hoveredRating, setHoveredRating] = useState<number | null>(null);
 
-	const handleStarClick = (rating: number) => {
-		if (!disabled && onChange) {
-			onChange(rating);
-		}
-	};
-
 	return (
-		<div className={`star-rating ${error ? 'star-rating--error' : ''} ${className ?? ''}`}>
-			{label && <span className="star-rating__label">{label}</span>}
+		<div className={clsx('star-rating', className)}>
+			{label && <span className='star-rating__label'>{label}</span>}
 
-			<div className="star-rating__stars">
+			<div
+				className='star-rating__stars'
+				role='radiogroup'
+				aria-label={label ?? 'Оценка'}
+				onMouseLeave={() => setHoveredRating(null)}
+			>
 				{Array.from({ length: maxStars }, (_, index) => {
 					const starValue = index + 1;
 					const isActive = starValue <= (hoveredRating ?? value);
@@ -41,28 +42,35 @@ export const RatingInput: React.FC<RatingInputProps> = ({
 					return (
 						<label
 							key={starValue}
-							className={`star-rating__star-label ${disabled ? 'star-rating__star-label--disabled' : ''}`}
-							onMouseEnter={() => !disabled && setHoveredRating(starValue)}
-							onMouseLeave={() => !disabled && setHoveredRating(null)}
+							className={clsx(
+								'star-rating__star',
+								disabled && 'star-rating__star--disabled'
+							)}
+							onMouseEnter={() =>
+								!disabled && setHoveredRating(starValue)
+							}
 						>
 							<input
-								type="radio"
-								name="rating"
+								type='radio'
+								name={groupName}
 								value={starValue}
 								checked={value === starValue}
-								onChange={() => handleStarClick(starValue)}
+								onChange={() => onChange?.(starValue)}
 								disabled={disabled}
-								className="star-rating__radio-input"
+								className='star-rating__input'
+								aria-label={`${starValue} из ${maxStars}`}
 							/>
-							<div className={`star-rating__icon ${isActive ? 'star-rating__icon--active' : ''}`}>
-								<StarIcon />
-							</div>
+							<StarIcon
+								size={26}
+								fillPercentage={isActive ? 100 : 0}
+								className='star-rating__icon'
+							/>
 						</label>
 					);
 				})}
 			</div>
 
-			{error && <div className="star-rating__error">{error}</div>}
+			{error && <div className='star-rating__error'>{error}</div>}
 		</div>
 	);
 };

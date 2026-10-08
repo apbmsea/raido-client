@@ -1,31 +1,43 @@
-import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { useEffect } from 'react';
-import { Manager } from '..';
+import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
+import { EmptyState } from '@shared/ui/EmptyState';
 import { Loader } from '@shared/ui/Loader';
-import './OrganizationList.scss';
-import { OrganizationCard } from './OrganizationCard';
+import { actions } from '../model/managerSlice';
+import './ManagerCard.scss';
+import './ManagerList.scss';
 
 const OrganizationList = () => {
 	const { organizations, isLoading } = useAppSelector(state => state.manager);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(Manager.actions.getManagedOrganizationsRequest());
-	}, []);
+		dispatch(actions.getManagedOrganizationsRequest());
+	}, [dispatch]);
 
-	if (isLoading) return <Loader />;
+	if (isLoading && organizations.length === 0) return <Loader />;
 
-	if (organizations.length === 0)
+	if (organizations.length === 0) {
 		return (
-			<div className='organization-null'>
-				Вы не привязанны ни к одной организации.
-			</div>
+			<EmptyState
+				variant='compact'
+				title='Вы не привязаны ни к одной организации.'
+			/>
 		);
+	}
 
 	return (
-		<div className='organization-list'>
+		<div className='manager-list'>
 			{organizations.map(organization => (
-				<OrganizationCard organization={organization} />
+				<div className='manager-card' key={organization.organization_id}>
+					<div className='manager-card__information'>
+						<h3 className='manager-card__name'>
+							{organization.organization_name}
+						</h3>
+						<span className='manager-card__email'>
+							{organization.email}
+						</span>
+					</div>
+				</div>
 			))}
 		</div>
 	);

@@ -1,28 +1,40 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type {
-	AddItemToCartPayload,
+	AddItemPayload,
 	CartItem,
-	SetSelectedItemsPayload
-} from './cartType';
+	CartResponse,
+	ChangeQuantityPayload,
+	RemoveItemPayload
+} from './cartTypes';
 
 interface CartState {
 	total: number;
 	items: CartItem[];
 	isLoading: boolean;
-	isFetch: boolean;
-	selectedItems: CartItem[];
-	totalSum: number;
-	totalSelectedItems: number;
+	/** Товары, по которым сейчас идёт запрос на изменение корзины */
+	pendingProductIds: number[];
+	/**
+	 * Товары, с которых покупатель снял отметку. Храним исключения, а не выбранные:
+	 * так новые товары в корзине отмечены сразу, а выбор переживает перезагрузку списка
+	 */
+	excludedProductIds: number[];
 }
 
 const initialState: CartState = {
 	total: 0,
 	items: [],
 	isLoading: false,
-	isFetch: false,
-	selectedItems: [],
-	totalSum: 0,
-	totalSelectedItems: 0
+	pendingProductIds: [],
+	excludedProductIds: []
+};
+
+const startMutation = (
+	state: CartState,
+	action: PayloadAction<{ productId: number }>
+) => {
+	if (!state.pendingProductIds.includes(action.payload.productId)) {
+		state.pendingProductIds.push(action.payload.productId);
+	}
 };
 
 export const { reducer, actions, name } = createSlice({
@@ -32,122 +44,48 @@ export const { reducer, actions, name } = createSlice({
 		getCartRequest: state => {
 			state.isLoading = true;
 		},
-		getCartSuccess: (state, action) => {
+		getCartSuccess: (state, action: PayloadAction<CartResponse>) => {
+			const { items, total } = action.payload;
+
 			state.isLoading = false;
-			state.items = action.payload;
+			state.items = items;
+			state.total = total;
+			state.excludedProductIds = state.excludedProductIds.filter(id =>
+				items.some(item => item.product_id === id)
+			);
 		},
 		getCartFailure: state => {
 			state.isLoading = false;
 		},
-		addItemToCartRequest: (
+		addItemRequest: (state, action: PayloadAction<AddItemPayload>) =>
+			startMutation(state, action),
+		changeQuantityRequest: (
 			state,
-			_action: PayloadAction<AddItemToCartPayload>
-		) => {
-			state.isFetch = true;
-		},
-		addItemToCartSuccess: state => {
-			state.isFetch = false;
-		},
-		addItemToCartFailure: state => {
-			state.isFetch = false;
-		},
-		increaseQuantityRequest: (
+			action: PayloadAction<ChangeQuantityPayload>
+		) => startMutation(state, action),
+		removeItemRequest: (state, action: PayloadAction<RemoveItemPayload>) =>
+			startMutation(state, action),
+		mutationSettled: (
 			state,
-			_action: PayloadAction<{
-				product_id: number;
-				quantity: number;
-			}>
+			action: PayloadAction<{ productId: number }>
 		) => {
-			state.isFetch = true;
-		},
-
-		increaseQuantitySuccess: (
-			state,
-			action: PayloadAction<{
-				product_id: number;
-				quantity: number;
-			}>
-		) => {
-			console.log(action.payload.product_id);
-
-			const item = state.items.find(
-				item => item.id === action.payload.product_id
+			state.pendingProductIds = state.pendingProductIds.filter(
+				id => id !== action.payload.productId
 			);
-
-			if (item) {
-				item.quantity = action.payload.quantity;
+		},
+		toggleItemSelection: (state, action: PayloadAction<number>) => {
+			const index = state.excludedProductIds.indexOf(action.payload);
+			if (index === -1) {
+				state.excludedProductIds.push(action.payload);
+			} else {
+				state.excludedProductIds.splice(index, 1);
 			}
-
-			state.isFetch = false;
 		},
-
-		increaseQuantityFailure: state => {
-			state.isFetch = false;
+		setAllSelected: (state, action: PayloadAction<boolean>) => {
+			state.excludedProductIds = action.payload
+				? []
+				: state.items.map(item => item.product_id);
 		},
-
-		decreaseQuantityRequest: (
-			state,
-			_action: PayloadAction<{
-				product_id: number;
-				quantity: number;
-			}>
-		) => {
-			state.isFetch = true;
-		},
-
-		decreaseQuantitySuccess: (
-			state,
-			action: PayloadAction<{
-				product_id: number;
-				quantity: number;
-			}>
-		) => {
-			const item = state.items.find(
-				item => item.id === action.payload.product_id
-			);
-
-			if (item) {
-				item.quantity = action.payload.quantity;
-			}
-
-			state.isFetch = false;
-		},
-
-		decreaseQuantityFailure: state => {
-			state.isFetch = false;
-		},
-
-		removeItemFromCartRequest: (
-			state,
-			_action: PayloadAction<{ product_id: number }>
-		) => {
-			state.isFetch = true;
-		},
-
-		removeItemFromCartSuccess: (
-			state,
-			action: PayloadAction<{ product_id: number }>
-		) => {
-			state.items = state.items.filter(
-				item => item.product_id !== action.payload.product_id
-			);
-
-			state.isFetch = false;
-		},
-
-		removeItemFromCartFailure: state => {
-			state.isFetch = false;
-		},
-		setTotal: (state, action: PayloadAction<number>) => {
-			state.total = action.payload;
-		},
-		setSelectedItems: (
-			state,
-			action: PayloadAction<SetSelectedItemsPayload>
-		) => {
-			state.selectedItems = action.payload.selectedItems;
-			state.totalSum = action.payload.totalSum;
-			state.totalSelectedItems = action.payload.totalSelectedItems;
-		}
+		reset: () => initialState
 	}
 });

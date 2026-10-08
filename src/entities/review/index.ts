@@ -1,13 +1,9 @@
 import { actions, reducer, name } from './model/reviewSlice';
 
+export { default as watchReview } from './model/reviewSaga';
 export { ReviewsList } from './ui/ReviewsList';
 export { ReviewTotal } from './ui/ReviewTotal';
-export type {
-	GetReviewsPayload,
-	GetReviewsResponse,
-    AddReviewsPayload,
-	ReviewType
-} from './model/reviewTypes';
+export type { AddReviewPayload, ReviewType } from './model/reviewTypes';
 
 export const Review = {
 	reducer: {

@@ -14,18 +14,18 @@ const ArrowLeftIcon: React.FC<IconProps> = ({
 		xmlns='http://www.w3.org/2000/svg'
 		{...props}
 	>
-		<g clip-path='url(#clip0_34753_6615)'>
+		<g clipPath='url(#clip0_34753_6615)'>
 			<path
 				d='M19.1704 2.36659C16.5257 4.99988 11.2363 10.841 11.2363 13.1392C11.2363 15.4373 16.5257 20.7997 19.1704 23.1936'
-				stroke='black'
-				stroke-width='1.59752'
-				stroke-linecap='round'
+				stroke={color}
+				strokeWidth='1.59752'
+				strokeLinecap='round'
 			/>
 			<path
 				d='M13.2188 1.06495C10.5741 4.02741 5.28467 10.5987 5.28467 13.1841C5.28467 15.7695 10.5741 21.8021 13.2187 24.4953'
-				stroke='black'
-				stroke-width='1.59752'
-				stroke-linecap='round'
+				stroke={color}
+				strokeWidth='1.59752'
+				strokeLinecap='round'
 			/>
 		</g>
 		<defs>

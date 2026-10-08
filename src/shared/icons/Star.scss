@@ -1,0 +1,17 @@
+.star-icon {
+	flex-shrink: 0;
+	overflow: visible;
+	color: var(--color-star);
+
+	&--empty {
+		color: var(--color-border);
+	}
+
+	&__stop-active {
+		stop-color: var(--color-star);
+	}
+
+	&__stop-inactive {
+		stop-color: var(--color-border);
+	}
+}

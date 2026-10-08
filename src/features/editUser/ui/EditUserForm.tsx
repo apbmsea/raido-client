@@ -1,16 +1,11 @@
+import { useState, type ChangeEvent, type FormEvent } from 'react';
+import { User, type UserType } from '@entities/user';
+import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Button } from '@shared/ui/Button';
 import { Input } from '@shared/ui/Input';
-import './EditUserForm.scss';
-import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
-import { useState, type ChangeEvent, type FormEvent } from 'react';
-import { User } from '@entities/user';
-import { UnauthWidget } from '@widgets/UnauthWidget';
-import { Loader } from '@shared/ui/Loader';
-import type { UserType } from '@entities/user/model/userTypes';
-import { logoutUser } from '@entities/user/model/userApi';
-import { formatPhone, normalizePhone } from '@shared/utils/phone';
 import { isValidBirthDate, toDateInputValue } from '@shared/utils/birthDate';
-import { SecuritySettings } from '@features/security';
+import { formatPhone, normalizePhone, PHONE_LENGTH } from '@shared/utils/phone';
+import './EditUserForm.scss';
 
 interface FormFields {
 	surname: string;
@@ -19,183 +14,127 @@ interface FormFields {
 	date_of_birth: string;
 }
 
-const today = new Date().toISOString().slice(0, 10);
+const PHONE_ERROR = 'Введите 10 цифр без кода страны';
+const DATE_ERROR = 'Укажите существующую дату не позже сегодняшнего дня';
 
-export const EditUserForm = () => {
-	const { user, isLogin, isLoading, isFetch } = useAppSelector(
-		state => state.user
+const getInitialFields = (user: UserType): FormFields => ({
+	surname: user.surname || '',
+	name: user.name || '',
+	phone: normalizePhone(user.phone),
+	date_of_birth: toDateInputValue(user.date_of_birth)
+});
+
+export const EditUserForm = ({ user }: { user: UserType }) => {
+	const dispatch = useAppDispatch();
+	const { isFetch, editErrors } = useAppSelector(state => state.user);
+	const [formData, setFormData] = useState(() => getInitialFields(user));
+
+	const savedFields = getInitialFields(user);
+	const isChanged = (Object.keys(savedFields) as (keyof FormFields)[]).some(
+		key => formData[key] !== savedFields[key]
 	);
 
-	if (isLoading) return <Loader />;
+	const phoneError =
+		formData.phone.length > 0 && formData.phone.length !== PHONE_LENGTH
+			? PHONE_ERROR
+			: '';
+	const dateError = isValidBirthDate(formData.date_of_birth) ? '' : DATE_ERROR;
 
-	if (!isLogin || !user) {
-		return (
-			<UnauthWidget message='Войдите в профиль, чтобы изменить настройки' />
-		);
-	}
-
-	return <EditUserFields user={user} isFetch={isFetch} />;
-};
-
-const EditUserFields = ({
-	user,
-	isFetch
-}: {
-	user: UserType;
-	isFetch: boolean;
-}) => {
-	const dispatch = useAppDispatch();
-	const [isLoggingOut, setIsLoggingOut] = useState(false);
-	const [formData, setFormData] = useState<FormFields>(() => ({
-		surname: user.surname || '',
-		name: user.name || '',
-		phone: normalizePhone(user.phone),
-		date_of_birth: toDateInputValue(user.date_of_birth)
-	}));
-
-	const [validationErrors, setValidationErrors] = useState({
-		phone: '',
-		date_of_birth: ''
-	});
+	const formError = Object.entries(editErrors).find(
+		([key]) => !(key in formData)
+	)?.[1].message;
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
+
 		setFormData(prev => ({
 			...prev,
 			[name]:
-				name === 'phone' ? value.replace(/\D/g, '').slice(0, 10) : value
+				name === 'phone'
+					? value.replace(/\D/g, '').slice(0, PHONE_LENGTH)
+					: value
 		}));
-		if (name === 'phone' || name === 'date_of_birth') {
-			setValidationErrors(prev => ({ ...prev, [name]: '' }));
+
+		if (Object.keys(editErrors).length > 0) {
+			dispatch(User.actions.clearEditErrors());
 		}
 	};
 
-	const phoneError =
-		formData.phone.length > 0 && formData.phone.length !== 10
-			? 'Введите 10 цифр без кода страны'
-			: validationErrors.phone;
-	const dateError = !isValidBirthDate(formData.date_of_birth)
-		? 'Укажите существующую дату не позже сегодняшнего дня'
-		: validationErrors.date_of_birth;
-
-	const isChanged =
-		formData.surname !== (user.surname || '') ||
-		formData.name !== (user.name || '') ||
-		formData.phone !== normalizePhone(user.phone) ||
-		formData.date_of_birth !== toDateInputValue(user.date_of_birth);
-
-	const handleSubmit = async (e: FormEvent) => {
+	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		if (!isChanged) return;
+		if (!isChanged || phoneError || dateError) return;
 
-		const nextErrors = {
-			phone:
-				formData.phone.length > 0 && formData.phone.length !== 10
-					? 'Введите 10 цифр без кода страны'
-					: '',
-			date_of_birth: isValidBirthDate(formData.date_of_birth)
-				? ''
-				: 'Укажите существующую дату не позже сегодняшнего дня'
-		};
-		setValidationErrors(nextErrors);
-		if (nextErrors.phone || nextErrors.date_of_birth) return;
-
-		dispatch(
-			User.actions.editUserRequest({
-				payload: {
-					...formData,
-					phone: formData.phone,
-					date_of_birth: formData.date_of_birth
-				}
-			})
-		);
-	};
-
-	const handleLogout = async () => {
-		setIsLoggingOut(true);
-		try {
-			await logoutUser();
-		} catch (error) {
-			console.error('Не удалось завершить сессию на сервере', error);
-		} finally {
-			localStorage.removeItem('token');
-			dispatch(User.actions.clearUser());
-		}
+		dispatch(User.actions.editUserRequest(formData));
 	};
 
 	return (
-		<div className='edit-user'>
-			<form className='edit-user__form' onSubmit={handleSubmit}>
-				<div className='edit-user__content'>
-					<h2>{user.email}</h2>
-					<div className='edit-user__block'>
-						<Input
-							label='Фамилия'
-							placeholder='Фамилия'
-							name='surname'
-							value={formData.surname}
-							onChange={handleChange}
-							disabled={isFetch}
-						/>
-						<Input
-							label='Имя'
-							placeholder='Имя'
-							name='name'
-							value={formData.name}
-							onChange={handleChange}
-							disabled={isFetch}
-						/>
-					</div>
-					<div className='edit-user__block'>
-						<Input
-							label='Телефон'
-							placeholder='999 999-99-99'
-							startAdornment='+7'
-							name='phone'
-							type='tel'
-							inputMode='numeric'
-							value={formatPhone(formData.phone)}
-							onChange={handleChange}
-							disabled={isFetch}
-							error={phoneError}
-						/>
-						<Input
-							label='Дата рождения'
-							type='date'
-							name='date_of_birth'
-							value={formData.date_of_birth}
-							onChange={handleChange}
-							disabled={isFetch}
-							max={today}
-							error={dateError}
-						/>
-					</div>
-				</div>
-
-				{isChanged && (
-					<Button
-						type='submit'
-						variant='primary'
-						className='edit-user__save-btn'
-						loading={isFetch}
-					>
-						Сохранить
-					</Button>
-				)}
-			</form>
-
-			<SecuritySettings email={user.email} />
-
-			<div className='edit-user__buttons'>
-				<Button
-					onClick={handleLogout}
-					type='button'
-					variant='outline'
-					loading={isLoggingOut}
-				>
-					Выйти
-				</Button>
+		<form className='edit-user' onSubmit={handleSubmit}>
+			<h2 className='edit-user__email'>{user.email}</h2>
+			<div className='edit-user__row'>
+				<Input
+					label='Фамилия'
+					placeholder='Фамилия'
+					name='surname'
+					autoComplete='family-name'
+					value={formData.surname}
+					onChange={handleChange}
+					disabled={isFetch}
+					error={editErrors.surname?.message}
+				/>
+				<Input
+					label='Имя'
+					placeholder='Имя'
+					name='name'
+					autoComplete='given-name'
+					value={formData.name}
+					onChange={handleChange}
+					disabled={isFetch}
+					error={editErrors.name?.message}
+				/>
 			</div>
-		</div>
+			<div className='edit-user__row'>
+				<Input
+					label='Телефон'
+					placeholder='999 999-99-99'
+					startAdornment='+7'
+					name='phone'
+					type='tel'
+					inputMode='numeric'
+					autoComplete='tel-national'
+					value={formatPhone(formData.phone)}
+					onChange={handleChange}
+					disabled={isFetch}
+					error={phoneError || editErrors.phone?.message}
+				/>
+				<Input
+					label='Дата рождения'
+					type='date'
+					name='date_of_birth'
+					autoComplete='bday'
+					value={formData.date_of_birth}
+					onChange={handleChange}
+					disabled={isFetch}
+					max={new Date().toISOString().slice(0, 10)}
+					error={dateError || editErrors.date_of_birth?.message}
+				/>
+			</div>
+
+			{formError && (
+				<p className='edit-user__error' role='alert'>
+					{formError}
+				</p>
+			)}
+
+			{isChanged && (
+				<Button
+					type='submit'
+					className='edit-user__submit'
+					loading={isFetch}
+					disabled={!!phoneError || !!dateError}
+				>
+					Сохранить
+				</Button>
+			)}
+		</form>
 	);
 };

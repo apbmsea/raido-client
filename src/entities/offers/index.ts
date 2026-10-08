@@ -1,5 +1,6 @@
 import { actions, reducer, name } from './model/offersSlice';
-export { default as WatchOffers } from './model/offersSaga';
+
+export { default as watchOffers } from './model/offersSaga';
 
 export const Offers = {
 	reducer: {

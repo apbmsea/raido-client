@@ -1,1 +1,0 @@
-export { default as ProductFeatures } from './ui/ProductFeatures'

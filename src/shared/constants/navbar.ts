@@ -1,4 +1,19 @@
-export const NAV_ITEMS = [
+import { CONTACTS } from './contacts';
+
+export interface NavLinkItem {
+	title: string;
+	link: string;
+	/** Ссылка ведёт за пределы роутера: tel:, mailto: и т.п. */
+	isExternal?: boolean;
+}
+
+export interface NavItem {
+	id: string;
+	title: string;
+	content: NavLinkItem[];
+}
+
+export const NAV_ITEMS: NavItem[] = [
 	{
 		id: 'corporate',
 		title: 'Корпоративным клиентам',
@@ -20,19 +35,14 @@ export const NAV_ITEMS = [
 	{
 		id: 'about',
 		title: 'О компании',
-		content: [
-			{ title: 'О нас', link: '/about-company' }
-			// { title: 'Реквизиты', link: 'details' },
-			// { title: 'Политика конфиденциальности', link: 'privacy-policy' },
-			// { title: 'Юридическая информация', link: 'legal-information' }
-		]
+		content: [{ title: 'О нас', link: '/about-company' }]
 	},
 	{
 		id: 'contacts',
 		title: 'Контакты',
 		content: [
-			{ title: 'phone', link: 'phone' },
-			{ title: 'mail', link: 'mail' }
+			{ title: CONTACTS.phone, link: CONTACTS.phoneHref, isExternal: true },
+			{ title: CONTACTS.email, link: CONTACTS.emailHref, isExternal: true }
 		]
 	}
 ];

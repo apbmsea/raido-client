@@ -1,0 +1,32 @@
+.cart-list {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	width: 100%;
+
+	&__items {
+		display: flex;
+		flex-direction: column;
+		gap: 40px;
+	}
+
+	&__item {
+		display: flex;
+		align-items: flex-start;
+		gap: 12px;
+
+		// Чекбокс стоит на уровне верхнего края карточки
+		> .checkbox {
+			margin-top: 12px;
+		}
+	}
+
+	&__link {
+		color: var(--color-primary);
+		font-weight: 600;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}

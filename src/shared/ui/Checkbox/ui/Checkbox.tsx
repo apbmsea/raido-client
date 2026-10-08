@@ -1,4 +1,5 @@
 import React, { type InputHTMLAttributes, useId } from 'react';
+import clsx from 'clsx';
 import './Checkbox.scss';
 
 import CheckboxEmptyIcon from '@shared/icons/CheckboxEmpty';
@@ -8,7 +9,8 @@ interface CheckboxProps extends Omit<
 	InputHTMLAttributes<HTMLInputElement>,
 	'type'
 > {
-	label: string;
+	/** Без подписи чекбоксу нужен aria-label */
+	label?: string;
 }
 
 const Checkbox: React.FC<CheckboxProps> = ({
@@ -21,7 +23,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
 	const checkboxId = id ?? reactId;
 
 	return (
-		<label htmlFor={checkboxId} className={`checkbox ${className ?? ''}`}>
+		<label htmlFor={checkboxId} className={clsx('checkbox', className)}>
 			<input
 				id={checkboxId}
 				type='checkbox'
@@ -34,7 +36,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
 				<CheckboxCheckedIcon className='checkbox__icon-checked' />
 			</span>
 
-			<span className='checkbox__label'>{label}</span>
+			{label && <span className='checkbox__label'>{label}</span>}
 		</label>
 	);
 };

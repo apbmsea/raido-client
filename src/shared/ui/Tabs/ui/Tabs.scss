@@ -1,67 +1,73 @@
-.tabs-container {
-	position: relative;
-	display: inline-block;
+@use '@shared/styles/helpers' as *;
+
+.tabs {
+	@include hide-scrollbar;
+
+	display: flex;
+	gap: clamp(8px, 3vw, 40px);
 	width: 100%;
+	border-bottom: 1px solid var(--color-border);
+	overflow-x: auto;
 
-}
-
-.tabs-list {
-	display: flex;
-	gap: 40px;
-}
-
-.tabs-button {
-	position: relative;
-	background: none;
-	border: none;
-	padding: 0 27px 16px 27px; 
-	font-size: 18px;
-	font-weight: 400;
-	color: var(--color-gray);
-	cursor: pointer;
-	transition: color 0.25s ease;
-	outline: none;
-	display: flex;
-	align-items: center;
-	gap: 6px;
-
-	&:hover {
-		color: var(--color-gray-dark);
-
-		.tabs-button__badge {
-			background-color: var(--color-white);
-			color: var(--color-gray-dark)
-		}
-	}
-
-	&--active {
-		color: var(--color-black);
-		font-weight: 800;
-
-		.tabs-button__badge {
-			background-color: var(--color-black);
-			color: #ffffff;
-		}
-	}
-
-	&__text {
+	&__button {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		flex-shrink: 0;
+		padding: 0 clamp(8px, 2vw, 24px) 14px;
+		border: none;
+		background: none;
+		color: var(--color-gray);
+		font-size: clamp(15px, 2.2vw, 18px);
+		font-weight: 500;
 		white-space: nowrap;
+		cursor: pointer;
+		transition: color var(--transition);
+
+		// Подчёркивание активной вкладки выезжает из центра
+		&::after {
+			content: '';
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			height: 3px;
+			border-radius: 3px 3px 0 0;
+			background-color: var(--color-primary);
+			transform: scaleX(0);
+			transition: transform 0.25s ease;
+		}
+
+		&:hover {
+			color: var(--color-black);
+		}
+
+		&:focus-visible {
+			outline-offset: -2px;
+		}
+
+		&--active {
+			color: var(--color-black);
+			font-weight: 700;
+
+			&::after {
+				transform: scaleX(1);
+			}
+		}
 	}
 
-}
+	&__count {
+		padding: 2px 8px;
+		border-radius: var(--radius-pill);
+		background-color: var(--color-surface);
+		color: var(--color-gray);
+		font-size: 13px;
+		font-weight: 600;
+	}
 
-.tabs-indicator {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	height: 3px;
-	background-color: var(--color-primary);
-	border-radius: 2px 2px 0 0;
-	
-	width: var(--line-width, 0px);
-	transform: translateX(var(--line-left, 0px));
-	
-	transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-	            width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	pointer-events: none;
+	&__button--active &__count {
+		background-color: var(--color-primary-soft);
+		color: var(--color-primary);
+	}
 }

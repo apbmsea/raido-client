@@ -1,16 +1,13 @@
 import { actions, reducer, name } from './model/questionSlice';
-export type {
-    AskQuestionsPayload,
-    GetQuestionsPayload,
-    GetQuestionsResponse,
-    QuestionType
-} from './model/questionType';
+
+export { default as watchQuestion } from './model/questionSaga';
 export { QuestionsList } from './ui/QuestionsList';
+export type { AskQuestionPayload, QuestionType } from './model/questionTypes';
 
 export const Question = {
-    reducer: {
-        [name]: reducer
-    },
-    actions,
-    name
+	reducer: {
+		[name]: reducer
+	},
+	actions,
+	name
 };

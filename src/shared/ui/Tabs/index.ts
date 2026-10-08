@@ -1,1 +1,1 @@
-export { default as Tabs } from './ui/Tabs'
+export { default as Tabs, type TabItem } from './ui/Tabs';

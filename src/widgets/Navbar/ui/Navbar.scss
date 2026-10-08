@@ -1,34 +1,36 @@
+@use '@shared/styles/helpers' as *;
+
 .nav {
 	width: 100%;
 	padding-inline: 40px;
-	background: var(--color-white);
 	border-bottom: 1px solid var(--color-gray-light);
+	background: var(--color-white);
 	transition: padding-bottom 0.25s ease;
 
-	&__container {
-		max-width: 797px;
-		margin: 0 auto;
-		padding: 20px 0;
+	&__list {
 		display: flex;
 		justify-content: space-between;
 		gap: 15px;
+		max-width: 797px;
+		margin: 0 auto;
+		padding: 20px 0;
+		list-style: none;
 	}
 
 	&__item {
 		position: relative;
 	}
 
-	&__link {
-		white-space: nowrap;
+	&__button {
+		@include button-reset;
+
 		display: flex;
 		align-items: center;
 		gap: 14px;
-		font-size: 16px;
 		padding: 6px 0;
-		border: none;
-		background: transparent;
 		color: var(--color-black);
-		cursor: pointer;
+		font-size: 16px;
+		white-space: nowrap;
 		transition: color 0.2s ease;
 
 		&--active {
@@ -37,50 +39,46 @@
 	}
 
 	&__icon {
-		display: inline-flex;
 		transition: transform 0.2s ease;
-
-		&--open {
-			transform: rotate(180deg);
-		}
 	}
 
+	&__button--active &__icon {
+		transform: rotate(180deg);
+	}
+
+	// Ссылки выезжают под пунктом меню, место под них освобождает сама полоса
 	&__submenu {
 		position: absolute;
 		top: 100%;
 		left: 0;
-
-		padding-top: 14px;
-
+		z-index: 10;
 		display: flex;
 		flex-direction: column;
 		gap: 14px;
-
-		z-index: 10;
-
+		padding-top: 14px;
 		opacity: 0;
+		visibility: hidden;
 		transform: translateY(-6px);
 		pointer-events: none;
-
 		transition:
 			opacity 0.2s ease,
-			transform 0.2s ease;
+			transform 0.2s ease,
+			visibility 0.2s ease;
+
+		&--open {
+			opacity: 1;
+			visibility: visible;
+			transform: translateY(0);
+			pointer-events: auto;
+			transition-delay: 0.08s;
+		}
 	}
 
-	&__submenu--open {
-		opacity: 1;
-		transform: translateY(0);
-		pointer-events: auto;
-		transition-delay: 0.08s;
-	}
-
-	&__submenu-link {
-		white-space: nowrap;
-		cursor: pointer;
-		font-size: 16px;
+	&__link {
 		color: var(--color-black);
+		font-size: 16px;
+		white-space: nowrap;
 		transition: color 0.2s ease;
-		text-decoration: none;
 
 		&:hover {
 			color: var(--color-primary);

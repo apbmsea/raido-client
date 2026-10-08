@@ -1,22 +1,26 @@
-import { call, put, takeLatest } from 'typed-redux-saga';
-import { Search } from '..';
+import { call, delay, put, takeLatest } from 'typed-redux-saga';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { isApiError } from '@shared/utils/errorHandler';
-import { search } from '@entities/search';
+import { searchSuggestions } from '../api/searchApi';
+import { actions } from './searchSlice';
+
+const DEBOUNCE_MS = 400;
 
 function* searchSaga(action: PayloadAction<string>) {
+	const query = action.payload.trim();
+	if (!query) return;
+
+	// takeLatest отменяет сагу при следующем нажатии клавиши, поэтому
+	// запрос уходит только после паузы в наборе
+	yield* delay(DEBOUNCE_MS);
+
 	try {
-		const response = yield* call(search, action.payload);
-		yield* put(Search.actions.searchSuccess(response));
-	} catch (error) {
-		if (isApiError(error)) {
-			yield* put(Search.actions.searchFailure(error.errors));
-		} else {
-			yield* put(Search.actions.searchFailure({}));
-		}
+		const response = yield* call(searchSuggestions, query);
+		yield* put(actions.searchSuccess(response));
+	} catch {
+		yield* put(actions.searchFailure());
 	}
 }
 
-export default function* WatchSearch() {
-	yield* takeLatest(Search.actions.searchRequest.type, searchSaga);
+export default function* watchSearch() {
+	yield* takeLatest(actions.setQuery.type, searchSaga);
 }

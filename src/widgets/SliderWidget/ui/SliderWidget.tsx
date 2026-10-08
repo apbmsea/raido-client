@@ -1,106 +1,102 @@
-import { useEffect, useRef, useState } from 'react';
-import './SliderWidget.scss';
-import slider1 from '@/shared/assets/slider1.png';
-import slider2 from '@/shared/assets/slider2.png';
-import { Button } from '@shared/ui/Button';
-import ArrowRigthIcon from '@shared/icons/ArrowRight';
-import { IconButton } from '@shared/ui/IconButton';
+import { useEffect, useRef, useState, type TouchEvent } from 'react';
+import clsx from 'clsx';
 import ArrowLeftIcon from '@shared/icons/ArrowLeft';
-
-export const CATALOG_ITEMS = [
-	{
-		id: '1',
-		title: 'Будь в курсе новостей!',
-		description: 'Повышение НДС, как работать?',
-		button: 'Читать подробнее',
-		image: slider1
-	},
-	{
-		id: '2',
-		title: 'Программа лояльности',
-		description: 'Копи и оплачивай часть покупок баллами — РайдоКоинами',
-		button: 'Читать подробнее',
-		image: slider2
-	}
-];
+import ArrowRightIcon from '@shared/icons/ArrowRight';
+import { Button } from '@shared/ui/Button';
+import { IconButton } from '@shared/ui/IconButton';
+import { SLIDES } from '../model/slides';
+import './SliderWidget.scss';
 
 const AUTO_DELAY = 5000;
+const SWIPE_THRESHOLD = 50;
 
 const SliderWidget = () => {
 	const [index, setIndex] = useState(0);
-	const timeoutRef = useRef<number | null>(null);
 	const touchStartX = useRef(0);
 
-	const itemsCount = CATALOG_ITEMS.length;
-	const currentItem = CATALOG_ITEMS[index];
+	const slidesCount = SLIDES.length;
+	const currentSlide = SLIDES[index];
 
-	const nextSlide = () => {
-		setIndex(prev => (prev + 1) % itemsCount);
-	};
+	const showNext = () => setIndex(prev => (prev + 1) % slidesCount);
+	const showPrev = () =>
+		setIndex(prev => (prev - 1 + slidesCount) % slidesCount);
 
-	const prevSlide = () => {
-		setIndex(prev => (prev - 1 + itemsCount) % itemsCount);
-	};
-
+	// Таймер перезапускается при каждой смене слайда, в том числе ручной
 	useEffect(() => {
-		timeoutRef.current = window.setTimeout(nextSlide, AUTO_DELAY);
+		const timer = setTimeout(
+			() => setIndex(prev => (prev + 1) % slidesCount),
+			AUTO_DELAY
+		);
 
-		return () => {
-			if (timeoutRef.current !== null) {
-				clearTimeout(timeoutRef.current);
-			}
-		};
-	}, [index]);
+		return () => clearTimeout(timer);
+	}, [index, slidesCount]);
 
-	const handleTouchStart = (e: React.TouchEvent<HTMLElement>) => {
+	const handleTouchStart = (e: TouchEvent<HTMLElement>) => {
 		touchStartX.current = e.touches[0].clientX;
 	};
 
-	const handleTouchEnd = (e: React.TouchEvent<HTMLElement>) => {
+	const handleTouchEnd = (e: TouchEvent<HTMLElement>) => {
 		const deltaX = e.changedTouches[0].clientX - touchStartX.current;
-		if (Math.abs(deltaX) > 50) {
-			deltaX < 0 ? nextSlide() : prevSlide();
-		}
+
+		if (deltaX < -SWIPE_THRESHOLD) showNext();
+		if (deltaX > SWIPE_THRESHOLD) showPrev();
 	};
 
 	return (
 		<section
 			className='slider-widget'
-			style={{ backgroundImage: `url(${currentItem.image})` }}
+			aria-roledescription='карусель'
+			aria-label='Новости и акции'
 			onTouchStart={handleTouchStart}
 			onTouchEnd={handleTouchEnd}
 		>
-			<div className='slider-widget__content'>
-				<h2 className='slider-widget__content-title'>
-					{currentItem.title}
-				</h2>
-				<p className='slider-widget__content-description'>
-					{currentItem.description}
+			{/* Фоны лежат стопкой и сменяются плавным проявлением */}
+			{SLIDES.map((slide, slideIndex) => (
+				<img
+					key={slide.id}
+					className={clsx(
+						'slider-widget__background',
+						slideIndex === index && 'slider-widget__background--active'
+					)}
+					src={slide.image}
+					alt=''
+					loading={slideIndex === 0 ? 'eager' : 'lazy'}
+				/>
+			))}
+
+			<div className='slider-widget__content' key={currentSlide.id}>
+				<h2 className='slider-widget__title'>{currentSlide.title}</h2>
+				<p className='slider-widget__description'>
+					{currentSlide.description}
 				</p>
 				<Button
-					className='slider-widget__content-button'
+					className='slider-widget__button'
 					variant='outline'
-					rightIcon={<ArrowRigthIcon width={16} height={16} />}
+					rightIcon={<ArrowRightIcon size={16} />}
 				>
-					{currentItem.button}
+					{currentSlide.button}
 				</Button>
 			</div>
 
 			<div className='slider-widget__controls'>
 				<IconButton
-					className='slider-widget__controls-button hidden-tablet'
-					size={45}
-					icon={<ArrowLeftIcon width={24} height={24} />}
-					onClick={prevSlide}
+					className='hidden-tablet'
+					variant='ghost'
+					size='m'
+					icon={<ArrowLeftIcon />}
+					onClick={showPrev}
+					aria-label='Предыдущий слайд'
 				/>
-				<span>
-					{index + 1} / {itemsCount}
+				<span aria-live='polite'>
+					{index + 1} / {slidesCount}
 				</span>
 				<IconButton
-					className='slider-widget__controls-button hidden-tablet'
-					size={45}
-					icon={<ArrowRigthIcon width={24} height={24} />}
-					onClick={nextSlide}
+					className='hidden-tablet'
+					variant='ghost'
+					size='m'
+					icon={<ArrowRightIcon />}
+					onClick={showNext}
+					aria-label='Следующий слайд'
 				/>
 			</div>
 		</section>

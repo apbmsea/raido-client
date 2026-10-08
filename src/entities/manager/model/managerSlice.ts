@@ -1,13 +1,15 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Manager, Organization } from './managerTypes';
+import type { ApiErrors } from '@shared/types/handleError.type';
+import type { ManagerType, OrganizationType } from './managerTypes';
 
 interface ManagerState {
-	managers: Manager[];
-	organizations: Organization[];
+	managers: ManagerType[];
+	organizations: OrganizationType[];
 	isLoading: boolean;
 	isFetch: boolean;
-	errors: Record<string, { message: string }>;
-	deleteManager: null | Manager;
+	errors: ApiErrors;
+	/** Менеджер, удаление которого сейчас подтверждается в модальном окне */
+	managerToDelete: null | ManagerType;
 }
 
 const initialState: ManagerState = {
@@ -16,7 +18,7 @@ const initialState: ManagerState = {
 	isLoading: false,
 	isFetch: false,
 	errors: {},
-	deleteManager: null
+	managerToDelete: null
 };
 
 export const { reducer, actions, name } = createSlice({
@@ -26,7 +28,7 @@ export const { reducer, actions, name } = createSlice({
 		getManagersRequest: state => {
 			state.isLoading = true;
 		},
-		getManagersSuccess: (state, action) => {
+		getManagersSuccess: (state, action: PayloadAction<ManagerType[]>) => {
 			state.isLoading = false;
 			state.managers = action.payload;
 		},
@@ -36,7 +38,10 @@ export const { reducer, actions, name } = createSlice({
 		getManagedOrganizationsRequest: state => {
 			state.isLoading = true;
 		},
-		getManagedOrganizationsSuccess: (state, action) => {
+		getManagedOrganizationsSuccess: (
+			state,
+			action: PayloadAction<OrganizationType[]>
+		) => {
 			state.isLoading = false;
 			state.organizations = action.payload;
 		},
@@ -48,34 +53,36 @@ export const { reducer, actions, name } = createSlice({
 			_action: PayloadAction<{ email: string }>
 		) => {
 			state.isFetch = true;
+			state.errors = {};
 		},
 		addManagerSuccess: state => {
 			state.isFetch = false;
 		},
-		addManagerFailure: (
-			state,
-			action: PayloadAction<Record<string, { message: string }>>
-		) => {
+		addManagerFailure: (state, action: PayloadAction<ApiErrors>) => {
 			state.isFetch = false;
 			state.errors = action.payload;
 		},
 		removeManagerRequest: (
 			state,
-			_action: PayloadAction<{ assignment_id: number }>
+			_action: PayloadAction<{ assignmentId: number }>
 		) => {
 			state.isFetch = true;
+			state.errors = {};
 		},
 		removeManagerSuccess: state => {
 			state.isFetch = false;
+			state.managerToDelete = null;
 		},
-		removeManagerFailure: state => {
+		removeManagerFailure: (state, action: PayloadAction<ApiErrors>) => {
 			state.isFetch = false;
+			state.errors = action.payload;
 		},
 		clearAllErrors: state => {
 			state.errors = {};
 		},
-		setDeleteManager: (state, action: PayloadAction<Manager>) => {
-			state.deleteManager = action.payload;
+		setManagerToDelete: (state, action: PayloadAction<ManagerType>) => {
+			state.managerToDelete = action.payload;
+			state.errors = {};
 		}
 	}
 });

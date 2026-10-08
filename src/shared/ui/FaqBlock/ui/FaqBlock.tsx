@@ -1,42 +1,37 @@
-import { useState } from 'react';
-import { IconButton } from '@shared/ui/IconButton';
-import ArrowRightIcon from '@shared/icons/ArrowRight';
+import { useId, useState } from 'react';
+import clsx from 'clsx';
+import ArrowDownIcon from '@shared/icons/ArrowDown';
 
 import './FaqBlock.scss';
 
-interface FaqBlockItemProps {
+interface FaqBlockProps {
 	label: string;
 	text: string;
 	className?: string;
 }
 
-const FaqBlockItem = ({ label, text, className = '' }: FaqBlockItemProps) => {
+const FaqBlock = ({ label, text, className }: FaqBlockProps) => {
 	const [isOpen, setIsOpen] = useState(false);
-
-	const handleToggle = () => {
-		setIsOpen(prev => !prev);
-	};
+	const answerId = useId();
 
 	return (
-		<div
-			className={`question-item ${isOpen ? 'question-item--open' : ''} ${className}`}
-			onClick={handleToggle}
-		>
-			<div className='question-item__header'>
-				<span className='question-item__label'>{label}</span>
+		<div className={clsx('faq-block', isOpen && 'faq-block--open', className)}>
+			<button
+				type='button'
+				className='faq-block__header'
+				aria-expanded={isOpen}
+				aria-controls={answerId}
+				onClick={() => setIsOpen(prev => !prev)}
+			>
+				<span className='faq-block__label'>{label}</span>
+				<ArrowDownIcon className='faq-block__icon' size={18} />
+			</button>
 
-				<IconButton
-					className='question-item__icon-btn'
-					icon={<ArrowRightIcon className='question-item__icon' />}
-					aria-label={isOpen ? 'Скрыть ответ' : 'Показать ответ'}
-				/>
-			</div>
-
-			<div className='question-item__answer'>
-				<div className='question-item__text'>{text}</div>
+			<div className='faq-block__answer' id={answerId}>
+				<div className='faq-block__text'>{text}</div>
 			</div>
 		</div>
 	);
 };
 
-export default FaqBlockItem;
+export default FaqBlock;

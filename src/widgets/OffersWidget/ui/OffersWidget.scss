@@ -1,116 +1,54 @@
-@use "../../../shared/styles/helpers/" as *;
+@use '@shared/styles/helpers' as *;
 
 .offers-widget {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	min-width: 0;
 
-    &__title {
-        font-weight: bold;
-        font-size: 32px;
-        color: var(--color-black);
-    }
+	@include f(gap, 40, 30, 18);
 
-    &__carousel {
-        position: relative;
-        width: 100%;
-    }
+	&__head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+	}
 
-    &__list {
-        width: 100%;
-        max-width: 1200px;
+	&__title {
+		@include page-title;
+	}
 
-        display: flex;
-        gap: 0;
+	// На тач-экранах карусель листают пальцем, кнопки не нужны
+	&__controls {
+		display: flex;
+		gap: 12px;
 
-        overflow-x: auto;
-        overflow-y: hidden;
+		@include tablet {
+			display: none;
+		}
+	}
 
-        padding-bottom: 8px;
+	// Список выходит за поля страницы, чтобы карточки уезжали за край экрана
+	&__list {
+		@include hide-scrollbar;
 
-        scrollbar-width: none;
+		display: flex;
+		gap: 16px;
+		margin-inline: calc(-1 * var(--container-padding));
+		// Вертикальные поля оставляют место тени карточки при наведении
+		padding: 4px var(--container-padding) 24px;
+		overflow-x: auto;
+		scroll-snap-type: x proximity;
+		scroll-padding-inline: var(--container-padding);
 
-        scroll-snap-type: x mandatory;
+		@include tablet {
+			gap: 12px;
+		}
+	}
 
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    }
-
-    &__item {
-        flex-shrink: 0;
-
-        scroll-snap-align: start;
-    }
-
-    &__button {
-        display: none;
-    }
-}
-
-@media (min-width: 1024px) {
-    .offers-widget {
-        &__carousel {
-            width: 100%;
-        }
-
-        &__list {
-            max-width: 1200px;
-        }
-
-        &__button {
-            position: absolute;
-            top: 50%;
-            z-index: 2;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            transform: translateY(-50%);
-
-            &:active {
-                transform: translateY(-50%) scale(0.95);
-            }
-
-            &--prev {
-                left: -60px;
-            }
-
-            &--next {
-                right: -60px;
-            }
-        }
-    }
-}
-
-@media (max-width: 1023.98px) {
-    .offers-widget {
-        &__list {
-            max-width: 100%;
-        }
-
-        &__item {
-            flex: 0 0 260px;
-        }
-    }
-}
-
-@media (max-width: 767.98px) {
-    .offers-widget {
-        gap: 20px;
-
-        &__title {
-            font-size: 24px;
-        }
-
-        &__list {
-            gap: 12px;
-        }
-
-        &__item {
-            flex: 0 0 180px;
-        }
-    }
+	&__item {
+		flex: 0 0 clamp(168px, 44vw, 240px);
+		scroll-snap-align: start;
+	}
 }

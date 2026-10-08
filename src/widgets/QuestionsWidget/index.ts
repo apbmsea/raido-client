@@ -1,1 +1,1 @@
-export { QuestionsWidget } from './ui/QuestionsWidget'
+export { QuestionsWidget } from './ui/QuestionsWidget';

@@ -1,1 +1,1 @@
-export { default as IconButton } from './ui/IconButton' 
+export { default as IconButton, type IconButtonSize } from './ui/IconButton';

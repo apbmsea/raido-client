@@ -1,0 +1,110 @@
+@use '@shared/styles/helpers' as *;
+
+$thumb-size: 84px;
+$thumbs-gap: 20px;
+
+.image-gallery {
+	position: relative;
+	width: 100%;
+	max-width: 506px + $thumb-size + $thumbs-gap;
+	min-width: 0;
+
+	// Лента миниатюр привязана к краям галереи, поэтому её высота
+	// всегда равна высоте главного фото
+	&__thumbs {
+		@include hide-scrollbar;
+
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		overflow-y: auto;
+	}
+
+	&__thumbs + &__main {
+		margin-left: $thumb-size + $thumbs-gap;
+	}
+
+	&__thumb {
+		@include button-reset;
+
+		flex-shrink: 0;
+		width: $thumb-size;
+		height: $thumb-size;
+		padding: 3px;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-m);
+		background: var(--color-white);
+		overflow: hidden;
+		transition: border-color var(--transition);
+
+		img {
+			width: 100%;
+			height: 100%;
+			border-radius: 11px;
+			object-fit: contain;
+		}
+
+		&:hover,
+		&--active {
+			border-color: var(--color-black);
+		}
+	}
+
+	&__main {
+		@include button-reset;
+
+		display: block;
+		width: 100%;
+		max-width: 506px;
+		aspect-ratio: 1;
+		border-radius: var(--radius-m);
+		background: var(--color-white);
+		overflow: hidden;
+
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
+
+		&:is(button) {
+			cursor: zoom-in;
+		}
+
+		&--empty {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: var(--color-surface);
+			color: var(--color-gray-light);
+		}
+	}
+
+	// На планшетах и телефонах миниатюры — горизонтальная лента под фото
+	@include tablet {
+		display: flex;
+		flex-direction: column-reverse;
+		gap: 12px;
+		max-width: 506px;
+
+		&__thumbs {
+			position: static;
+			flex-direction: row;
+			overflow-x: auto;
+			overflow-y: hidden;
+		}
+
+		&__thumbs + &__main {
+			margin-left: 0;
+		}
+
+		&__thumb {
+			width: 64px;
+			height: 64px;
+		}
+	}
+}

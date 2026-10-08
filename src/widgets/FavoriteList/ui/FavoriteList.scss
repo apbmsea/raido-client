@@ -1,0 +1,21 @@
+.favorite-list {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	justify-items: center;
+	gap: 20px 16px;
+	width: 100%;
+
+	@media (width <= 480px) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 10px;
+	}
+
+	&__link {
+		color: var(--color-primary);
+		font-weight: 600;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}

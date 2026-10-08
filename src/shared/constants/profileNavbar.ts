@@ -9,6 +9,7 @@ type ProfileNavigationItem = {
 	label: string;
 	path: string;
 	icon: ComponentType;
+	/** true — только для корпоративных аккаунтов, false — только для личных */
 	isCorporate?: boolean;
 };
 
@@ -34,11 +35,5 @@ export const PROFILE_NAVIGATION: ProfileNavigationItem[] = [
 		path: '/profile/organizations',
 		icon: BusinessProfileIcon,
 		isCorporate: false
-	},
-
-	// {
-	// 	label: 'Профиль для бизнеса',
-	// 	path: '/profile/business',
-	// 	icon: BusinessProfileIcon
-	// }
+	}
 ];

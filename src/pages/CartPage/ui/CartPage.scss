@@ -1,22 +1,16 @@
-@use "../../../shared/styles/helpers/" as *;
+@use '@shared/styles/helpers' as *;
 
 .cart-page {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    width: 100%;
-    max-width: 1280px;
-    margin: 0 auto;
-    @include f(padding-inline, 40, 40, 20);
-    @include f(padding-top, 40, 40, 20);
-    @include f(padding-bottom, 100, 100, 85);
+	@include page;
 
-    &__main {
-        flex: 1;
-        min-width: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 40px;
-    }
+	&__title {
+		@include page-title;
+	}
+
+	&__main {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+		min-width: 0;
+	}
 }

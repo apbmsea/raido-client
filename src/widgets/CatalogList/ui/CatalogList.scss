@@ -1,0 +1,28 @@
+.catalog-list {
+	width: 100%;
+	transition: opacity var(--transition);
+
+	&--grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+		justify-items: center;
+		gap: 20px 16px;
+
+		// На телефоне плитки идут строго по две в ряд
+		@media (width <= 480px) {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 10px;
+		}
+	}
+
+	&--list {
+		display: flex;
+		flex-direction: column;
+		gap: 40px;
+	}
+
+	&--loading {
+		opacity: 0.5;
+		pointer-events: none;
+	}
+}

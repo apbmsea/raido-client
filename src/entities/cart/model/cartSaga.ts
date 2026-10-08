@@ -1,127 +1,70 @@
-import { call, put, takeLatest } from 'typed-redux-saga';
-
+import { call, put, takeEvery, takeLatest } from 'typed-redux-saga';
 import type { PayloadAction } from '@reduxjs/toolkit';
-
-import { Cart } from '..';
-
-import type { AddItemToCartPayload } from './cartType';
-
 import {
 	addItemToCart,
 	getCart,
-	updateCartItemQuantity,
-	removeItemFromCart
-} from './cartApi';
+	removeItemFromCart,
+	updateCartItemQuantity
+} from '../api/cartApi';
+import { actions } from './cartSlice';
+import type {
+	AddItemPayload,
+	ChangeQuantityPayload,
+	RemoveItemPayload
+} from './cartTypes';
 
-function* addItemToCartSaga(action: PayloadAction<AddItemToCartPayload>) {
-	try {
-		yield* call(addItemToCart, action.payload);
-
-		yield* put(Cart.actions.addItemToCartSuccess());
-
-		yield* put(Cart.actions.getCartRequest());
-	} catch (error) {
-		yield* put(Cart.actions.addItemToCartFailure());
-	}
-}
-
-function* increaseQuantitySaga(
-	action: PayloadAction<{
-		product_id: number;
-		quantity: number;
-	}>
-) {
-	try {
-		yield* call(
-			updateCartItemQuantity,
-			action.payload.product_id,
-			action.payload.quantity
-		);
-
-		yield* put(
-			Cart.actions.increaseQuantitySuccess({
-				product_id: action.payload.product_id,
-				quantity: action.payload.quantity
-			})
-		);
-	} catch (error) {
-		yield* put(Cart.actions.increaseQuantityFailure());
-	}
-}
-
-function* decreaseQuantitySaga(
-	action: PayloadAction<{
-		product_id: number;
-		quantity: number;
-	}>
-) {
-	try {
-		yield* call(
-			updateCartItemQuantity,
-			action.payload.product_id,
-			action.payload.quantity
-		);
-
-		yield* put(
-			Cart.actions.decreaseQuantitySuccess({
-				product_id: action.payload.product_id,
-				quantity: action.payload.quantity
-			})
-		);
-	} catch (error) {
-		yield* put(Cart.actions.decreaseQuantityFailure());
-	}
-}
-
-function* removeItemFromCartSaga(
-	action: PayloadAction<{ product_id: number }>
-) {
-	try {
-		yield* call(removeItemFromCart, action.payload.product_id);
-
-		yield* put(
-			Cart.actions.removeItemFromCartSuccess({
-				product_id: action.payload.product_id
-			})
-		);
-		yield* put(Cart.actions.getCartRequest());
-	} catch (error) {
-		yield* put(Cart.actions.removeItemFromCartFailure());
-	}
+function* loadCart() {
+	const response = yield* call(getCart);
+	yield* put(actions.getCartSuccess(response));
 }
 
 function* getCartSaga() {
 	try {
-		const response = yield* call(getCart);
-		yield* put(Cart.actions.getCartSuccess(response.items));
-		yield* put(Cart.actions.setTotal(response.total));
-	} catch (error) {
-		yield* put(Cart.actions.getCartFailure());
+		yield* loadCart();
+	} catch {
+		yield* put(actions.getCartFailure());
 	}
 }
 
+/**
+ * Общий сценарий изменения корзины: запрос, затем свежий состав с сервера —
+ * суммы и скидки считает он. Товар остаётся «в ожидании» до конца обновления
+ */
+function* mutateCart(productId: number, request: () => Promise<void>) {
+	try {
+		yield* call(request);
+		yield* loadCart();
+	} catch {
+		// Корзина остаётся прежней: кнопка товара вернётся в исходное состояние
+	} finally {
+		yield* put(actions.mutationSettled({ productId }));
+	}
+}
+
+function* addItemSaga({ payload }: PayloadAction<AddItemPayload>) {
+	yield* mutateCart(payload.productId, () =>
+		addItemToCart(payload.productId)
+	);
+}
+
+function* changeQuantitySaga({
+	payload
+}: PayloadAction<ChangeQuantityPayload>) {
+	yield* mutateCart(payload.productId, () =>
+		updateCartItemQuantity(payload.itemId, payload.quantity)
+	);
+}
+
+function* removeItemSaga({ payload }: PayloadAction<RemoveItemPayload>) {
+	yield* mutateCart(payload.productId, () =>
+		removeItemFromCart(payload.itemId)
+	);
+}
+
 export default function* watchCart() {
-	yield* takeLatest(
-		Cart.actions.addItemToCartRequest.type,
-		addItemToCartSaga
-	);
-
-	yield* takeLatest(
-		Cart.actions.increaseQuantityRequest.type,
-		increaseQuantitySaga
-	);
-
-	yield* takeLatest(
-		Cart.actions.decreaseQuantityRequest.type,
-		decreaseQuantitySaga
-	);
-
-	yield* takeLatest(
-		Cart.actions.removeItemFromCartRequest.type,
-		removeItemFromCartSaga
-	);
-
-	yield* takeLatest(Cart.actions.getCartRequest.type, getCartSaga);
-	yield* takeLatest(Cart.actions.increaseQuantitySuccess.type, getCartSaga);
-	yield* takeLatest(Cart.actions.decreaseQuantitySuccess.type, getCartSaga);
+	yield* takeLatest(actions.getCartRequest.type, getCartSaga);
+	// takeEvery: изменения разных товаров не должны отменять друг друга
+	yield* takeEvery(actions.addItemRequest.type, addItemSaga);
+	yield* takeEvery(actions.changeQuantityRequest.type, changeQuantitySaga);
+	yield* takeEvery(actions.removeItemRequest.type, removeItemSaga);
 }

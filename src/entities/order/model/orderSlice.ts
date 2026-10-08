@@ -1,13 +1,18 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { CreateOrderPayload, Order } from './orderTypes';
+import type { ApiErrors } from '@shared/types/handleError.type';
+import type {
+	CreateOrderPayload,
+	OrdersResponse,
+	OrderType
+} from './orderTypes';
 
 interface OrderState {
 	total: number;
-	items: Order[];
+	items: OrderType[];
 	isLoading: boolean;
 	isFetching: boolean;
 	isJustCreated: boolean;
-	errors: Record<string, { message: string }>;
+	errors: ApiErrors;
 }
 
 const initialState: OrderState = {
@@ -26,14 +31,18 @@ export const { reducer, actions, name } = createSlice({
 		getOrdersRequest: state => {
 			state.isLoading = true;
 		},
-		getOrdersSuccess: (state, action: PayloadAction<Order[]>) => {
+		getOrdersSuccess: (state, action: PayloadAction<OrdersResponse>) => {
 			state.isLoading = false;
-			state.items = action.payload;
+			state.items = action.payload.items;
+			state.total = action.payload.total;
 		},
 		getOrdersFailure: state => {
 			state.isLoading = false;
 		},
-		createOrderRequest: (state, _action: PayloadAction<CreateOrderPayload>) => {
+		createOrderRequest: (
+			state,
+			_action: PayloadAction<CreateOrderPayload>
+		) => {
 			state.isFetching = true;
 			state.errors = {};
 		},
@@ -41,10 +50,7 @@ export const { reducer, actions, name } = createSlice({
 			state.isFetching = false;
 			state.isJustCreated = true;
 		},
-		createOrderFailure: (
-			state,
-			action: PayloadAction<Record<string, { message: string }>>
-		) => {
+		createOrderFailure: (state, action: PayloadAction<ApiErrors>) => {
 			state.isFetching = false;
 			state.errors = action.payload;
 		},
@@ -57,8 +63,10 @@ export const { reducer, actions, name } = createSlice({
 		clearAllErrors: state => {
 			state.errors = {};
 		},
-		setTotal: (state, action: PayloadAction<number>) => {
-			state.total = action.payload;
-		}
+		// Флаг «только что оформлен» переживает сброс: он нужен странице заказа
+		reset: state => ({
+			...initialState,
+			isJustCreated: state.isJustCreated
+		})
 	}
 });

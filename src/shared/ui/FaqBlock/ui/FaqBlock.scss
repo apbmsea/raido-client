@@ -1,55 +1,72 @@
-.question-item {
-    width: 100%;
-    border: 1px solid var(--color-black);
-    border-radius: 15px;
-    padding: 21.5px 30px;
+@use '@shared/styles/helpers' as *;
 
-    &__header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
+.faq-block {
+	width: 100%;
+	border: 1px solid var(--color-black);
+	border-radius: var(--radius-m);
+	transition:
+		border-color var(--transition),
+		box-shadow var(--transition);
 
-    &__label {
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--color-black);
-    }
+	&:hover,
+	&--open {
+		border-color: var(--color-primary);
+		box-shadow: var(--shadow-s);
+	}
 
-    &__icon {
-        transition: transform 0.25s ease;
-        
-        &-btn {
-            border: none;
-        }
-    }
+	&__header {
+		@include button-reset;
 
-    &__answer {
-        display: grid;
-        grid-template-rows: 0fr;
-        transition: grid-template-rows 0.25s ease;
-    }
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+		width: 100%;
+		padding: clamp(16px, 3vw, 22px) clamp(16px, 4vw, 30px);
+		border-radius: var(--radius-m);
+	}
 
-    &__text {
-        overflow: hidden;
-        font-size: 14px;
-        line-height: 1.5;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-    }
+	&__label {
+		font-size: 16px;
+		font-weight: 600;
+		color: var(--color-black);
+	}
 
-    &--open {
-        .question-item__answer {
-            grid-template-rows: 1fr;
-        }
+	&__icon {
+		flex-shrink: 0;
+		transition: transform 0.25s ease;
+	}
 
-        .question-item__text {
-            padding-bottom: 20px;
-            opacity: 1;
-        }
+	&__answer {
+		display: grid;
+		grid-template-rows: 0fr;
+		transition: grid-template-rows 0.25s ease;
+	}
 
-        .question-item__icon {
-            transform: rotate(90deg);
-        }
-    }
+	&__text {
+		overflow: hidden;
+		padding-inline: clamp(16px, 4vw, 30px);
+		color: var(--color-gray-dark);
+		font-size: 14px;
+		line-height: 1.6;
+		opacity: 0;
+		transition:
+			opacity 0.2s ease,
+			padding-bottom 0.25s ease;
+	}
+
+	&--open {
+		.faq-block__answer {
+			grid-template-rows: 1fr;
+		}
+
+		.faq-block__text {
+			padding-bottom: clamp(16px, 3vw, 22px);
+			opacity: 1;
+		}
+
+		.faq-block__icon {
+			transform: rotate(180deg);
+		}
+	}
 }

@@ -1,12 +1,13 @@
 import { Advantages } from '@widgets/Advantages';
-import './HomePage.scss'
 import { CatalogWidget } from '@widgets/CatalogWidget';
-import { SliderWidget } from '@widgets/SliderWidget';
 import { OffersWidget } from '@widgets/OffersWidget';
+import { SliderWidget } from '@widgets/SliderWidget';
+import './HomePage.scss';
 
 const HomePage = () => {
 	return (
-		<main className='home'>
+		<main className='home-page'>
+			<h1 className='visually-hidden'>Райдо Сервис</h1>
 			<SliderWidget />
 			<CatalogWidget />
 			<OffersWidget />

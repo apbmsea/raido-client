@@ -8,14 +8,14 @@ export interface OrderProduct {
 		image_500x500: string;
 		image_700x700: string;
 		order: number;
-	};
+	} | null;
 	product_name: string;
 	quantity: number;
 	retail_price: string;
 	retail_subtotal: string;
 }
 
-export interface Order {
+export interface OrderType {
 	created_at: string;
 	final_subtotal: string;
 	id: number;
@@ -24,17 +24,16 @@ export interface Order {
 	payment_status_label: string;
 	retail_subtotal: string;
 	shipping: boolean;
-	status: string; //заменить на enum
+	status: string;
 	status_label: string;
 	support_phone: string;
 	total_amount: string;
 	user_id: number;
 }
 
-export interface OrderDetails extends Order {
+export interface OrderDetails extends OrderType {
 	comment: string;
 	created_by_manager: boolean;
-	final_subtotal: string;
 	manager_email: string;
 	manager_name: string;
 	manager_patronymic: string;
@@ -42,8 +41,12 @@ export interface OrderDetails extends Order {
 	is_organization_order: boolean;
 	organization_name: string;
 	receipt_code: string;
-	retail_subtotal: string;
 	shipping_address: string;
+}
+
+export interface OrdersResponse {
+	items: OrderType[];
+	total: number;
 }
 
 export interface CreateOrderPayload {

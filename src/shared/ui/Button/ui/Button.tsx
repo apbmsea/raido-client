@@ -1,13 +1,14 @@
 import React from 'react';
+import clsx from 'clsx';
 import './Button.scss';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	variant?: 'primary' | 'outline';
 	size?: 'xs' | 's' | 'm' | 'l';
 	loading?: boolean;
+	fullWidth?: boolean;
 	leftIcon?: React.ReactNode;
 	rightIcon?: React.ReactNode;
-	className?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -15,32 +16,35 @@ const Button: React.FC<ButtonProps> = ({
 	variant = 'primary',
 	size = 'm',
 	loading = false,
+	fullWidth = false,
 	leftIcon,
 	rightIcon,
 	disabled,
 	className,
+	type = 'button',
 	...props
 }) => {
 	return (
 		<button
 			{...props}
+			type={type}
 			disabled={disabled || loading}
-			className={`btn btn--${variant} btn--${size} ${className} ${loading ? 'btn--loading' : ''}`}
+			aria-busy={loading || undefined}
+			className={clsx(
+				'btn',
+				`btn--${variant}`,
+				`btn--${size}`,
+				loading && 'btn--loading',
+				fullWidth && 'btn--full-width',
+				className
+			)}
 		>
 			<span className='btn__content'>
-				{leftIcon && (
-					<span className='btn__icon btn__icon--left'>
-						{leftIcon}
-					</span>
-				)}
+				{leftIcon && <span className='btn__icon'>{leftIcon}</span>}
 
 				<span className='btn__text'>{children}</span>
 
-				{rightIcon && (
-					<span className='btn__icon btn__icon--right'>
-						{rightIcon}
-					</span>
-				)}
+				{rightIcon && <span className='btn__icon'>{rightIcon}</span>}
 			</span>
 
 			{loading && <span className='btn__spinner' />}

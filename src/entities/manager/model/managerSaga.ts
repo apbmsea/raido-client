@@ -1,70 +1,31 @@
 import { call, put, takeLatest } from 'typed-redux-saga';
-import { Manager } from '..';
-import {
-	addManager,
-	getManagedOrganizations,
-	getManagers,
-	removeManager
-} from './managerApi';
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { isApiError } from '@shared/utils/errorHandler';
-import { Modal } from '@entities/modal';
+import { getManagedOrganizations, getManagers } from '../api/managerApi';
+import { actions } from './managerSlice';
 
 function* getManagersSaga() {
 	try {
 		const response = yield* call(getManagers);
-		yield* put(Manager.actions.getManagersSuccess(response));
-	} catch (error) {
-		yield* put(Manager.actions.getManagersFailure());
+		yield* put(actions.getManagersSuccess(response));
+	} catch {
+		yield* put(actions.getManagersFailure());
 	}
 }
 
 function* getManagedOrganizationsSaga() {
 	try {
 		const response = yield* call(getManagedOrganizations);
-		yield* put(Manager.actions.getManagedOrganizationsSuccess(response));
-	} catch (error) {
-		yield* put(Manager.actions.getManagedOrganizationsFailure());
+		yield* put(actions.getManagedOrganizationsSuccess(response));
+	} catch {
+		yield* put(actions.getManagedOrganizationsFailure());
 	}
 }
 
-function* addManagerSaga(action: PayloadAction<{ email: string }>) {
-	try {
-		yield* call(addManager, action.payload.email);
-		yield* put(Manager.actions.addManagerSuccess());
-		yield* put(Modal.actions.openModal('addManagerSuccess'));
-	} catch (error) {
-		if (isApiError(error)) {
-			yield* put(Manager.actions.addManagerFailure(error.errors));
-		} else {
-			yield* put(Manager.actions.addManagerFailure({}));
-		}
-	}
-}
-
-function* removeManagerSaga(action: PayloadAction<{ assignment_id: number }>) {
-	try {
-		yield* call(removeManager, action.payload.assignment_id);
-		yield* put(Manager.actions.removeManagerSuccess());
-		yield* put(Modal.actions.closeModal());
-	} catch (error) {
-		yield* put(Manager.actions.removeManagerFailure());
-	}
-}
-
+// Добавление и удаление менеджера открывают и закрывают модальные окна,
+// поэтому их сценарии лежат в features/addManager и features/deleteManager
 export default function* watchManager() {
-	yield* takeLatest(Manager.actions.getManagersRequest.type, getManagersSaga);
+	yield* takeLatest(actions.getManagersRequest.type, getManagersSaga);
 	yield* takeLatest(
-		Manager.actions.getManagedOrganizationsRequest.type,
+		actions.getManagedOrganizationsRequest.type,
 		getManagedOrganizationsSaga
-	);
-	yield* takeLatest(
-		Manager.actions.removeManagerSuccess.type,
-		getManagersSaga
-	);
-	yield* takeLatest(Manager.actions.addManagerRequest.type, addManagerSaga);
-	yield* takeLatest(
-		Manager.actions.removeManagerRequest.type,
-		removeManagerSaga
 	);
 }

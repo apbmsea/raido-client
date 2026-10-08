@@ -1,83 +1,86 @@
-@use "../../../shared/styles/helpers/" as *;
+@use '@shared/styles/helpers' as *;
 
 .about-company-page {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    width: 100%;
-    max-width: 1280px;
-    margin: 0 auto;
-    @include f(padding-inline, 40, 40, 20);
-    @include f(padding-top, 40, 40, 20);
-    @include f(padding-bottom, 100, 100, 85);
+	@include page;
 
-    &__title {
-        @include f(font-size, 32, 24, 18);
-        font-weight: bold;
-        color: var(--color-black);
-    }
+	&__title {
+		@include page-title;
+	}
 
-    p {
-        @include f(font-size, 20, 14, 14);
-        color: var(--color-black);
-    }
+	&__text {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		max-width: 960px;
+		color: var(--color-black);
+		line-height: 1.5;
 
-    &__content {
-        display: flex;
-        justify-content: space-between;
+		@include f(font-size, 20, 16, 14);
 
-        @include laptop {
-            flex-direction: column;
-            gap: 40px;
-        }
-    }
+		p {
+			margin: 0;
+		}
+	}
 
-    &__location {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-    &__subtitle {
-        @include f(font-size, 24, 18, 16);
-        font-weight: bold;
-        color: var(--color-black);
-    }
+	&__content {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 40px;
+	}
 
-    &__map {
-        border-radius: 15px;
-        @include f(width, 633, 633, 322);
-        @include f(height, 400, 400, 200);
-    }
+	&__section {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		min-width: 0;
 
-    &__adress {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
+		&:first-child {
+			flex: 1 1 400px;
+			max-width: 633px;
+		}
+	}
 
-        &-title {
-            @include f(font-size, 18, 18, 16);
-            font-weight: bold;
-            color: var(--color-black);
-        }
+	&__subtitle {
+		color: var(--color-black);
 
-        &-text {
-            @include f(font-size, 16, 16, 14);
-            color: var(--color-black);
-        }
-    }
+		@include f(font-size, 24, 18, 16);
+	}
 
-    &__contacts {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+	&__address {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		color: var(--color-black);
+		font-size: 16px;
+	}
 
-        &-list {
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            color: var(--color-black);
-            @include f(font-size, 18, 18, 16);
-        }
-    }
+	&__address-title {
+		@include f(font-size, 18, 18, 16);
+	}
+
+	&__map {
+		width: 100%;
+		aspect-ratio: 633 / 400;
+		border: none;
+		border-radius: var(--radius-m);
+	}
+
+	&__contacts {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		color: var(--color-black);
+
+		@include f(font-size, 18, 18, 16);
+
+		a {
+			text-decoration: none;
+			transition: color var(--transition);
+
+			&:hover {
+				color: var(--color-primary);
+			}
+		}
+	}
 }

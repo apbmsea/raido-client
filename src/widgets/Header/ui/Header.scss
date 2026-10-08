@@ -1,94 +1,69 @@
-@use '../../../shared/styles/helpers/' as *;
+@use '@shared/styles/helpers' as *;
 
 .header {
-	margin: auto;
-	padding: 40px 40px 0 40px;
-	max-width: 1280px;
-	width: 100%;
+	@include container;
+
 	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	grid-template-areas: 'main search actions';
 	align-items: center;
-	column-gap: 32px;
-	row-gap: 16px;
-	grid-template-columns: auto 1fr auto;
-	grid-template-areas: 'content search buttons';
+	gap: 16px clamp(12px, 3vw, 32px);
+	padding-top: clamp(16px, 5vw, 40px);
+	padding-bottom: 20px;
 
-	@include tablet {
-		padding: fluid(40, 20) fluid(40, 20) 0 fluid(40, 20);
-	}
-
-	&__content {
-		grid-area: content;
+	&__main {
+		grid-area: main;
 		display: flex;
 		align-items: center;
 		gap: fluid(19, 12);
-		flex-shrink: 0;
+	}
 
-		button {
-			@include mobile {
-				width: 40px !important;
-				height: 40px !important;
-			}
+	&__logo {
+		// На самых узких экранах логотип ужимается первым
+		flex: 0 1 auto;
+		width: fluid(169, 103);
+		min-width: 72px;
+		transition: opacity var(--transition);
+
+		&:hover {
+			opacity: 0.8;
 		}
 
-		&-logo {
-			width: fluid(169, 103);
-			height: fluid(49, 30);
-			flex-shrink: 0;
+		img {
+			width: 100%;
+			height: auto;
 		}
 	}
 
 	&__search {
 		grid-area: search;
-		position: relative;
-
 		justify-self: center;
-
-		.input {
-			&__field {
-				width: fluid(380, 150);
-			}
-		}
+		max-width: 420px;
 	}
 
-	&__buttons {
-		grid-area: buttons;
+	&__actions {
+		grid-area: actions;
 		display: flex;
 		align-items: center;
 		gap: fluid(16, 6);
-		flex-shrink: 0;
+	}
 
-		button {
-			@include mobile {
-				width: 40px !important;
-				height: 40px !important;
-			}
+	// На телефонах поиск уходит на вторую строку, а кнопки становятся компактнее
+	@media (width < 680px) {
+		grid-template-columns: minmax(0, 1fr) auto;
+		grid-template-areas:
+			'main actions'
+			'search search';
+		padding-bottom: 16px;
+
+		&__search {
+			max-width: none;
 		}
 	}
 
-	@media (width < 680px) {
-		grid-template-columns: auto auto;
-		grid-template-areas:
-			'content buttons'
-			'search search';
-		column-gap: 0;
-		justify-content: space-between;
-
-		&__content {
-			margin-right: 10px;
-		}
-
-		&__search {
-			.input {
-				width: 100%;
-
-				&__wrapper {
-					width: 100%;
-				}
-				&__field {
-					width: 100%;
-				}
-			}
-			width: 100%;
+	@include mobile {
+		.icon-button {
+			--icon-button-size: 40px;
 		}
 	}
 }

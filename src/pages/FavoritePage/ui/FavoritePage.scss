@@ -1,15 +1,9 @@
-.favorite-page {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    width: 100%;
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 40px 40px 100px;
+@use '@shared/styles/helpers' as *;
 
-    &__title {
-        font-size: 32px;
-        font-weight: bold;
-        color: var(--color-black);
-    }
+.favorite-page {
+	@include page;
+
+	&__title {
+		@include page-title;
+	}
 }

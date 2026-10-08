@@ -1,31 +1,43 @@
-import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { useEffect } from 'react';
-import { Manager } from '..';
+import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
+import { EmptyState } from '@shared/ui/EmptyState';
 import { Loader } from '@shared/ui/Loader';
-import './ManagerList.scss';
+import { actions } from '../model/managerSlice';
+import type { ManagerType } from '../model/managerTypes';
 import { ManagerCard } from './ManagerCard';
+import './ManagerList.scss';
 
-const ManagerList = () => {
+type ManagerListProps = {
+	onDelete?: (manager: ManagerType) => void;
+};
+
+const ManagerList = ({ onDelete }: ManagerListProps) => {
 	const { managers, isLoading } = useAppSelector(state => state.manager);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(Manager.actions.getManagersRequest());
-	}, []);
+		dispatch(actions.getManagersRequest());
+	}, [dispatch]);
 
-	if (isLoading) return <Loader />;
+	if (isLoading && managers.length === 0) return <Loader />;
 
-	if (managers.length === 0)
+	if (managers.length === 0) {
 		return (
-			<div className='managers-null'>
-				У вашей организации пока нет менеджеров.
-			</div>
+			<EmptyState
+				variant='compact'
+				title='У вашей организации пока нет менеджеров.'
+			/>
 		);
+	}
 
 	return (
 		<div className='manager-list'>
 			{managers.map(manager => (
-				<ManagerCard manager={manager} />
+				<ManagerCard
+					key={manager.assignment_id}
+					manager={manager}
+					onDelete={onDelete}
+				/>
 			))}
 		</div>
 	);

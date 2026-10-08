@@ -1,73 +1,103 @@
-@use "../../../shared/styles/helpers/" as *;
+@use '@shared/styles/helpers' as *;
 
 .slider-widget {
-
 	position: relative;
 	display: flex;
 	justify-content: space-between;
-	background-size: cover;
-	background-position: center;
-	background-color: var(--color-primary);
-	border-radius: 15px;
 	padding: fluid-dt(54, 32) fluid-dt(43, 19) fluid-dt(37, 17) fluid-dt(54, 32);
-	transition: background-image 0.4s ease-in-out;
-	@include f(height, 354, 205, 125);
+	border-radius: var(--radius-m);
+	background-color: var(--color-primary);
+	color: var(--color-white);
+	overflow: hidden;
+
+	@include f(min-height, 354, 205, 140);
 
 	@include tablet {
-		padding: fluid-tm(32, 15) fluid-tm(19, 15) fluid-tm(17, 5) fluid-tm(32, 15);
-		background-position: -5px 0;
+		padding: fluid-tm(32, 15) fluid-tm(19, 15) fluid-tm(17, 10)
+			fluid-tm(32, 15);
+	}
+
+	&__background {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		// Сюжет картинки — справа, текст — слева: при обрезке сохраняем левый край
+		object-position: left center;
+		opacity: 0;
+		transition: opacity 0.5s ease;
+
+		&--active {
+			opacity: 1;
+		}
 	}
 
 	&__content {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		animation: fade-in 0.5s ease;
+
 		@include f(max-width, 450, 300, 200);
-		color: var(--color-white);
-		animation: fade 0.4s ease-in-out;
+	}
 
-		&-title {
-			font-weight: 700;
-			@include f(margin-bottom, 20, 10, 5);
-			@include f(font-size, 36, 24, 16);
-		}
+	&__title {
+		font-weight: 700;
+		line-height: 1.2;
 
-		&-description {
-			font-weight: 560;
-			@include f(font-size, 24, 16, 12);
-			@include f(margin-bottom, 30, 18, 8);
-		}
+		@include f(margin-bottom, 20, 10, 5);
+		@include f(font-size, 36, 24, 16);
+	}
 
-		&-button {
-			font-weight: 400;
-			border: none;
-			padding: fluid-dt(10, 6) fluid-dt(20, 12);
-			@include f(font-size, 18, 16, 12);
-			height: auto;
+	&__description {
+		font-weight: 500;
+		line-height: 1.3;
 
-			@include tablet {
-				padding: fluid-tm(6, 5) fluid-tm(12, 10);
-			}
+		@include f(font-size, 24, 16, 12);
+		@include f(margin-bottom, 30, 18, 8);
+	}
+
+	// Кнопка на слайде белая и без рамки при любом состоянии
+	& &__button {
+		height: auto;
+		padding: fluid-dt(10, 6) fluid-dt(20, 12);
+		border-color: var(--color-white);
+		font-weight: 400;
+
+		@include f(font-size, 18, 16, 12);
+
+		@include tablet {
+			padding: fluid-tm(6, 5) fluid-tm(12, 10);
 		}
 	}
 
 	&__controls {
+		position: relative;
 		display: flex;
 		align-items: center;
-		gap: 17px;
-		align-self: end;
-		color: #fff;
+		align-self: flex-end;
+		gap: 12px;
 		font-weight: 700;
+		white-space: nowrap;
+
 		@include f(font-size, 20, 14, 12);
 
-		&-button {
-			border: none;
+		// На узких экранах счётчик попадает на картинку слайда — даём ему подложку
+		@include tablet {
+			padding: 2px 8px;
+			border-radius: var(--radius-pill);
+			background: rgb(12 12 12 / 45%);
 		}
-	}
-}
 
-@keyframes fade {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
+		.icon-button {
+			color: var(--color-white);
+
+			&:hover:not(:disabled) {
+				color: var(--color-white);
+				background-color: rgb(255 255 255 / 18%);
+			}
+		}
 	}
 }

@@ -1,80 +1,63 @@
-@use "../../../shared/styles/helpers/" as *;
-
 .profile-navbar {
-    &__sidebar {
-        display: flex;
-        flex-direction: column;
-        gap: 40px;
-        max-width: 260px;
+	display: flex;
+	flex-direction: column;
+	flex-shrink: 0;
+	gap: 40px;
+	width: 260px;
+	max-width: 100%;
 
-        &--root {
-            display: flex !important;
-        }
+	&__nav {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		padding: 12px;
+		border: 1px solid var(--color-black);
+		border-radius: var(--radius-m);
+	}
 
-        @include tablet {
-            display: none;
-        }
-    }
+	&__link {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		padding: 10px 12px;
+		border-radius: 10px;
+		color: var(--color-black);
+		font-size: 16px;
+		transition:
+			color var(--transition),
+			background-color var(--transition);
 
-    &__title {
-        @include f(font-size, 32, 24, 24);
-        font-weight: bold;
-        color: var(--color-black);
-    }
+		&:hover {
+			color: var(--color-primary);
+		}
 
-    &__navbar {
-        width: 100%;
-        border: 1px solid var(--color-black);
-        padding: 20px;
-        border-radius: 15px;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
+		&--active {
+			color: var(--color-primary);
+			background-color: var(--color-primary-soft);
+			font-weight: 600;
+		}
+	}
 
-    &__link {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-        color: var(--color-black);
-        font-size: 16px;
-        transition: 0.2s ease;
+	&__promo {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+	}
 
-        &:hover {
-            color: var(--color-primary);
-        }
+	&__promo-image {
+		width: 100%;
+		height: auto;
+		margin-bottom: 8px;
+		border-radius: var(--radius-m);
+	}
 
-        &--active {
-            color: var(--color-primary);
-        }
-    }
+	&__promo-title {
+		font-size: 16px;
+	}
 
-    &__distribution {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-
-        &-image {
-            width: 260px;
-            height: 125px;
-        }
-    }
-
-    &__info {
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-        gap: 15px;
-
-        &-title {
-            font-size: 16px;
-            color: var(--color-black);
-            font-weight: bold;
-        }
-
-        &-text {
-            font-size: 14px;
-            color: var(--color-black);
-        }
-    }
+	&__promo-text {
+		font-size: 14px;
+		line-height: 1.4;
+	}
 }

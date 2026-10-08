@@ -1,4 +1,6 @@
-import type { QuestionType } from '..';
+import { Avatar } from '@shared/ui/Avatar';
+import { formatDate } from '@shared/utils/formatDate';
+import type { QuestionType } from '../model/questionTypes';
 import './QuestionCard.scss';
 
 type QuestionCardProps = {
@@ -6,45 +8,35 @@ type QuestionCardProps = {
 };
 
 export const QuestionCard = ({ question }: QuestionCardProps) => {
-	const formatDate = (isoString: string) => {
-		if (!isoString) return '';
-		const date = new Date(isoString);
-		return date.toLocaleDateString('ru-RU', {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric'
-		});
-	};
+	const authorName = [question.first_name, question.last_name]
+		.filter(Boolean)
+		.join(' ');
+
 	return (
-		<div className='question-card'>
-			<div className='question-card__content'>
-				<div className='question-card__information'>
-					<span className='question-card__information-name'>
-						{question.first_name && question.last_name ? `${question.first_name} ${question.last_name}` : "Анонимный пользователь"} 
+		<article className='question-card'>
+			<div className='question-card__header'>
+				<Avatar name={authorName} />
+				<div className='question-card__author'>
+					<span className='question-card__name'>
+						{authorName || 'Анонимный пользователь'}
 					</span>
-					<div className='question-card__information-date'>
+					<time
+						className='question-card__date'
+						dateTime={question.created_at}
+					>
 						{formatDate(question.created_at)}
-					</div>
+					</time>
 				</div>
-				<p className='question-card__content-comment'>
-					{question.comment}
-				</p>
 			</div>
+			<p className='question-card__comment'>{question.comment}</p>
 			{question.answer && (
-				<div className='question-card__content question-card--answer'>
-					<div className='question-card__information'>
-						<span className='question-card__information-name'>
-							Ответ от компании
-						</span>
-						{/* <div className='question-card__information-date'>
-						{formatDate(question.created_at)}
-					</div> */}
-					</div>
-					<p className='question-card__content-comment'>
-						{question.answer}
-					</p>
+				<div className='question-card__answer'>
+					<span className='question-card__answer-label'>
+						Ответ от компании
+					</span>
+					<p className='question-card__comment'>{question.answer}</p>
 				</div>
 			)}
-		</div>
+		</article>
 	);
 };

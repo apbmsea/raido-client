@@ -1,17 +1,28 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { FavoriteItem, FavoriteResponse } from './favoriteTypes';
 
 interface FavoriteState {
 	total: number;
-	items: any[];
+	items: FavoriteItem[];
 	isLoading: boolean;
-	isFetch: boolean;
+	/** Товары, по которым сейчас идёт запрос на изменение избранного */
+	pendingProductIds: number[];
 }
 
 const initialState: FavoriteState = {
 	total: 0,
 	items: [],
 	isLoading: false,
-	isFetch: false
+	pendingProductIds: []
+};
+
+const startMutation = (
+	state: FavoriteState,
+	action: PayloadAction<{ productId: number }>
+) => {
+	if (!state.pendingProductIds.includes(action.payload.productId)) {
+		state.pendingProductIds.push(action.payload.productId);
+	}
 };
 
 export const { reducer, actions, name } = createSlice({
@@ -21,39 +32,30 @@ export const { reducer, actions, name } = createSlice({
 		getFavoriteRequest: state => {
 			state.isLoading = true;
 		},
-		getFavoriteSuccess: (state, action) => {
+		getFavoriteSuccess: (state, action: PayloadAction<FavoriteResponse>) => {
 			state.isLoading = false;
-			state.items = action.payload;
+			state.items = action.payload.items;
+			state.total = action.payload.total;
 		},
 		getFavoriteFailure: state => {
 			state.isLoading = false;
 		},
 		addFavoriteRequest: (
 			state,
-			_action: PayloadAction<{ productId: number }>
-		) => {
-			state.isFetch = true;
-		},
-		addFavoriteSuccess: state => {
-			state.isFetch = false;
-		},
-		addFavoriteFailure: state => {
-			state.isFetch = false;
-		},
+			action: PayloadAction<{ productId: number }>
+		) => startMutation(state, action),
 		removeFavoriteRequest: (
 			state,
-			_action: PayloadAction<{ productId: number }>
+			action: PayloadAction<{ itemId: number; productId: number }>
+		) => startMutation(state, action),
+		mutationSettled: (
+			state,
+			action: PayloadAction<{ productId: number }>
 		) => {
-			state.isFetch = true;
+			state.pendingProductIds = state.pendingProductIds.filter(
+				id => id !== action.payload.productId
+			);
 		},
-		removeFavoriteSuccess: state => {
-			state.isFetch = false;
-		},
-		removeFavoriteFailure: state => {
-			state.isFetch = false;
-		},
-		setTotal: (state, action: PayloadAction<number>) => {
-			state.total = action.payload;
-		}
+		reset: () => initialState
 	}
 });

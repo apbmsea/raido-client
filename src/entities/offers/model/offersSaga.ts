@@ -1,15 +1,16 @@
 import { call, put, takeLatest } from 'typed-redux-saga';
-import { Offers } from '..';
-import { getOffers } from './offersApi';
+import { getOffers } from '../api/offersApi';
+import { actions } from './offersSlice';
 
 function* getOffersSaga() {
 	try {
 		const response = yield* call(getOffers);
-		yield* put(Offers.actions.getOffersSuccess(response.items));
-	} catch (error) {
-		yield* put(Offers.actions.getOffersFailure());
+		yield* put(actions.getOffersSuccess(response.items));
+	} catch {
+		yield* put(actions.getOffersFailure());
 	}
 }
+
 export default function* watchOffers() {
-	yield* takeLatest(Offers.actions.getOffersRequest.type, getOffersSaga);
+	yield* takeLatest(actions.getOffersRequest.type, getOffersSaga);
 }

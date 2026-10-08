@@ -1,47 +1,43 @@
 import React from 'react';
+import clsx from 'clsx';
 import './IconButton.scss';
 
+/** xs — 32px, s — 40px, m — 45px, l — 50px, xl — 82px */
+export type IconButtonSize = 'xs' | 's' | 'm' | 'l' | 'xl';
+
 interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-	size?: number;
+	size?: IconButtonSize;
 	icon: React.ReactNode;
 	counter?: number;
-	variant?: 'primary' | 'outline';
-	className?: string;
+	/** ghost — без рамки и фона, для второстепенных действий */
+	variant?: 'primary' | 'outline' | 'ghost';
 }
 
 const IconButton: React.FC<IconButtonProps> = ({
-	size = 50,
+	size = 'l',
 	icon,
 	counter,
 	variant = 'outline',
-	disabled = false,
 	className,
+	type = 'button',
 	...props
 }) => {
-	const buttonStyle = {
-		width: `${size}px`,
-		height: `${size}px`,
-		borderRadius: '50%'
-	};
-
 	return (
 		<button
 			{...props}
-			disabled={disabled}
-			style={buttonStyle}
-			className={`icon-button ${className} ${variant} ${disabled ? 'icon-button--disabled' : ''}`}
+			type={type}
+			className={clsx(
+				'icon-button',
+				`icon-button--${variant}`,
+				`icon-button--${size}`,
+				className
+			)}
 		>
 			{icon}
 
 			{counter !== undefined && counter > 0 && (
-				<span
-					className='icon-button__counter'
-					style={{
-						minWidth: `${size / 2.5}px`,
-						height: `${size / 2.5}px`
-					}}
-				>
-					{counter}
+				<span className='icon-button__counter'>
+					{counter > 99 ? '99+' : counter}
 				</span>
 			)}
 		</button>

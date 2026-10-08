@@ -1,39 +1,29 @@
+import { useEffect, useState, type FormEvent } from 'react';
 import { Manager } from '@entities/manager';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Button } from '@shared/ui/Button';
 import { Input } from '@shared/ui/Input';
-import React, { useState } from 'react';
-import './AddManagerForm.scss';
 
 const AddManagerForm = () => {
 	const dispatch = useAppDispatch();
-	const [formData, setFormData] = useState({
-		email: ''
-	});
-
+	const [email, setEmail] = useState('');
 	const { isFetch, errors } = useAppSelector(state => state.manager);
+	const formError = Object.entries(errors).find(
+		([key]) => key !== 'email'
+	)?.[1].message;
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, value, type, checked } = e.target;
+	useEffect(() => {
+		dispatch(Manager.actions.clearAllErrors());
+	}, [dispatch]);
 
-		setFormData(prev => ({
-			...prev,
-			[name]: type === 'checkbox' ? checked : value
-		}));
-
-		if (errors?.[name]) {
-			dispatch(Manager.actions.clearAllErrors());
-		}
-	};
-
-	const handleSumbit = (e: React.FormEvent) => {
+	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		dispatch(Manager.actions.addManagerRequest(formData));
+		dispatch(Manager.actions.addManagerRequest({ email: email.trim() }));
 	};
 
 	return (
-		<form className='add-manager-form' onSubmit={handleSumbit}>
-			<h2 className='add-manager-form__title'>Добавление менеджера</h2>
+		<form className='modal-form' onSubmit={handleSubmit}>
+			<h2 className='modal-form__title'>Добавление менеджера</h2>
 			<Input
 				autoCapitalize='none'
 				spellCheck={false}
@@ -43,10 +33,21 @@ const AddManagerForm = () => {
 				inputMode='email'
 				placeholder='user@example.com'
 				label='Эл. почта'
-				value={formData.email}
-				onChange={handleChange}
+				value={email}
+				onChange={e => {
+					setEmail(e.target.value);
+					if (Object.keys(errors).length > 0) {
+						dispatch(Manager.actions.clearAllErrors());
+					}
+				}}
 				error={errors.email?.message}
+				required
 			/>
+			{formError && (
+				<p className='modal-form__error' role='alert'>
+					{formError}
+				</p>
+			)}
 			<Button loading={isFetch} type='submit'>
 				Добавить
 			</Button>

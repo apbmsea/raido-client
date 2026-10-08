@@ -1,42 +1,46 @@
-import { useNavigate } from 'react-router-dom'; // Импортируем хук для навигации
+import { useNavigate } from 'react-router-dom';
+import { selectSelectedCartItems, selectSelectedCartTotal } from '@entities/cart';
 import { useAppSelector } from '@shared/hooks/store.hooks';
 import { Button } from '@shared/ui/Button';
-
+import { formatPrice } from '@shared/utils/formatPrice';
+import { plural } from '@shared/utils/plural';
 import './CartWidget.scss';
 
+/** Плашка с итогом по выбранным товарам и переходом к оформлению */
 export const CartWidget = () => {
 	const navigate = useNavigate();
+	const hasItems = useAppSelector(state => state.cart.items.length > 0);
+	const selectedItems = useAppSelector(selectSelectedCartItems);
+	const total = useAppSelector(selectSelectedCartTotal);
 
-	// Достаем из стора общую сумму и массив выбранных элементов
-	// Примечание: убедитесь, что в вашем редьюсере cart сохраняется поле selectedItems,
-	// которое вы диспатчите из CartList.
-	const { totalSum, selectedItems } = useAppSelector(state => state.cart);
+	if (!hasItems) return null;
+
+	const selectedCount = selectedItems.length;
 
 	const handleCheckout = () => {
-		if (!selectedItems || selectedItems.length === 0) return;
-
-		// Собираем id продуктов в строку через запятую: "1,2,3"
-		const productIds = selectedItems.map(item => item.id).join(',');
-
-		// Переходим на страницу оформления с query-параметрами
-		navigate(`/place-an-order?ids=${productIds}`);
+		// Страница оформления получает идентификаторы позиций корзины через адрес
+		const ids = selectedItems.map(item => item.id).join(',');
+		navigate(`/place-an-order?ids=${ids}`);
 	};
 
 	return (
 		<div className='cart-widget'>
-			<div className='cart-widget__inner'>
-				<span className='cart-widget__total'>
-					{totalSum.toLocaleString('ru-RU')} ₽
+			<div className='cart-widget__summary'>
+				<span className='cart-widget__count'>
+					{selectedCount > 0
+						? `${selectedCount} ${plural(selectedCount, ['товар', 'товара', 'товаров'])}`
+						: 'Товары не выбраны'}
 				</span>
-
-				{/* Кнопка активна только если выбрано что-то */}
-				<Button
-					onClick={handleCheckout}
-					disabled={!selectedItems || selectedItems.length === 0}
-				>
-					Оформить заказ
-				</Button>
+				<span className='cart-widget__total'>{formatPrice(total)}</span>
 			</div>
+
+			<Button
+				size='l'
+				onClick={handleCheckout}
+				disabled={selectedCount === 0}
+			>
+				Оформить заказ
+			</Button>
 		</div>
 	);
 };

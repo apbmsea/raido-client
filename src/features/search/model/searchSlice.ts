@@ -1,50 +1,40 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-
-export type SearchSuggestion = {
-	id: number;
-	type: 'category' | 'subcategory';
-	svg_icon: string;
-	title: string;
-	top_category_id: number | null;
-	top_category_title: number | null;
-};
+import type { SearchSuggestion } from './searchTypes';
 
 interface SearchState {
 	isLoading: boolean;
 	items: SearchSuggestion[];
-	search: string;
-	errors: {};
+	query: string;
 }
 
 const initialState: SearchState = {
 	isLoading: false,
 	items: [],
-	search: '',
-	errors: {}
+	query: ''
 };
 
 export const { reducer, actions, name } = createSlice({
 	name: 'search',
 	initialState,
 	reducers: {
-		searchRequest: (state, action: PayloadAction<string>) => {
-			state.search = action.payload;
-			state.isLoading = true;
+		/** Меняет текст запроса; подсказки подгрузит сага после паузы в наборе */
+		setQuery: (state, action: PayloadAction<string>) => {
+			state.query = action.payload;
 
 			if (action.payload.trim() === '') {
 				state.items = [];
+				state.isLoading = false;
+			} else {
+				state.isLoading = true;
 			}
 		},
 		searchSuccess: (state, action: PayloadAction<SearchSuggestion[]>) => {
 			state.isLoading = false;
 			state.items = action.payload;
 		},
-		searchFailure: (
-			state,
-			action: PayloadAction<Record<string, { message: string }>>
-		) => {
+		searchFailure: state => {
 			state.isLoading = false;
-			state.errors = action.payload;
+			state.items = [];
 		}
 	}
 });

@@ -1,1 +1,1 @@
-export { default as PlaceAnOrderPage } from './ui/PlaceAnOrderPage'
+export { default as PlaceAnOrderPage } from './ui/PlaceAnOrderPage';

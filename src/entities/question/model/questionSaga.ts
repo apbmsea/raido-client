@@ -1,42 +1,35 @@
 import { call, put, takeLatest } from 'typed-redux-saga';
-import {
-	Question,
-	type AskQuestionsPayload,
-	type GetQuestionsPayload
-} from '..';
-import { askQuestion, getQuestions } from './questionApi';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { getApiErrors } from '@shared/utils/errorHandler';
+import { askQuestion, getQuestions } from '../api/questionApi';
+import { actions } from './questionSlice';
+import type { AskQuestionPayload } from './questionTypes';
 
-function* getQuestionsSaga(action: PayloadAction<GetQuestionsPayload>) {
+function* getQuestionsSaga(action: PayloadAction<{ productId: number }>) {
 	try {
-		const response = yield* call(getQuestions, action.payload);
-		yield* put(Question.actions.getQuestionSuccess(response));
-	} catch (error) {
-		yield* put(Question.actions.getQuestionFailure());
+		const response = yield* call(getQuestions, action.payload.productId);
+		yield* put(actions.getQuestionSuccess(response));
+	} catch {
+		yield* put(actions.getQuestionFailure());
 	}
 }
 
-function* askQuestionsSaga(action: PayloadAction<AskQuestionsPayload>) {
+function* askQuestionSaga(action: PayloadAction<AskQuestionPayload>) {
 	try {
 		yield* call(askQuestion, action.payload);
-		yield* put(Question.actions.askQuestionSuccess());
+		yield* put(actions.askQuestionSuccess());
 		yield* put(
-			Question.actions.getQuestionRequest({
-				productId: action.payload.productId
-			})
+			actions.getQuestionRequest({ productId: action.payload.productId })
 		);
 	} catch (error) {
-		yield* put(Question.actions.askQuestionFailure());
+		const [firstError] = Object.values(
+			getApiErrors(error, 'Не удалось отправить вопрос. Попробуйте ещё раз.')
+		);
+		yield* put(actions.askQuestionFailure(firstError.message));
 	}
 }
 
 export default function* watchQuestion() {
-	yield* takeLatest(
-		Question.actions.getQuestionRequest.type,
-		getQuestionsSaga
-	);
-	yield* takeLatest(
-		Question.actions.askQuestionRequest.type,
-		askQuestionsSaga
-	);
+	yield* takeLatest(actions.getQuestionRequest.type, getQuestionsSaga);
+	yield* takeLatest(actions.askQuestionRequest.type, askQuestionSaga);
 }

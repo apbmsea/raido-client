@@ -1,25 +1,16 @@
-@use "../../../shared/styles/helpers/" as *;
+@use '@shared/styles/helpers' as *;
 
 .faq-page {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    width: 100%;
-    max-width: 1280px;
-    margin: 0 auto;
-    @include f(padding-inline, 40, 40, 20);
-    @include f(padding-top, 40, 40, 20);
-    @include f(padding-bottom, 100, 100, 85);
+	@include page;
 
-    &__title {
-        @include f(font-size, 40, 24, 18);
-        font-weight: bold;
-        color: var(--color-black);
-    }
+	&__title {
+		@include page-title;
+	}
 
-    &__content {
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
-    }
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(12px, 2vw, 20px);
+		max-width: 960px;
+	}
 }

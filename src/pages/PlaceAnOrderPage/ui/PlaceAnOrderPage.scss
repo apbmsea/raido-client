@@ -1,97 +1,42 @@
-@use "../../../shared/styles/helpers/" as *;
+@use '@shared/styles/helpers' as *;
 
 .place-an-order-page {
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
-    width: 100%;
-    max-width: 1280px;
-    margin: 0 auto;
-    @include f(padding-inline, 40, 40, 20);
-    @include f(padding-top, 40, 40, 20);
-    @include f(padding-bottom, 100, 100, 85);
+	@include page;
 
-    &__title {
-        @include f(font-size, 32, 24, 18);
-        font-weight: bold;
-        color: var(--color-black);
-    }
+	&__title {
+		@include page-title;
+	}
 
-    &__content{
-        display: flex;
-        justify-content: space-between;
-        flex-direction: row-reverse;
-        align-items: flex-start;
-        gap: 40px;
-    }
+	&__content {
+		display: grid;
+		grid-template-columns: minmax(0, 626px) minmax(280px, 413px);
+		align-items: start;
+		justify-content: space-between;
+		gap: 40px;
 
-    &__form {
-        display: flex;
-        flex: 0 1 626px;
-        flex-direction: column;
-        gap: 40px;
-    }
+		// На узких экранах состав заказа встаёт над формой
+		@include tablet {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 28px;
+		}
+	}
 
-    &__section {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
+	&__summary {
+		position: sticky;
+		top: 20px;
 
-    &__user-form {
-        max-width: 404px;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
+		@include tablet {
+			position: static;
+			order: -1;
+		}
+	}
 
-    &__organizations {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-    }
+	&__link {
+		color: var(--color-primary);
+		font-weight: 600;
 
-    &__errors {
-        display: flex;
-        flex-direction: column;
-        gap: 4px;
-        font-size: 14px;
-        color: var(--color-red);
-    }
-
-    &__address-fields {
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-    }
-
-    &__address-row {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 16px;
-    }
-
-    &__delivery-location {
-        border: 1px solid var(--color-black);
-        border-radius: 15px;
-        padding: 20px;
-    }
-}
-
-@media (max-width: 768px) {
-    .place-an-order-page {
-        &__content {
-            flex-direction: column;
-        }
-
-        &__form {
-            width: 100%;
-            flex-basis: auto;
-        }
-
-        &__user-form {
-            max-width: none;
-        }
-    }
+		&:hover {
+			text-decoration: underline;
+		}
+	}
 }

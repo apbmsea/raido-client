@@ -1,0 +1,37 @@
+@use '@shared/styles/helpers' as *;
+
+.questions-widget {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 400px);
+	align-items: start;
+	gap: 32px clamp(24px, 4vw, 56px);
+
+	&__main {
+		min-width: 0;
+	}
+
+	&__form {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		min-width: 0;
+		padding: clamp(18px, 3vw, 24px);
+		border-radius: var(--radius-m);
+		background-color: var(--color-surface);
+	}
+
+	&__title {
+		color: var(--color-black);
+		font-size: 18px;
+		line-height: 1.3;
+	}
+
+	// На узких экранах форма встаёт над списком
+	@include laptop {
+		grid-template-columns: minmax(0, 1fr);
+
+		&__form {
+			order: -1;
+		}
+	}
+}

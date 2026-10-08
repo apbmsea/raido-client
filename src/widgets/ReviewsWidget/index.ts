@@ -1,1 +1,1 @@
-export { ReviewsWidget } from './ui/ReviewsWidget'
+export { ReviewsWidget } from './ui/ReviewsWidget';

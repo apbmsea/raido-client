@@ -4,22 +4,24 @@
 	gap: 28px;
 	width: 100%;
 
+	&__thanks {
+		padding: 16px 20px;
+		border: 1px solid var(--color-green);
+		border-radius: var(--radius-m);
+		color: var(--color-black);
+		font-size: 18px;
+		font-weight: 600;
+	}
+
 	&__header {
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
-		padding-bottom: 8px;
-	}
-
-	&__eyebrow {
-		color: var(--color-primary);
-		font-size: 12px;
-		font-weight: 700;
 	}
 
 	&__title {
 		color: var(--color-black);
-		font-size: 28px;
+		font-size: clamp(22px, 3vw, 28px);
 		font-weight: 600;
 	}
 
@@ -28,22 +30,4 @@
 		font-size: 15px;
 		line-height: 1.5;
 	}
-}
-
-@media (max-width: 600px) {
-	.orders-page {
-		gap: 20px;
-
-		&__title {
-			font-size: 24px;
-		}
-	}
-}
-.orders-page__thanks {
-	padding: 16px 20px;
-	border: 1px solid var(--color-green);
-	border-radius: 15px;
-	color: var(--color-black);
-	font-size: 18px;
-	font-weight: 600;
 }

@@ -1,83 +1,52 @@
+@use '@shared/styles/helpers' as *;
+
 .star-rating {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: 8px;
 
 	&__label {
 		font-size: 14px;
-		font-weight: 500;
-		color: #374151;
-		outline: none;
+		color: var(--color-black);
 	}
 
 	&__stars {
 		display: flex;
 		gap: 6px;
-		outline: none;
 	}
 
-	&__star-label {
-		outline: none;
-		cursor: pointer;
+	&__star {
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		-webkit-tap-highlight-color: transparent; // Убирает синюю/желтую вспышку при тапе на смартфонах
+		border-radius: 4px;
+		cursor: pointer;
+		-webkit-tap-highlight-color: transparent;
 
 		&--disabled {
-			cursor: not-allowed;
 			opacity: 0.6;
+			cursor: not-allowed;
+		}
+
+		&:has(:focus-visible) {
+			@include focus-ring;
 		}
 	}
 
-	&__radio-input {
-		position: absolute;
-		width: 1px;
-		height: 1px;
-		padding: 0;
-		margin: -1px;
-		overflow: hidden;
-		clip: rect(0, 0, 0, 0);
-		border: 0;
-		outline: none;
+	&__input {
+		@include visually-hidden;
 	}
 
 	&__icon {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		color: var(--color-gray-light);
 		transition:
 			color 0.15s ease,
 			transform 0.15s ease;
-		outline: none;
+	}
 
-		svg {
-			width: 25px;
-			height: 25px;
-			outline: none;
-
-			// Полностью изолируем цвет заливки и отключаем любые stroke-линии у SVG
-			path,
-			g,
-			svg {
-				fill: currentColor !important;
-				stroke: transparent !important;
-			}
-		}
-
-		&--active {
-			color: #ffe51e;
-		}
-
-		&:hover:not(.star-rating__star-label--disabled *) {
-			transform: scale(1.15);
-		}
+	&__star:hover:not(&__star--disabled) &__icon {
+		transform: scale(1.15);
 	}
 
 	&__error {
 		font-size: 12px;
-		color: #dc2626;
-		margin-top: 2px;
+		color: var(--color-red);
 	}
 }

@@ -1,36 +1,40 @@
-import watchCart from '@entities/cart/model/cartSaga';
-import { watchCategories } from '@entities/category';
-import watchFavorite from '@entities/favorite/model/favoriteSaga';
-import watchManager from '@entities/manager/model/managerSaga';
-import watchOffers from '@entities/offers/model/offersSaga';
-import watchOrder from '@entities/order/model/orderSaga';
-import watchQuestion from '@entities/question/model/questionSaga';
-import watchReview from '@entities/review/model/reviewSaga';
-import watchUser from '@entities/user/model/userSaga';
-import { WatchConfirm } from '@features/confirm';
-import watchLogin from '@features/login/model/loginSaga';
-import watchRegister from '@features/register/model/registerSaga';
-import { WatchSearch } from '@features/search';
-import { watchCatalog } from '@pages/CatalogPage';
-import { watchProduct } from '@pages/ProductPage';
 import { all } from 'typed-redux-saga';
+import { watchCart } from '@entities/cart';
+import { watchCatalog } from '@entities/catalog';
+import { watchCategories } from '@entities/category';
+import { watchFavorite } from '@entities/favorite';
+import { watchManager } from '@entities/manager';
+import { watchOffers } from '@entities/offers';
+import { watchOrder } from '@entities/order';
+import { watchProduct } from '@entities/product';
+import { watchQuestion } from '@entities/question';
+import { watchReview } from '@entities/review';
+import { watchUser } from '@entities/user';
+import { watchAddManager } from '@features/addManager';
+import { watchAuth } from '@features/auth';
+import { watchCheckout } from '@features/checkout';
+import { watchDeleteManager } from '@features/deleteManager';
+import { watchSearch } from '@features/search';
+import watchSession from './sessionSaga';
 
 export default function* rootSaga() {
-	yield all([
-		watchCategories(),
-		watchRegister(),
-		WatchConfirm(),
-		watchLogin(),
-		watchCatalog(),
-		WatchSearch(),
-		watchProduct(),
-		watchReview(),
-		watchQuestion(),
-		watchUser(),
+	yield* all([
 		watchCart(),
+		watchCatalog(),
+		watchCategories(),
 		watchFavorite(),
+		watchManager(),
 		watchOffers(),
 		watchOrder(),
-		watchManager()
+		watchProduct(),
+		watchQuestion(),
+		watchReview(),
+		watchUser(),
+		watchAddManager(),
+		watchAuth(),
+		watchCheckout(),
+		watchDeleteManager(),
+		watchSearch(),
+		watchSession()
 	]);
 }

@@ -1,33 +1,35 @@
 import { call, put, takeLatest } from 'typed-redux-saga';
-import { Review } from '..';
-import { addReview, getReviews } from './reviewApi';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { AddReviewsPayload, GetReviewsPayload } from './reviewTypes';
+import { getApiErrors } from '@shared/utils/errorHandler';
+import { addReview, getReviews } from '../api/reviewApi';
+import { actions } from './reviewSlice';
+import type { AddReviewPayload } from './reviewTypes';
 
-function* getReviewsSaga(action: PayloadAction<GetReviewsPayload>) {
+function* getReviewsSaga(action: PayloadAction<{ productId: number }>) {
 	try {
-		const response = yield* call(getReviews, action.payload);
-		yield* put(Review.actions.getReviewSuccess(response));
-	} catch (error) {
-		yield* put(Review.actions.getReviewFailure());
+		const response = yield* call(getReviews, action.payload.productId);
+		yield* put(actions.getReviewSuccess(response));
+	} catch {
+		yield* put(actions.getReviewFailure());
 	}
 }
 
-function* addReviewsSaga(action: PayloadAction<AddReviewsPayload>) {
+function* addReviewSaga(action: PayloadAction<AddReviewPayload>) {
 	try {
 		yield* call(addReview, action.payload);
-		yield* put(Review.actions.addReviewSuccess());
+		yield* put(actions.addReviewSuccess());
 		yield* put(
-			Review.actions.getReviewRequest({
-				productId: action.payload.productId
-			})
+			actions.getReviewRequest({ productId: action.payload.productId })
 		);
 	} catch (error) {
-		yield* put(Review.actions.getReviewFailure());
+		const [firstError] = Object.values(
+			getApiErrors(error, 'Не удалось отправить отзыв. Попробуйте ещё раз.')
+		);
+		yield* put(actions.addReviewFailure(firstError.message));
 	}
 }
 
 export default function* watchReview() {
-	yield* takeLatest(Review.actions.getReviewRequest.type, getReviewsSaga);
-	yield* takeLatest(Review.actions.addReviewRequest.type, addReviewsSaga);
+	yield* takeLatest(actions.getReviewRequest.type, getReviewsSaga);
+	yield* takeLatest(actions.addReviewRequest.type, addReviewSaga);
 }

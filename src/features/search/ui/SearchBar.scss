@@ -1,0 +1,86 @@
+@use '@shared/styles/helpers' as *;
+
+.search-bar {
+	position: relative;
+	width: 100%;
+
+	// У поля поиска своя кнопка — прячем встроенный крестик браузера
+	input[type='search']::-webkit-search-cancel-button {
+		appearance: none;
+	}
+
+	&__dropdown {
+		position: absolute;
+		top: calc(100% + 8px);
+		right: 0;
+		left: 0;
+		// Выше выпадающих списков навигации под шапкой
+		z-index: calc(var(--z-sticky) + 1);
+		max-height: min(420px, 60vh);
+		padding: 6px;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-m);
+		background-color: var(--color-white);
+		box-shadow: var(--shadow-m);
+		overflow-y: auto;
+	}
+
+	&__suggestion {
+		@include button-reset;
+
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		width: 100%;
+		padding: 8px 10px;
+		border-radius: 10px;
+		transition: background-color var(--transition);
+
+		&--active {
+			background-color: var(--color-primary-soft);
+
+			.search-bar__title {
+				color: var(--color-primary);
+			}
+		}
+	}
+
+	&__icon-wrapper {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		width: 40px;
+		height: 40px;
+		border-radius: var(--radius-s);
+		background: var(--color-surface);
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		min-width: 0;
+	}
+
+	&__top-category {
+		color: var(--color-gray);
+		font-size: 11px;
+		letter-spacing: 0.5px;
+		text-transform: uppercase;
+	}
+
+	&__title {
+		color: var(--color-black);
+		font-size: 15px;
+		font-weight: 500;
+		transition: color var(--transition);
+	}
+
+	&__empty {
+		padding: 16px;
+		color: var(--color-gray);
+		font-size: 14px;
+		text-align: center;
+	}
+}

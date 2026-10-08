@@ -11,7 +11,7 @@ export interface UserType {
 	inn: null | number;
 	organization_name: null | string;
 	bonus_balance: number;
-	post: string;
+	post: null | string;
 }
 
 export interface ChangePasswordPayload {
@@ -20,14 +20,12 @@ export interface ChangePasswordPayload {
 }
 
 export interface EditUserPayload {
-	payload: {
-		phone?: null | string;
-		name?: null | string;
-		surname?: null | string;
-		patronymic?: null | string;
-		date_of_birth?: null | string;
-		inn?: null | number;
-		organization_name?: null | string;
-		post?: string;
-	};
+	phone?: null | string;
+	name?: null | string;
+	surname?: null | string;
+	patronymic?: null | string;
+	date_of_birth?: null | string;
+	inn?: null | number;
+	organization_name?: null | string;
+	post?: string;
 }

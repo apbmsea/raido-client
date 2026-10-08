@@ -1,0 +1,61 @@
+.confirm-code {
+	position: relative;
+	display: flex;
+	justify-content: center;
+	cursor: text;
+
+	// Настоящее поле прозрачно лежит поверх ячеек: ввод, вставка
+	// и автоподстановка кода из письма работают как в обычном инпуте
+	&__input {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		border: none;
+		opacity: 0;
+		caret-color: transparent;
+	}
+
+	&__cells {
+		display: flex;
+		gap: clamp(4px, 2vw, 8px);
+	}
+
+	&__cell {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: clamp(38px, 12vw, 48px);
+		height: 56px;
+		border: 2px solid var(--color-border);
+		border-radius: var(--radius-s);
+		font-size: 24px;
+		font-weight: 600;
+		transition: border-color var(--transition);
+
+		&--error {
+			border-color: var(--color-red);
+		}
+	}
+
+	// Курсор и подсветка — только пока поле в фокусе
+	&__input:focus ~ &__cells &__cell--active {
+		border-color: var(--color-primary);
+
+		&::after {
+			content: '';
+			position: absolute;
+			width: 2px;
+			height: 60%;
+			background: var(--color-primary);
+			animation: confirm-code-blink 1s steps(1) infinite;
+		}
+	}
+}
+
+@keyframes confirm-code-blink {
+	50% {
+		opacity: 0;
+	}
+}

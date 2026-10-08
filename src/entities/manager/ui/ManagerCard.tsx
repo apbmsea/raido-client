@@ -1,35 +1,33 @@
-import './ManagerCard.scss';
 import { IconButton } from '@shared/ui/IconButton';
 import TrashIcon from '@shared/icons/Trash';
-import type { Manager as ManagerType } from '../model/managerTypes';
-import { useAppDispatch } from '@shared/hooks/store.hooks';
-import { Manager } from '..';
-import { Modal } from '@entities/modal';
+import type { ManagerType } from '../model/managerTypes';
+import './ManagerCard.scss';
 
 type ManagerCardProps = {
 	manager: ManagerType;
+	onDelete?: (manager: ManagerType) => void;
 };
-export const ManagerCard = ({ manager }: ManagerCardProps) => {
-	const dispatch = useAppDispatch();
+
+export const ManagerCard = ({ manager, onDelete }: ManagerCardProps) => {
+	const fullName = [manager.name, manager.surname].filter(Boolean).join(' ');
+
 	return (
-		<div className='manager-card' key={manager.manager_user_id}>
+		<div className='manager-card'>
 			<div className='manager-card__information'>
-				<h3 className='manager-card__information-name'>
-					{manager.name ? manager.name : 'Имя'}{' '}
-					{manager.surname ? manager.surname : 'Фамилия'}
+				<h3 className='manager-card__name'>
+					{fullName || 'Имя не указано'}
 				</h3>
-				<span className='manager-card__information-email'>
-					{manager.email}
-				</span>
+				<span className='manager-card__email'>{manager.email}</span>
 			</div>
-			<IconButton
-				onClick={() => {
-					dispatch(Manager.actions.setDeleteManager(manager));
-					dispatch(Modal.actions.openModal('deleteManager'))
-				}}
-				className='manager-card__delete-btn'
-				icon={<TrashIcon />}
-			/>
+			{onDelete && (
+				<IconButton
+					variant='ghost'
+					size='m'
+					onClick={() => onDelete(manager)}
+					aria-label={`Удалить менеджера ${manager.email}`}
+					icon={<TrashIcon />}
+				/>
+			)}
 		</div>
 	);
 };

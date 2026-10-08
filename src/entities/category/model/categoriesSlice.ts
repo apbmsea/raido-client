@@ -1,21 +1,23 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { Category } from './categories.types';
+import type { Category } from './categoryTypes';
 
-interface СategoriesState {
+interface CategoriesState {
 	categories: Category[];
 	isLoading: boolean;
 }
 
-const initialState: СategoriesState = {
+const initialState: CategoriesState = {
 	categories: [],
 	isLoading: true
 };
 
 export const { name, actions, reducer } = createSlice({
-	name: 'сategories',
+	name: 'categories',
 	initialState,
 	reducers: {
-		getCategoriesRequest: () => {},
+		getCategoriesRequest: state => {
+			state.isLoading = true;
+		},
 		getCategoriesSuccess: (state, action: PayloadAction<Category[]>) => {
 			state.categories = action.payload;
 			state.isLoading = false;

@@ -1,31 +1,13 @@
-.reviews {
-	&-wrapper {
+.reviews-list {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 24px;
+
+	&__items {
 		display: flex;
 		flex-direction: column;
-		gap: 40px;
-		align-items: start;
-	}
-
-	&-list {
+		gap: 14px;
 		width: 100%;
-		display: flex;
-		flex-direction: column;
-		gap: 40px;
-		max-width: 850px;
-	}
-
-	&-empty {
-		display: flex;
-		align-items: center;
-		gap: 16px;
-
-        &__title {
-            font-size: 18px;
-            color: var(--color-black);
-        }
-
-		&__icon {
-			color: var(--color-primary);
-		}
 	}
 }

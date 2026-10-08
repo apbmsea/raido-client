@@ -1,55 +1,119 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Layout from '@app/Layout';
+import Layout from '@app/layout/Layout';
 import { HomePage } from '@pages/HomePage';
-import { CatalogPage } from '@pages/CatalogPage';
-import { ProductPage } from '@pages/ProductPage';
-import { ProfileHome, ProfilePage } from '@pages/ProfilePage';
-import { EditUserForm } from '@features/editUser';
-import { CartPage } from '@pages/CartPage';
-import { FavoritePage } from '@pages/FavoritePage';
-import { OrderDetailPage, OrdersPage } from '@pages/OrdersPage';
 import { NotFoundPage } from '@pages/NotFoundPage';
-import { WarrantyPage } from '@pages/WarrantyPage';
-import { AboutCompanyPage } from '@pages/AboutCompanyPage';
-import { PlaceAnOrderPage } from '@pages/PlaceAnOrderPage';
-import { FaqPage } from '@pages/FaqPage';
-import ManagersPage from '@pages/ManagersPage/ui/ManagersPage';
-import { OrganizationList } from '@entities/manager';
+import { Loader } from '@shared/ui/Loader';
 
+// Страницы, кроме главной, подгружаются отдельными чанками при первом переходе.
+// Пока чанк грузится, роутер оставляет на экране предыдущую страницу
 export const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <Layout />,
+		// Показывается, если сайт открыли сразу на подгружаемой странице
+		hydrateFallbackElement: <Loader />,
 		children: [
 			{ index: true, element: <HomePage /> },
-			{ path: 'catalog', element: <CatalogPage /> },
-			{ path: 'product/:id', element: <ProductPage /> },
-			{ path: 'cart', element: <CartPage /> },
-			{ path: 'favorite', element: <FavoritePage /> },
 			{
+				path: 'catalog',
+				lazy: async () => ({
+					Component: (await import('@pages/CatalogPage')).CatalogPage
+				})
+			},
+			{
+				path: 'product/:id',
+				lazy: async () => ({
+					Component: (await import('@pages/ProductPage')).ProductPage
+				})
+			},
+			{
+				path: 'cart',
+				lazy: async () => ({
+					Component: (await import('@pages/CartPage')).CartPage
+				})
+			},
+			{
+				path: 'favorite',
+				lazy: async () => ({
+					Component: (await import('@pages/FavoritePage')).FavoritePage
+				})
+			},
+			{
+				path: 'place-an-order',
+				lazy: async () => ({
+					Component: (await import('@pages/PlaceAnOrderPage'))
+						.PlaceAnOrderPage
+				})
+			},
+			{
+				// Личный кабинет: ProfilePage проверяет вход и рисует меню разделов
 				path: 'profile',
-				element: <ProfilePage />,
+				lazy: async () => ({
+					Component: (await import('@pages/ProfilePage')).ProfilePage
+				}),
 				children: [
 					{
-						path: 'options',
-						element: <EditUserForm />
+						index: true,
+						lazy: async () => ({
+							Component: (await import('@pages/ProfilePage'))
+								.ProfileHome
+						})
 					},
-
-					{ index: true, element: <ProfileHome /> },
-					{ path: 'orders', element: <OrdersPage /> }, // URL: /profile/orders (Заказы)
-					{ path: 'orders/:orderId', element: <OrderDetailPage /> },
-					{ path: 'managers', element: <ManagersPage /> },
-					{ path: 'organizations', element: <OrganizationList /> }
+					{
+						path: 'options',
+						lazy: async () => ({
+							Component: (await import('@pages/ProfileSettingsPage'))
+								.ProfileSettingsPage
+						})
+					},
+					{
+						path: 'orders',
+						lazy: async () => ({
+							Component: (await import('@pages/OrdersPage')).OrdersPage
+						})
+					},
+					{
+						path: 'orders/:orderId',
+						lazy: async () => ({
+							Component: (await import('@pages/OrdersPage'))
+								.OrderDetailPage
+						})
+					},
+					{
+						path: 'managers',
+						lazy: async () => ({
+							Component: (await import('@pages/ManagersPage'))
+								.ManagersPage
+						})
+					},
+					{
+						path: 'organizations',
+						lazy: async () => ({
+							Component: (await import('@pages/OrganizationsPage'))
+								.OrganizationsPage
+						})
+					}
 				]
 			},
-
-			{ path: 'warranty', element: <WarrantyPage /> },
-			{ path: 'faq', element: <FaqPage /> },
-
-			{ path: 'about-company', element: <AboutCompanyPage /> },
-
-			{ path: 'place-an-order', element: <PlaceAnOrderPage /> },
-
+			{
+				path: 'warranty',
+				lazy: async () => ({
+					Component: (await import('@pages/WarrantyPage')).WarrantyPage
+				})
+			},
+			{
+				path: 'faq',
+				lazy: async () => ({
+					Component: (await import('@pages/FaqPage')).FaqPage
+				})
+			},
+			{
+				path: 'about-company',
+				lazy: async () => ({
+					Component: (await import('@pages/AboutCompanyPage'))
+						.AboutCompanyPage
+				})
+			},
 			{ path: '*', element: <NotFoundPage /> }
 		]
 	}

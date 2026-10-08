@@ -1,9 +1,10 @@
 .input {
 	display: flex;
 	flex-direction: column;
+	min-width: 0;
 
 	&__label {
-		cursor: default;
+		align-self: flex-start;
 		margin-bottom: 6px;
 		font-size: 14px;
 		font-weight: 400;
@@ -17,65 +18,109 @@
 		width: 100%;
 	}
 
-	&__prefix {
+	&__prefix,
+	&__suffix {
 		position: absolute;
-		left: 17px;
 		z-index: 1;
 		color: var(--color-black);
 		font-size: 15px;
 		pointer-events: none;
 	}
 
+	&__prefix {
+		left: 17px;
+	}
+
+	&__suffix {
+		right: 17px;
+	}
+
 	&__field {
 		width: 100%;
-		padding: 10px 48px 10px 17px;
-		font-size: 15px;
+		min-width: 0;
+		height: 45px;
+		padding: 0 17px;
 		border: 1px solid var(--color-black);
-		border-radius: 50px;
+		border-radius: var(--radius-pill);
 		outline: none;
-		transition: border-color 0.2s;
+		background-color: var(--color-white);
+		color: var(--color-black);
+		font-size: 15px;
+		transition:
+			border-color var(--transition),
+			box-shadow var(--transition);
 
-		&:focus {
+		&::placeholder {
+			color: var(--color-gray-light);
+		}
+
+		&:hover:not(:disabled) {
 			border-color: var(--color-primary);
+		}
+
+		&:focus-visible {
+			border-color: var(--color-primary);
+			outline: none;
+			box-shadow: 0 0 0 3px rgb(74 88 246 / 18%);
+		}
+
+		&:disabled {
+			border-color: var(--color-gray-light);
+			background-color: var(--color-surface);
+			color: var(--color-gray);
+			cursor: not-allowed;
 		}
 
 		&--with-prefix {
 			padding-left: 45px;
 		}
 
-		&--error {
+		&--with-suffix {
+			padding-right: 48px;
+		}
+
+		&--error,
+		&--error:hover:not(:disabled) {
 			border-color: var(--color-red);
+		}
+
+		&--error:focus-visible {
+			box-shadow: 0 0 0 3px rgb(255 82 82 / 18%);
 		}
 	}
 
 	&__icon-button {
 		position: absolute;
-		right: 16px;
-		top: 50%;
-		transform: translateY(-50%);
-
+		right: 14px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-
-		background: none;
+		padding: 2px;
 		border: none;
-		padding: 0;
+		border-radius: 50%;
+		background: none;
+		color: var(--color-gray);
 		cursor: pointer;
+		transition: color var(--transition);
+
+		&:hover,
+		&--active {
+			color: var(--color-primary);
+		}
 	}
 
 	&__button {
 		position: absolute;
-		right: 4px;
+		right: 6px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		height: calc(100% - 8px);
 	}
 
 	&__error {
+		margin-top: 4px;
 		font-size: 12px;
+		line-height: 1.4;
 		color: var(--color-red);
-		line-height: 2;
 	}
 }

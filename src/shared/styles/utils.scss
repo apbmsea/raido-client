@@ -1,13 +1,23 @@
 @use 'helpers' as *;
 
 .hidden-tablet {
-    @include tablet {
-      display: none !important;
-    }
+	@include tablet {
+		display: none !important;
+	}
 }
-  
+
 .visible-tablet {
-    @include tablet-above {
-      display: none !important;
-    }
+	@include tablet-above {
+		display: none !important;
+	}
+}
+
+.hidden-mobile {
+	@include mobile {
+		display: none !important;
+	}
+}
+
+.visually-hidden {
+	@include visually-hidden;
 }

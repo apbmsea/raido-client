@@ -1,40 +1,47 @@
-import React, {
-	type TextareaHTMLAttributes,
-	type ReactNode
-} from 'react';
+import React, { type TextareaHTMLAttributes, useId } from 'react';
+import clsx from 'clsx';
 import './TextArea.scss';
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
 	label?: string;
-	button?: ReactNode;
-	className?: string;
 	error?: string;
 }
 
 const Textarea: React.FC<TextareaProps> = ({
 	label,
-	button,
 	className,
 	error,
+	id,
 	...props
 }) => {
+	const reactId = useId();
+	const textareaId = id ?? reactId;
+	const errorId = `${textareaId}-error`;
+
 	return (
-		<div
-			className={`textarea ${error ? 'textarea--error' : ''} ${className ?? ''}`}
-		>
-			{label && <label className='textarea__label'>{label}</label>}
+		<div className={clsx('textarea', className)}>
+			{label && (
+				<label className='textarea__label' htmlFor={textareaId}>
+					{label}
+				</label>
+			)}
 
-			<div className='textarea__wrapper'>
-				<textarea
-					className={`textarea__field ${error ? 'textarea__field--error' : ''}`}
-					aria-invalid={!!error}
-					{...props}
-				/>
+			<textarea
+				{...props}
+				id={textareaId}
+				className={clsx(
+					'textarea__field',
+					error && 'textarea__field--error'
+				)}
+				aria-invalid={!!error}
+				aria-describedby={error ? errorId : undefined}
+			/>
 
-				{button && <div className='textarea__button'>{button}</div>}
-			</div>
-
-			{error && <div className='textarea__error'>{error}</div>}
+			{error && (
+				<div className='textarea__error' id={errorId}>
+					{error}
+				</div>
+			)}
 		</div>
 	);
 };

@@ -1,11 +1,12 @@
 import { actions, reducer, name } from './model/categoriesSlice';
 
-export const Categories = {
-    reducer: {
-        [name]: reducer
-    },
-    actions,
-    name
-};
+export { default as watchCategories } from './model/categoriesSaga';
+export type { Category, SubCategory } from './model/categoryTypes';
 
-export { default as watchCategories } from './model/categoriesSaga'
+export const Categories = {
+	reducer: {
+		[name]: reducer
+	},
+	actions,
+	name
+};

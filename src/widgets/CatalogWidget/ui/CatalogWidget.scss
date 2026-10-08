@@ -1,114 +1,136 @@
-@use '../../../shared/styles/helpers/' as *;
+@use '@shared/styles/helpers' as *;
+
+// Ниже этой ширины пятая плитка «Перейти в каталог» во втором ряду не помещается:
+// её заменяет кнопка в шапке блока
+$compact: 1100px;
 
 .catalog-widget {
-	width: 100%;
 	display: flex;
 	flex-direction: column;
+	width: 100%;
+
 	@include f(gap, 40, 30, 18);
 
 	&__head {
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
 	}
 
 	&__title {
-		@include f(font-size, 32, 24, 18);
+		@include page-title;
 	}
 
-	&__button {
-		font-weight: 400;
+	& &__button {
+		display: none;
 
-		@media (min-width: 1100px) {
-			display: none !important;
+		@media (width < $compact) {
+			display: inline-flex;
 		}
 	}
 
+	// 20 колонок делятся и на 4 плитки первого ряда, и на 5 плиток второго
 	&__items {
-		padding-block: 1px;
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		gap: 20px;
-		-ms-overflow-style: none;
-		scrollbar-width: none;
-
-		@include tablet {
-			flex-direction: row;
-			overflow-y: hidden;
-		}
-
-		&::-webkit-scrollbar {
-			display: none;
-		}
-	}
-
-	&__row {
-		width: 100%;
-		display: flex;
-		justify-content: space-between;
+		display: grid;
+		grid-template-columns: repeat(20, minmax(0, 1fr));
 		gap: 20px;
 
+		@media (width < $compact) {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+		}
+
+		// На планшетах и телефонах плитки листаются горизонтально
 		@include tablet {
-			display: contents;
+			@include hide-scrollbar;
+
+			display: flex;
+			gap: 12px;
+			margin-inline: calc(-1 * var(--container-padding));
+			padding: 2px var(--container-padding);
+			overflow-x: auto;
+			scroll-snap-type: x proximity;
+			scroll-padding-inline: var(--container-padding);
 		}
 	}
 
 	&__item {
-		width: 100%;
-		background: var(--color-white);
-		border: 1px solid var(--color-black);
-		border-radius: 15px;
+		@include button-reset;
+
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		@include f(padding, 25, 18, 7.5);
+		grid-column: span 5;
+		min-height: 180px;
+		border: 1px solid var(--color-black);
+		border-radius: var(--radius-m);
+		background: var(--color-white);
+		transition:
+			border-color var(--transition),
+			box-shadow var(--transition),
+			transform var(--transition);
+
+		@include f(padding, 25, 18, 10);
+
+		&:nth-child(n + 5) {
+			grid-column: span 4;
+		}
+
+		&:hover {
+			border-color: var(--color-primary);
+			box-shadow: var(--shadow-m);
+			transform: translateY(-2px);
+		}
+
+		@media (width < $compact) {
+			&,
+			&:nth-child(n + 5) {
+				grid-column: auto;
+			}
+		}
 
 		@include tablet {
 			flex: 0 0 auto;
-			width: fluid-tm(232, 162);
-			height: fluid-tm(200, 116);
+			width: clamp(150px, 30vw, 232px);
+			min-height: clamp(116px, 24vw, 190px);
+			scroll-snap-align: start;
 		}
-	}
 
-	&__container {
-		display: flex;
-		display: flex;
-		justify-content: end;
-		width: 100%;
+		&--more {
+			border-color: var(--color-primary);
+			background: var(--color-primary);
+			color: var(--color-white);
+			font-weight: 700;
 
-		&-image {
-			@include f(width, 130, 100, 75);
-			@include f(height, 113, 100, 65);
-
-			object-fit: contain;
+			@media (width < $compact) {
+				display: none;
+			}
 		}
 	}
 
 	&__item-title {
-		letter-spacing: 0%;
+		line-height: 1.25;
+
 		@include f(font-size, 20, 16, 12);
 	}
 
-	&__more {
-		font-size: 20px;
-		font-weight: bold;
-		background: var(--color-primary);
-		width: 100%;
-		color: #fff;
-		border-radius: 15px;
-		padding: 25px;
+	&__image {
+		align-self: flex-end;
+		object-fit: contain;
+
+		@include f(width, 130, 100, 75);
+		@include f(height, 113, 100, 65);
+	}
+
+	&__more-icon {
 		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-
-		&-catalog {
-			align-self: end;
-			border: none;
-		}
-
-		@media (max-width: 1099px) {
-			display: none !important;
-		}
+		align-items: center;
+		justify-content: center;
+		align-self: flex-end;
+		width: 72px;
+		height: 72px;
+		border-radius: 50%;
+		background: var(--color-white);
+		color: var(--color-black);
 	}
 }

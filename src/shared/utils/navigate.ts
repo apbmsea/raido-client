@@ -1,13 +1,13 @@
 type NavigateOptions = { replace?: boolean };
+type NavigateFn = (path: string, options?: NavigateOptions) => void;
 
-let navigate: (path: string, options?: NavigateOptions) => void;
+let navigate: NavigateFn | null = null;
 
-export const setNavigate = (navFn: typeof navigate) => {
-  navigate = navFn;
+/** Регистрирует навигацию роутера, чтобы ею могли пользоваться саги */
+export const setNavigate = (navFn: NavigateFn) => {
+	navigate = navFn;
 };
 
 export const navigateTo = (path: string, options?: NavigateOptions) => {
-  if (navigate) {
-    navigate(path, options);
-  }
+	navigate?.(path, options);
 };

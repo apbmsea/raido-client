@@ -1,12 +1,16 @@
+import clsx from 'clsx';
 import './Loader.scss';
 
-export const Loader = () => {
-  return (
-    <div className="loader">
-      <div className="loader__spinner"></div>
-      <span className="loader__text">Загрузка</span>
-    </div>
-  );
+interface LoaderProps {
+	text?: string;
+	className?: string;
+}
+
+export const Loader = ({ text = 'Загрузка', className }: LoaderProps) => {
+	return (
+		<div className={clsx('loader', className)} role='status'>
+			<div className='loader__spinner' />
+			<span className='loader__text'>{text}</span>
+		</div>
+	);
 };
-
-

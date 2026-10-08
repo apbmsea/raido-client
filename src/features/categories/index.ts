@@ -1,1 +1,0 @@
-export { default as CatalogCategories } from './ui/CatalogCategories';

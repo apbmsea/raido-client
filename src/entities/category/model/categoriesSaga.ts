@@ -1,20 +1,16 @@
 import { call, put, takeLatest } from 'typed-redux-saga';
-import { Categories } from '..';
-import { getCategories } from './categories.api';
+import { getCategories } from '../api/categoryApi';
+import { actions } from './categoriesSlice';
 
 function* getCategoriesSaga() {
 	try {
 		const categories = yield* call(getCategories);
-		yield* put(Categories.actions.getCategoriesSuccess(categories));
-	} catch (error: unknown) {
-		console.error('Get categories error:', error);
-		yield* put(Categories.actions.getCategoriesFailure());
+		yield* put(actions.getCategoriesSuccess(categories));
+	} catch {
+		yield* put(actions.getCategoriesFailure());
 	}
 }
 
 export default function* watchCategories() {
-	yield* takeLatest(
-		Categories.actions.getCategoriesRequest.type,
-		getCategoriesSaga
-	);
+	yield* takeLatest(actions.getCategoriesRequest.type, getCategoriesSaga);
 }

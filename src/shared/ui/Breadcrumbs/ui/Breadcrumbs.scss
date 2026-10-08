@@ -1,0 +1,34 @@
+.breadcrumbs {
+	font-size: 14px;
+	color: var(--color-gray);
+
+	&__list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px 8px;
+		list-style: none;
+	}
+
+	&__item {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+
+		&:not(:last-child)::after {
+			content: '/';
+			color: var(--color-gray-light);
+		}
+
+		&:last-child {
+			color: var(--color-black);
+		}
+	}
+
+	&__link {
+		transition: color var(--transition);
+
+		&:hover {
+			color: var(--color-primary);
+		}
+	}
+}

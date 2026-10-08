@@ -1,0 +1,24 @@
+// Двойной класс — чтобы состояния перекрывали базовые стили IconButton
+.favorite-button.icon-button {
+	.favorite-button__icon {
+		transition:
+			color var(--transition),
+			fill var(--transition);
+	}
+
+	&:hover:not(:disabled),
+	&.favorite-button--active {
+		border-color: var(--color-red);
+		color: var(--color-red);
+	}
+
+	&.favorite-button--active .favorite-button__icon {
+		fill: var(--color-red);
+	}
+
+	// Пока идёт запрос, кнопка не должна выглядеть выключенной
+	&:disabled {
+		opacity: 1;
+		cursor: progress;
+	}
+}

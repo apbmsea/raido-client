@@ -1,29 +1,30 @@
-@use "./variables.scss";
+@use 'helpers' as *;
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
 
 body {
+	width: 100%;
 	font-family:
-		"Inter",
+		'Inter',
 		system-ui,
 		-apple-system,
 		sans-serif;
+	line-height: 1.4;
+	color: var(--color-black);
+	background-color: var(--color-white);
+	-webkit-font-smoothing: antialiased;
 
-	background-color: #fff;
+	// Выставляется хуком useLockScroll, пока открыто модальное окно или меню
+	&.is-scroll-locked {
+		overflow: hidden;
+	}
 }
 
-*,
-*::before,
-*::after {
-	box-sizing: border-box;
-}
-
-a,
-button,
-label,
-input,
-textarea,
-select,
-svg * {
-	transition-duration: var(--transition-duration);
+#root {
+	min-height: 100vh;
+	min-height: 100dvh;
 }
 
 h1,
@@ -41,5 +42,30 @@ a {
 
 	&[class] {
 		text-decoration: none;
+	}
+}
+
+:focus-visible {
+	@include focus-ring;
+}
+
+::selection {
+	color: var(--color-white);
+	background-color: var(--color-primary);
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
 	}
 }

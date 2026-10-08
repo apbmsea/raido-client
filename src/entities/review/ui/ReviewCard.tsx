@@ -1,4 +1,6 @@
+import { Avatar } from '@shared/ui/Avatar';
 import { RatingStars } from '@shared/ui/RatingStars';
+import { formatDate } from '@shared/utils/formatDate';
 import type { ReviewType } from '../model/reviewTypes';
 import './ReviewCard.scss';
 
@@ -7,29 +9,32 @@ type ReviewCardProps = {
 };
 
 export const ReviewCard = ({ review }: ReviewCardProps) => {
-	const formatDate = (isoString: string) => {
-		if (!isoString) return '';
-		const date = new Date(isoString);
-		return date.toLocaleDateString('ru-RU', {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric'
-		});
-	};
+	const authorName = [review.first_name, review.last_name]
+		.filter(Boolean)
+		.join(' ');
+
 	return (
-		<div className='review-card'>
-			<div className='review-card__content'>
-				<div className='review-card__information'>
-					<span className='review-card__information-name'>
-						{review.first_name && review.last_name ? `${review.first_name} ${review.last_name}` : "Анонимный пользователь"} 
+		<article className='review-card'>
+			<div className='review-card__header'>
+				<Avatar name={authorName} />
+				<div className='review-card__author'>
+					<span className='review-card__name'>
+						{authorName || 'Анонимный пользователь'}
 					</span>
-					<div className='review-card__information-date'>
+					<time className='review-card__date' dateTime={review.created_at}>
 						{formatDate(review.created_at)}
-					</div>
+					</time>
 				</div>
-				<RatingStars rating={Number(review.rating)} size={20} />
+				<RatingStars
+					className='review-card__rating'
+					rating={Number(review.rating)}
+					size={18}
+				/>
 			</div>
-			<p className='review-card__comment'>{review.comment}</p>
-		</div>
+			{/* Отзыв можно оставить и без текста, одной оценкой */}
+			{review.comment && (
+				<p className='review-card__comment'>{review.comment}</p>
+			)}
+		</article>
 	);
 };

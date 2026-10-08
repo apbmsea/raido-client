@@ -1,48 +1,35 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useOrderCreatedNotice } from '@entities/order';
-import { getOrderById } from '@entities/order/model/orderApi';
-import type { OrderDetails } from '@entities/order/model/orderTypes';
+import {
+	getOrderById,
+	useOrderCreatedNotice,
+	type OrderDetails
+} from '@entities/order';
+import { Loader } from '@shared/ui/Loader';
+import { formatDate } from '@shared/utils/formatDate';
 import { formatPrice } from '@shared/utils/formatPrice';
 import './OrderDetailPage.scss';
 
-const formatOrderDate = (date: string) => {
-	const parsedDate = new Date(date);
-	if (Number.isNaN(parsedDate.getTime())) return date;
-
-	return new Intl.DateTimeFormat('ru-RU', {
-		day: 'numeric',
-		month: 'long',
-		year: 'numeric',
-		hour: '2-digit',
-		minute: '2-digit'
-	}).format(parsedDate);
+type LoadResult = {
+	orderId: string;
+	order?: OrderDetails;
+	isError?: boolean;
 };
 
 const OrderDetailPage = () => {
 	const { orderId = '' } = useParams();
 	const isOrderCreated = useOrderCreatedNotice();
-	const [result, setResult] = useState<{
-		orderId: string;
-		order?: OrderDetails;
-		error?: string;
-	} | null>(null);
+	const [result, setResult] = useState<LoadResult | null>(null);
 
 	useEffect(() => {
 		let isCurrent = true;
 
 		getOrderById(orderId)
-			.then(data => {
-				if (isCurrent) setResult({ orderId, order: data });
+			.then(order => {
+				if (isCurrent) setResult({ orderId, order });
 			})
 			.catch(() => {
-				if (isCurrent) {
-					setResult({
-						orderId,
-						error:
-							'Не удалось загрузить заказ. Попробуйте обновить страницу.'
-					});
-				}
+				if (isCurrent) setResult({ orderId, isError: true });
 			});
 
 		return () => {
@@ -50,25 +37,24 @@ const OrderDetailPage = () => {
 		};
 	}, [orderId]);
 
-	const order = result?.orderId === orderId ? result.order : null;
-	const error = result?.orderId === orderId ? result.error : undefined;
+	// Результат относится к заказу, для которого запрашивался: после перехода
+	// к другому заказу прежний не показываем
+	const currentResult = result?.orderId === orderId ? result : null;
 
-	if (!order && !error) {
-		return (
-			<main className='order-detail order-detail--state'>
-				<p>Загружаем заказ...</p>
-			</main>
-		);
+	if (!currentResult) {
+		return <Loader text='Загружаем заказ' />;
 	}
 
-	if (error || !order) {
+	const { order } = currentResult;
+
+	if (!order) {
 		return (
-			<main className='order-detail order-detail--state'>
-				<p>{error || 'Заказ не найден.'}</p>
+			<section className='order-detail order-detail--state'>
+				<p>Не удалось загрузить заказ. Попробуйте обновить страницу.</p>
 				<Link className='order-detail__back' to='/profile/orders'>
-					К списку заказов
+					← Все заказы
 				</Link>
-			</main>
+			</section>
 		);
 	}
 
@@ -81,7 +67,7 @@ const OrderDetailPage = () => {
 		.join(' ');
 
 	return (
-		<main className='order-detail'>
+		<section className='order-detail'>
 			<Link className='order-detail__back' to='/profile/orders'>
 				← Все заказы
 			</Link>
@@ -90,18 +76,17 @@ const OrderDetailPage = () => {
 				<div className='order-detail__thanks' role='status'>
 					<strong>Спасибо за заказ!</strong>
 					<span>
-						Заказ №{order.id} оформлен. Следить за его статусом
-						можно на этой странице.
+						Заказ №{order.id} оформлен. Следить за его статусом можно
+						на этой странице.
 					</span>
 				</div>
 			)}
 
 			<header className='order-detail__header'>
 				<div>
-					<p className='order-detail__eyebrow'>ЗАКАЗ №{order.id}</p>
-					<h1 className='order-detail__title'>Детали заказа</h1>
+					<h1 className='order-detail__title'>Заказ №{order.id}</h1>
 					<p className='order-detail__date'>
-						Оформлен {formatOrderDate(order.created_at)}
+						Оформлен {formatDate(order.created_at, 'dateTime')}
 					</p>
 				</div>
 				<div className='order-detail__statuses'>
@@ -126,15 +111,13 @@ const OrderDetailPage = () => {
 						</h2>
 						<div className='order-detail__items'>
 							{order.items.map(item => (
-								<article
-									className='order-detail__item'
-									key={item.id}
-								>
+								<article className='order-detail__item' key={item.id}>
 									{item.product_image?.image_250x250 ? (
 										<img
 											className='order-detail__image'
 											src={item.product_image.image_250x250}
-											alt={item.product_name}
+											alt=''
+											loading='lazy'
 										/>
 									) : (
 										<div className='order-detail__image order-detail__image--empty'>
@@ -142,21 +125,23 @@ const OrderDetailPage = () => {
 										</div>
 									)}
 									<div className='order-detail__item-description'>
-										<h3>{item.product_name}</h3>
+										<h3>
+											<Link to={`/product/${item.product_id}`}>
+												{item.product_name}
+											</Link>
+										</h3>
 										<p>
 											{item.quantity} шт. ×{' '}
-											{formatPrice(Number(item.retail_price))}
+											{formatPrice(item.retail_price)}
 										</p>
 									</div>
 									<div className='order-detail__item-price'>
 										<strong>
-											{formatPrice(Number(item.final_subtotal))}
+											{formatPrice(item.final_subtotal)}
 										</strong>
 										{Number(item.final_subtotal) !==
 											Number(item.retail_subtotal) && (
-											<del>
-												{formatPrice(Number(item.retail_subtotal))}
-											</del>
+											<del>{formatPrice(item.retail_subtotal)}</del>
 										)}
 									</div>
 								</article>
@@ -164,7 +149,7 @@ const OrderDetailPage = () => {
 						</div>
 					</section>
 
-					<section className='order-detail__section order-detail__fulfillment'>
+					<section className='order-detail__section'>
 						<h2 className='order-detail__section-title'>
 							{order.shipping ? 'Доставка' : 'Самовывоз'}
 						</h2>
@@ -184,9 +169,7 @@ const OrderDetailPage = () => {
 							<p>{order.organization_name}</p>
 							{order.created_by_manager && (
 								<div className='order-detail__manager'>
-									<strong>
-										{managerName || order.manager_email}
-									</strong>
+									<strong>{managerName || order.manager_email}</strong>
 									{managerName && <span>{order.manager_email}</span>}
 								</div>
 							)}
@@ -198,23 +181,23 @@ const OrderDetailPage = () => {
 					<h2 className='order-detail__section-title'>Сумма заказа</h2>
 					<div className='order-detail__sum-row'>
 						<span>Розничная стоимость</span>
-						<span>{formatPrice(Number(order.retail_subtotal))}</span>
+						<span>{formatPrice(order.retail_subtotal)}</span>
 					</div>
 					<div className='order-detail__sum-row'>
 						<span>Итоговая стоимость</span>
-						<span>{formatPrice(Number(order.final_subtotal))}</span>
+						<span>{formatPrice(order.final_subtotal)}</span>
 					</div>
 					<div className='order-detail__total'>
 						<span>Итого</span>
-						<strong>{formatPrice(Number(order.total_amount))}</strong>
+						<strong>{formatPrice(order.total_amount)}</strong>
 					</div>
 					{order.receipt_code && (
-						<p className='order-detail__receipt'>
+						<p className='order-detail__note'>
 							Код заказа <strong>{order.receipt_code}</strong>
 						</p>
 					)}
 					{order.support_phone && (
-						<p className='order-detail__support'>
+						<p className='order-detail__note'>
 							Вопросы по заказу:{' '}
 							<a href={`tel:${order.support_phone}`}>
 								{order.support_phone}
@@ -223,7 +206,7 @@ const OrderDetailPage = () => {
 					)}
 				</aside>
 			</div>
-		</main>
+		</section>
 	);
 };
 

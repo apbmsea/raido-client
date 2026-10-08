@@ -1,46 +1,43 @@
-import type { HandleError } from '@shared/types/handleError.type';
 import axios from 'axios';
+import { SERVER_URL } from '@shared/config/env';
+import type { ApiErrors, HandleError } from '@shared/types/handleError.type';
+import { getToken } from './token';
 
 export const $api = axios.create({
-	baseURL:
-		import.meta.env.VITE_SERVER_URL ||
-		'https://apiraido.merlant.xyz/internal_layer/api/v1/',
+	baseURL: SERVER_URL,
 	timeout: 10000
 });
 
-const normalizeApiErrors = (data: any): Record<string, { message: string }> => {
-	if (Array.isArray(data?.validation_errors)) {
-		return data.validation_errors.reduce(
-			(acc: Record<string, { message: string }>, item: any) => {
-				const [key, value] = Object.entries(item)[0];
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+	typeof value === 'object' && value !== null;
+
+const normalizeApiErrors = (data: unknown): ApiErrors => {
+	if (!isRecord(data)) return {};
+
+	if (Array.isArray(data.validation_errors)) {
+		return data.validation_errors.reduce<ApiErrors>((acc, item) => {
+			if (!isRecord(item)) return acc;
+
+			const [entry] = Object.entries(item);
+			if (entry) {
+				const [key, value] = entry;
 				acc[key] = value as { message: string };
-				return acc;
-			},
-			{}
-		);
-	}
-
-	if (data?.field && data?.message) {
-		return {
-			[data.field]: {
-				message: data.message
 			}
-		};
+			return acc;
+		}, {});
 	}
 
-	if (data?.message) {
-		return {
-			_form: {
-				message: data.message
-			}
-		};
-	}
+	if (typeof data.message !== 'string') return {};
 
-	return {};
+	return {
+		[typeof data.field === 'string' ? data.field : '_form']: {
+			message: data.message
+		}
+	};
 };
 
 $api.interceptors.request.use(config => {
-	const token = localStorage.getItem('token');
+	const token = getToken();
 	if (token) {
 		config.headers.Authorization = `Bearer ${token}`;
 	}
@@ -49,37 +46,20 @@ $api.interceptors.request.use(config => {
 
 $api.interceptors.response.use(
 	response => response,
-	async error => {
+	error => {
+		// Сети нет или запрос не дошёл до сервера — отдаём исходную ошибку
 		if (!error.response) {
 			return Promise.reject(error);
 		}
 
 		const { status, data } = error.response;
 
-		if (status === 400 || status === 422) {
-			const handledError: HandleError = {
-				type: 'API_ERROR',
-				status,
-				errors: normalizeApiErrors(data)
-			};
+		const handledError: HandleError = {
+			type: 'API_ERROR',
+			status,
+			errors: normalizeApiErrors(data)
+		};
 
-			return Promise.reject(handledError);
-		}
-
-		switch (status) {
-			case 401:
-				break;
-			case 403:
-				console.warn('Доступ запрещён');
-				break;
-			case 404:
-				console.warn('Ресурс не найден');
-				break;
-			case 500:
-				console.error('Ошибка сервера');
-				break;
-		}
-
-		return Promise.reject(error);
+		return Promise.reject(handledError);
 	}
 );

@@ -1,73 +1,73 @@
-# React + TypeScript + Vite
+# Райдо Сервис — клиент
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Интернет-магазин: React 19, TypeScript, Redux Toolkit + redux-saga, React Router, SCSS. Сборка — Vite.
 
-Currently, two official plugins are available:
+## Команды
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+| Команда           | Что делает                                       |
+| ----------------- | ------------------------------------------------ |
+| `npm run dev`     | Локальный сервер на `https://localhost:3000`     |
+| `npm run build`   | Проверка типов и сборка в `dist`                 |
+| `npm run lint`    | ESLint, включая проверку границ слоёв            |
+| `npm run preview` | Просмотр собранной версии                        |
 
-## React Compiler
+Адрес API задаётся переменной `VITE_SERVER_URL` в `.env`. Без неё используется боевой сервер (см. `src/shared/config/env.ts`).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Архитектура
 
-## Expanding the ESLint configuration
+Проект разбит на слои по Feature-Sliced Design. Слой может импортировать только слои, лежащие ниже него:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+app  →  pages  →  widgets  →  features  →  entities  →  shared
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+| Слой       | Что в нём лежит                                                                 |
+| ---------- | ------------------------------------------------------------------------------- |
+| `app`      | Точка входа, стор, роутер, общий каркас страницы, сценарии на стыке сущностей   |
+| `pages`    | Страницы: собирают виджеты и фичи под конкретный адрес                          |
+| `widgets`  | Самостоятельные блоки интерфейса: шапка, меню, списки товаров, модальные окна   |
+| `features` | Действия пользователя: вход, корзина, избранное, поиск, фильтры, оформление     |
+| `entities` | Бизнес-сущности: товар, каталог, корзина, заказ, пользователь — данные и их вид |
+| `shared`   | Переиспользуемое без привязки к бизнесу: UI-кит, API-клиент, утилиты, стили     |
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Правила, которые проверяет ESLint (`eslint.config.js`):
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- слой не импортирует слои выше себя;
+- чужой слайс импортируется только через его `index.ts` — не `@entities/cart/model/cartSlice`, а `@entities/cart`.
+
+Единственное исключение — типы стора (`RootState`, `AppDispatch`): `shared` берёт их из `app` через `import type`.
+
+### Устройство слайса
+
 ```
+entities/cart/
+  api/      запросы к серверу
+  model/    слайс, саги, селекторы, типы
+  ui/       компоненты и их стили
+  lib/      вспомогательные функции
+  index.ts  публичный API слайса
+```
+
+Сегменты создаются по необходимости: у слайса без интерфейса нет `ui`, у чисто визуального — нет `model`.
+
+### Как связаны сущности и действия
+
+Сущности не знают о действиях над ними. Карточка товара (`entities/product`) получает кнопки корзины и избранного пропсами, а собирает их вместе виджет:
+
+```tsx
+<ProductCard
+	item={item}
+	variant='grid'
+	cartAction={<AddToCartButton productId={item.id} />}
+	favoriteAction={<FavoriteButton productId={item.id} />}
+/>
+```
+
+Сценарии, затрагивающие несколько сущностей, живут уровнем выше них: оформление заказа — в `features/checkout`, загрузка корзины, избранного и заказов после входа — в `app/store/sessionSaga.ts`.
+
+## Стили
+
+- Стили лежат в `.scss` рядом с компонентом; инлайн-стилей в разметке нет. Значения, зависящие от данных, выражаются классами и нативными элементами.
+- Цвета, скругления, тени и слои — CSS-переменные из `shared/styles/variables.scss`.
+- Миксины и точки перелома подключаются так: `@use '@shared/styles/helpers' as *;`. Каркас страницы — `@include page`, контейнер — `@include container`, перелом — `@include tablet` / `mobile` / `laptop`.
+- Именование классов — БЭМ: `product-card__name`, `product-card--grid`.

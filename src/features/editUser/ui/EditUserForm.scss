@@ -1,52 +1,38 @@
 .edit-user {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 40px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	width: 100%;
 
-    &__form {
-        display: flex;
-        flex-direction: column;
-        gap: 40px;
-    }
+	&__email {
+		font-size: clamp(18px, 3vw, 24px);
+		overflow-wrap: anywhere;
+	}
 
-    &__content {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
+	&__row {
+		display: flex;
+		gap: 20px;
 
-    &__block {
-        display: flex;
-        gap: 20px;
+		> * {
+			flex: 1 1 0;
+			min-width: 0;
+		}
+	}
 
-        > * {
-            flex: 1 1 0;
-            min-width: 0;
-        }
-    }
+	&__error {
+		font-size: 14px;
+		color: var(--color-red);
+	}
 
-    &__buttons {
-        display: flex;
-        gap: 10px;
-    }
+	&__submit {
+		align-self: flex-start;
+		margin-top: 8px;
+	}
 }
 
 @media (max-width: 640px) {
-    .edit-user {
-        gap: 28px;
-
-        &__form {
-            gap: 28px;
-        }
-
-        &__block {
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        &__buttons {
-            flex-wrap: wrap;
-        }
-    }
+	.edit-user__row {
+		flex-direction: column;
+		gap: 16px;
+	}
 }

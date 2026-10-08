@@ -1,4 +1,4 @@
-import type { Product } from '@entities/catalog/model/catalog.type';
+import type { Product } from '@entities/product';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 interface OffersState {

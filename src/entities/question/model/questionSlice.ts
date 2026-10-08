@@ -1,23 +1,27 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type {
-	AskQuestionsPayload,
-	GetQuestionsPayload,
+	AskQuestionPayload,
 	GetQuestionsResponse,
 	QuestionType
-} from './questionType';
+} from './questionTypes';
 
 interface QuestionState {
 	total: number;
 	questions: QuestionType[];
 	isLoading: boolean;
 	isFetch: boolean;
+	submitError: string;
+	/** Растёт с каждым отправленным вопросом — по нему форма сбрасывает поля */
+	submittedCount: number;
 }
 
 const initialState: QuestionState = {
 	total: 0,
 	questions: [],
 	isLoading: true,
-	isFetch: false
+	isFetch: false,
+	submitError: '',
+	submittedCount: 0
 };
 
 export const { reducer, actions, name } = createSlice({
@@ -26,7 +30,7 @@ export const { reducer, actions, name } = createSlice({
 	reducers: {
 		getQuestionRequest: (
 			state,
-			_action: PayloadAction<GetQuestionsPayload>
+			_action: PayloadAction<{ productId: number }>
 		) => {
 			state.isLoading = true;
 		},
@@ -43,20 +47,22 @@ export const { reducer, actions, name } = createSlice({
 		},
 		askQuestionRequest: (
 			state,
-			_action: PayloadAction<AskQuestionsPayload>
+			_action: PayloadAction<AskQuestionPayload>
 		) => {
 			state.isFetch = true;
+			state.submitError = '';
 		},
 		askQuestionSuccess: state => {
 			state.isFetch = false;
+			state.submittedCount += 1;
 		},
-		askQuestionFailure: state => {
+		askQuestionFailure: (state, action: PayloadAction<string>) => {
 			state.isFetch = false;
+			state.submitError = action.payload;
 		},
-		clearQuestions: (state) => {
-			state.questions = [];
-			state.total = 0;
-			state.isLoading = true;
-		}
+		clearQuestions: state => ({
+			...initialState,
+			submittedCount: state.submittedCount
+		})
 	}
 });

@@ -1,48 +1,40 @@
 import React from 'react';
+import clsx from 'clsx';
 import StarIcon from '@shared/icons/Star';
 import './RatingStars.scss';
 
+const STARS_COUNT = 5;
+
 interface RatingStarsProps {
-	rating: number; // Сюда передаем дробное число, например 4.5, 3.7 и т.д.
+	/** Дробный рейтинг, например 4.5 */
+	rating: number;
 	size?: number;
-	activeColor?: string;
-	inactiveColor?: string;
 	className?: string;
 }
 
 const RatingStars: React.FC<RatingStarsProps> = ({
 	rating,
-	activeColor = '#FFE51E',
-	inactiveColor = '#D9D9D9',
-	className = ''
+	size = 24,
+	className
 }) => {
-	// Ограничиваем рейтинг строго рамками от 0 до 5
-	const validatedRating = Math.min(Math.max(rating, 0), 5);
+	const validatedRating = Math.min(Math.max(rating, 0), STARS_COUNT);
 
 	return (
-		<div className={`rating-stars ${className}`}>
-			{Array.from({ length: 5 }).map((_, index) => {
-				// Вычисляем процент заполнения конкретной звезды (от 0 до 100)
-				const starIndex = index + 1;
-				let fillPercentage = 0;
-
-				if (validatedRating >= starIndex) {
-					fillPercentage = 100; // Полностью закрашенная звезда
-				} else if (validatedRating > index && validatedRating < starIndex) {
-					// Рассчитываем остаток для дробной звезды (например 4.5 -> 0.5 * 100 = 50%)
-					fillPercentage = (validatedRating - index) * 100;
-				}
-
-				return (
-					<StarIcon
-						key={index}
-						size={25}
-						fillPercentage={fillPercentage}
-						activeColor={activeColor}
-						inactiveColor={inactiveColor}
-					/>
-				);
-			})}
+		<div
+			className={clsx('rating-stars', className)}
+			role='img'
+			aria-label={`Оценка ${validatedRating} из ${STARS_COUNT}`}
+		>
+			{Array.from({ length: STARS_COUNT }, (_, index) => (
+				<StarIcon
+					key={index}
+					size={size}
+					// Для 4.5 первые четыре звезды заполнены целиком, пятая — наполовину
+					fillPercentage={
+						Math.min(Math.max(validatedRating - index, 0), 1) * 100
+					}
+				/>
+			))}
 		</div>
 	);
 };

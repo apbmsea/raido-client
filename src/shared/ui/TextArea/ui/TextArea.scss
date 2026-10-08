@@ -1,48 +1,55 @@
 .textarea {
 	display: flex;
 	flex-direction: column;
-	gap: 4px;
 	width: 100%;
 
 	&__label {
+		align-self: flex-start;
+		margin-bottom: 6px;
 		font-size: 14px;
-		color: #333;
-	}
-
-	&__wrapper {
-		position: relative;
-		display: flex;
-		align-items: flex-start;
-		width: 100%;
+		color: var(--color-black);
 	}
 
 	&__field {
 		width: 100%;
-		min-height: 100px;
-		padding: 16px;
-		border: 1px solid var(--color-gray);
-		border-radius: 15px;
+		min-height: 110px;
+		padding: 14px 17px;
+		border: 1px solid var(--color-black);
+		border-radius: var(--radius-m);
+		outline: none;
+		background-color: var(--color-white);
+		color: var(--color-black);
+		font-size: 15px;
+		line-height: 1.5;
 		resize: vertical;
-		font-family: inherit;
+		transition:
+			border-color var(--transition),
+			box-shadow var(--transition);
 
-		&:focus {
-			outline: none;
+		&::placeholder {
+			color: var(--color-gray-light);
+		}
+
+		&:hover:not(:disabled) {
 			border-color: var(--color-primary);
 		}
 
-		&--error {
+		&:focus-visible {
+			border-color: var(--color-primary);
+			outline: none;
+			box-shadow: 0 0 0 3px rgb(74 88 246 / 18%);
+		}
+
+		&--error,
+		&--error:hover:not(:disabled) {
 			border-color: var(--color-red);
 		}
 	}
 
-	&__button {
-		position: absolute;
-		right: 12px;
-		bottom: 12px; // Или top: 12px, зависит от дизайна кнопки
-	}
-
 	&__error {
+		margin-top: 4px;
 		font-size: 12px;
-		color: #ff0000;
+		line-height: 1.4;
+		color: var(--color-red);
 	}
 }

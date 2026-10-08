@@ -1,0 +1,61 @@
+@use '@shared/styles/helpers' as *;
+
+.catalog-subcategories {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 24px;
+	width: 100%;
+
+	&__category {
+		@include button-reset;
+
+		color: var(--color-black);
+		font-size: 20px;
+		font-weight: 700;
+		transition: color var(--transition);
+
+		&:hover {
+			color: var(--color-primary);
+		}
+	}
+
+	&__group {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		width: 100%;
+	}
+
+	&__group-title {
+		color: var(--color-black);
+		font-size: 16px;
+		font-weight: 600;
+	}
+
+	&__items {
+		display: grid;
+		grid-template-columns: 1fr;
+		align-items: start;
+		justify-items: start;
+		gap: 2px 32px;
+
+		&--columns {
+			grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+		}
+	}
+
+	&__item {
+		@include button-reset;
+
+		padding-block: 6px;
+		color: var(--color-gray-dark);
+		font-size: 16px;
+		line-height: 1.3;
+		transition: color var(--transition);
+
+		&:hover {
+			color: var(--color-primary);
+		}
+	}
+}

@@ -1,13 +1,13 @@
-import { formatIso } from '@shared/utils/formatIso';
+import { formatDate } from '@shared/utils/formatDate';
 import { formatPrice } from '@shared/utils/formatPrice';
 import { Link } from 'react-router-dom';
 
-import type { Order } from '../model/orderTypes';
+import type { OrderType } from '../model/orderTypes';
 
 import './OrderCard.scss';
 
 type OrderCardProps = {
-	item: Order;
+	item: OrderType;
 };
 
 const MAX_VISIBLE_IMAGES = 5;
@@ -27,7 +27,7 @@ export const OrderCard = ({ item }: OrderCardProps) => {
 					<div className='order-card__heading'>
 						<h2 className='order-card__title'>Заказ №{item.id}</h2>
 						<span className='order-card__date'>
-							{formatIso(item.created_at)}
+							{formatDate(item.created_at, 'dayMonth')}
 						</span>
 					</div>
 
@@ -45,7 +45,8 @@ export const OrderCard = ({ item }: OrderCardProps) => {
 								<img
 									className='order-card__image'
 									src={product.product_image.image_250x250}
-									alt=''
+									alt={product.product_name}
+									loading='lazy'
 								/>
 							) : (
 								<div className='order-card__no-image'>
@@ -57,7 +58,7 @@ export const OrderCard = ({ item }: OrderCardProps) => {
 
 					{hasMoreItems && (
 						<div className='order-card__item order-card__item--more'>
-							<span>+{hiddenItemsCount}</span>
+							+{hiddenItemsCount}
 						</div>
 					)}
 				</div>
@@ -65,7 +66,7 @@ export const OrderCard = ({ item }: OrderCardProps) => {
 
 			<div className='order-card__info'>
 				<span className='order-card__price'>
-					{formatPrice(Number(item.total_amount))}
+					{formatPrice(item.total_amount)}
 				</span>
 
 				<span

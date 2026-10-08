@@ -1,42 +1,97 @@
 .icon-button {
+	// Размер задаётся переменной, чтобы его можно было переопределить из родителя
+	--icon-button-size: 50px;
+
 	position: relative;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	flex-shrink: 0;
+	width: var(--icon-button-size);
+	height: var(--icon-button-size);
+	padding: 0;
 	border: 1px solid var(--color-black);
+	border-radius: 50%;
 	background-color: var(--color-white);
 	color: var(--color-black);
 	cursor: pointer;
-	transition: all 0.2s ease;
+	transition:
+		background-color var(--transition),
+		border-color var(--transition),
+		color var(--transition),
+		transform var(--transition);
 
-	&:hover:not(.icon-button--disabled) {
-		opacity: 0.9;
+	&--xs {
+		--icon-button-size: 32px;
 	}
 
-	&:active:not(.icon-button--disabled) {
+	&--s {
+		--icon-button-size: 40px;
+	}
+
+	&--m {
+		--icon-button-size: 45px;
+	}
+
+	&--l {
+		--icon-button-size: 50px;
+	}
+
+	&--xl {
+		--icon-button-size: 82px;
+	}
+
+	&--outline:hover:not(:disabled) {
+		border-color: var(--color-primary);
+		color: var(--color-primary);
+	}
+
+	&--primary {
+		border-color: var(--color-primary);
+		color: var(--color-white);
+		background-color: var(--color-primary);
+
+		&:hover:not(:disabled) {
+			border-color: var(--color-primary-hover);
+			background-color: var(--color-primary-hover);
+		}
+	}
+
+	&--ghost {
+		border-color: transparent;
+		background-color: transparent;
+
+		&:hover:not(:disabled) {
+			color: var(--color-primary);
+			background-color: var(--color-primary-soft);
+		}
+	}
+
+	&:active:not(:disabled) {
 		transform: scale(0.95);
+	}
+
+	&:disabled {
+		opacity: 0.4;
+		cursor: not-allowed;
 	}
 
 	&__counter {
 		position: absolute;
 		top: 0;
 		right: 0;
-		height: 18px;
-		width: 18px;
-		border-radius: 50%;
-		background-color: var(--color-red);
-		color: var(--color-white);
-		font-size: 12px;
-		font-weight: 400;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		min-width: 18px;
+		height: 18px;
+		padding: 0 4px;
+		border-radius: var(--radius-pill);
+		background-color: var(--color-red);
+		color: var(--color-white);
+		font-size: 11px;
+		font-weight: 600;
+		line-height: 1;
 		transform: translate(25%, -25%);
 	}
-}
-
-.primary {
-	border: none;
-    color: var(--color-white);
-    background-color: var(--color-primary);
 }

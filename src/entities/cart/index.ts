@@ -1,7 +1,13 @@
 import { actions, reducer, name } from './model/cartSlice';
-export type { AddItemToCartPayload } from './model/cartType';
-export { default as WatchCart } from './model/cartSaga';
-export { CartList } from './ui/CartList';
+
+export { default as watchCart } from './model/cartSaga';
+export {
+	selectCartItemByProductId,
+	selectIsCartProductPending,
+	selectSelectedCartItems,
+	selectSelectedCartTotal
+} from './model/cartSelectors';
+export type { CartItem } from './model/cartTypes';
 
 export const Cart = {
 	reducer: {

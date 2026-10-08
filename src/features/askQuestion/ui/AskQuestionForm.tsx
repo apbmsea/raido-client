@@ -1,77 +1,58 @@
+import { useState, type FormEvent } from 'react';
+import { Question } from '@entities/question';
+import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Button } from '@shared/ui/Button';
 import { Checkbox } from '@shared/ui/Checkbox';
 import { TextArea } from '@shared/ui/TextArea';
 import './AskQuestionForm.scss';
-import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
-import { Question } from '@entities/question';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { UnauthWidget } from '@widgets/UnauthWidget';
 
-export const AskQuestionForm = () => {
+type AskQuestionFormProps = {
+	productId: number;
+};
+
+export const AskQuestionForm = ({ productId }: AskQuestionFormProps) => {
 	const dispatch = useAppDispatch();
-	const { isFetch } = useAppSelector(state => state.question);
-	const { isLogin } = useAppSelector(state => state.user);
+	const { isFetch, submitError } = useAppSelector(state => state.question);
 
-	const { id } = useParams();
+	const [comment, setComment] = useState('');
+	const [isAnonymous, setIsAnonymous] = useState(false);
 
-	const [formData, setFormData] = useState({
-		comment: '',
-		is_anonymous: false
-	});
-
-	if (!isLogin) {
-		return (
-			<div style={{ paddingBlock: "20px"}}>
-				<UnauthWidget message='Войдите в профиль, чтобы оставить вопрос' />
-			</div>
-		);
-	}
-
-	const handleSumbit = (e: React.FormEvent) => {
+	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		if (id) {
-			dispatch(
-				Question.actions.askQuestionRequest({
-					productId: Number(id),
-					payload: {
-						comment: formData.comment,
-						is_anonymous: formData.is_anonymous
-					}
-				})
-			);
-		}
-	};
 
-	const handleChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
-		const { name, value, type } = e.target;
-
-		setFormData(prev => ({
-			...prev,
-			[name]:
-				type === 'checkbox'
-					? (e.target as HTMLInputElement).checked
-					: value
-		}));
+		dispatch(
+			Question.actions.askQuestionRequest({
+				productId,
+				payload: {
+					comment: comment.trim(),
+					is_anonymous: isAnonymous
+				}
+			})
+		);
 	};
 
 	return (
-		<form onSubmit={handleSumbit} className='ask-question'>
-			<Checkbox
-				name='is_anonymous'
-				checked={formData.is_anonymous}
-				onChange={handleChange}
-				label='Оставить вопрос анонимно'
-			/>
+		<form onSubmit={handleSubmit} className='ask-question'>
 			<TextArea
 				name='comment'
-				value={formData.comment}
-				onChange={handleChange}
+				value={comment}
+				onChange={e => setComment(e.target.value)}
 				placeholder='Ваш вопрос'
+				aria-label='Текст вопроса'
+				required
 			/>
-			<Button disabled={isFetch} size='s' type='submit'>
+			<Checkbox
+				name='is_anonymous'
+				checked={isAnonymous}
+				onChange={e => setIsAnonymous(e.target.checked)}
+				label='Оставить вопрос анонимно'
+			/>
+			{submitError && (
+				<p className='ask-question__error' role='alert'>
+					{submitError}
+				</p>
+			)}
+			<Button loading={isFetch} size='s' type='submit'>
 				Отправить
 			</Button>
 		</form>

@@ -1,40 +1,44 @@
-@use "../../../shared/styles/helpers/" as *;
+@use '@shared/styles/helpers' as *;
 
-.catalog {
-	display: flex;
-	flex-direction: column;
-	gap: 40px;
-	width: 100%;
-	max-width: 1280px;
-	margin: 0 auto;
-	@include f(padding-inline, 40, 40, 20);
-	@include f(padding-top, 40, 40, 20);
-	@include f(padding-bottom, 100, 100, 85);
+.catalog-page {
+	@include page(32px);
 
-	&__path {
+	&__header {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		// Отступ сверху при прокрутке к началу списка
+		scroll-margin-top: 20px;
 	}
 
-	&__titile {
-		font-size: 32px;
-		font-weight: bold;
+	&__heading {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 4px 16px;
 	}
 
-	@include tablet {
-		padding: fluid-tm(40, 20) fluid-tm(40, 20) fluid-tm(80, 60);
+	&__title {
+		@include page-title;
+	}
+
+	&__total {
+		color: var(--color-gray);
+		font-size: 14px;
 	}
 
 	&__content {
 		display: flex;
-
+		align-items: flex-start;
 		gap: 26px;
 	}
 
 	&__main {
-		flex: 1;
-		min-width: 0;
 		display: flex;
+		flex: 1;
 		flex-direction: column;
 		align-items: center;
-		gap: 40px;
+		gap: 32px;
+		min-width: 0;
 	}
 }

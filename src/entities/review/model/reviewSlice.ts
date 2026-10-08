@@ -1,8 +1,8 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type {
-	AddReviewsPayload,
-	GetReviewsPayload,
+	AddReviewPayload,
 	GetReviewsResponse,
+	RatingLevel,
 	ReviewType
 } from './reviewTypes';
 
@@ -10,30 +10,23 @@ interface ReviewState {
 	total: number;
 	reviews: ReviewType[];
 	rating: number;
-	counts_of_reviews: {
-		1: number;
-		2: number;
-		3: number;
-		4: number;
-		5: number;
-	};
+	counts_of_reviews: Record<RatingLevel, number>;
 	isLoading: boolean;
 	isFetch: boolean;
+	submitError: string;
+	/** Растёт с каждым отправленным отзывом — по нему форма сбрасывает поля */
+	submittedCount: number;
 }
 
 const initialState: ReviewState = {
 	total: 0,
-	rating: 5,
-	counts_of_reviews: {
-		1: 0,
-		2: 0,
-		3: 0,
-		4: 0,
-		5: 0
-	},
+	rating: 0,
+	counts_of_reviews: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
 	reviews: [],
 	isLoading: true,
-	isFetch: false
+	isFetch: false,
+	submitError: '',
+	submittedCount: 0
 };
 
 export const { reducer, actions, name } = createSlice({
@@ -42,7 +35,7 @@ export const { reducer, actions, name } = createSlice({
 	reducers: {
 		getReviewRequest: (
 			state,
-			_action: PayloadAction<GetReviewsPayload>
+			_action: PayloadAction<{ productId: number }>
 		) => {
 			state.isLoading = true;
 		},
@@ -61,20 +54,22 @@ export const { reducer, actions, name } = createSlice({
 		},
 		addReviewRequest: (
 			state,
-			_action: PayloadAction<AddReviewsPayload>
+			_action: PayloadAction<AddReviewPayload>
 		) => {
 			state.isFetch = true;
+			state.submitError = '';
 		},
 		addReviewSuccess: state => {
 			state.isFetch = false;
+			state.submittedCount += 1;
 		},
-		addReviewFailure: state => {
+		addReviewFailure: (state, action: PayloadAction<string>) => {
 			state.isFetch = false;
+			state.submitError = action.payload;
 		},
-		clearReviews: (state) => {
-			state.reviews = [];
-			state.total = 0;
-			state.isLoading = true;
-		}
+		clearReviews: state => ({
+			...initialState,
+			submittedCount: state.submittedCount
+		})
 	}
 });

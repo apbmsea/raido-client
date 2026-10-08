@@ -1,77 +1,83 @@
-import { useEffect, useRef, useState } from 'react';
-import './Navbar.scss';
+import { useCallback, useRef, useState } from 'react';
+import clsx from 'clsx';
 import { NAV_ITEMS } from '@shared/constants/navbar';
+import { useClickOutside } from '@shared/hooks/useClickOutside.hook';
 import ArrowDownIcon from '@shared/icons/ArrowDown';
-import { useAppDispatch } from '@shared/hooks/store.hooks';
-import { CatalogMenu } from '@features/catalogMenu';
-import { Menu } from '@features/menu';
+import { AppLink } from '@shared/ui/AppLink';
+import './Navbar.scss';
 
-export default function Navbar() {
-	const [active, setActive] = useState<string | null>(null);
+const Navbar = () => {
+	const [activeId, setActiveId] = useState<string | null>(null);
+	// Полоса навигации раздвигается на высоту открытого списка ссылок
 	const [submenuHeight, setSubmenuHeight] = useState(0);
+	const navRef = useRef<HTMLElement>(null);
+	const submenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-	const dispatch = useAppDispatch();
+	const close = useCallback(() => setActiveId(null), []);
+	useClickOutside(navRef, close, activeId !== null);
 
-	const ref = useRef<HTMLDivElement>(null);
-
-	useEffect(() => {
-		if (ref.current) {
-			setSubmenuHeight(ref.current.scrollHeight);
+	const toggle = (id: string) => {
+		if (activeId === id) {
+			close();
+			return;
 		}
-	}, [active]);
+
+		setSubmenuHeight(submenuRefs.current[id]?.scrollHeight ?? 0);
+		setActiveId(id);
+	};
 
 	return (
 		<nav
 			className='nav hidden-tablet'
-			style={{ paddingBottom: active ? submenuHeight : 0 }}
+			ref={navRef}
+			aria-label='Разделы сайта'
+			style={{ paddingBottom: activeId ? submenuHeight : 0 }}
 		>
-			<div className='nav__container'>
-				{NAV_ITEMS.map(item => (
-					<div key={item.id} className='nav__item'>
-						<button
-							className={`nav__link ${
-								active === item.id ? 'nav__link--active' : ''
-							}`}
-							onClick={() =>
-								setActive(prev =>
-									prev === item.id ? null : item.id
-								)
-							}
-						>
-							{item.title}
-							<span
-								className={`nav__icon ${
-									active === item.id ? 'nav__icon--open' : ''
-								}`}
+			<ul className='nav__list'>
+				{NAV_ITEMS.map(item => {
+					const isOpen = activeId === item.id;
+
+					return (
+						<li key={item.id} className='nav__item'>
+							<button
+								type='button'
+								className={clsx(
+									'nav__button',
+									isOpen && 'nav__button--active'
+								)}
+								aria-expanded={isOpen}
+								onClick={() => toggle(item.id)}
 							>
-								<ArrowDownIcon size={14} />
-							</span>
-						</button>
-						<div
-							ref={active === item.id ? ref : null}
-							className={`nav__submenu ${
-								active === item.id ? 'nav__submenu--open' : ''
-							}`}
-						>
-							{item.content.map(link => (
-								<a
-									key={link.title}
-									href={link.link}
-									onClick={() => {
-										dispatch(
-											CatalogMenu.actions.setIsOpen(false)
-										);
-										dispatch(Menu.actions.setIsOpen(false));
-									}}
-									className='nav__submenu-link'
-								>
-									{link.title}
-								</a>
-							))}
-						</div>
-					</div>
-				))}
-			</div>
+								{item.title}
+								<ArrowDownIcon size={14} className='nav__icon' />
+							</button>
+							<div
+								ref={el => {
+									submenuRefs.current[item.id] = el;
+								}}
+								className={clsx(
+									'nav__submenu',
+									isOpen && 'nav__submenu--open'
+								)}
+							>
+								{item.content.map(link => (
+									<AppLink
+										key={link.link}
+										to={link.link}
+										isExternal={link.isExternal}
+										onClick={close}
+										className='nav__link'
+									>
+										{link.title}
+									</AppLink>
+								))}
+							</div>
+						</li>
+					);
+				})}
+			</ul>
 		</nav>
 	);
-}
+};
+
+export default Navbar;

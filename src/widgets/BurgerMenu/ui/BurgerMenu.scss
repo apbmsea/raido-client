@@ -1,0 +1,34 @@
+@use '@shared/styles/helpers' as *;
+
+.burger-menu {
+	position: fixed;
+	inset: 0;
+	z-index: var(--z-menu);
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+	padding: clamp(16px, 5vw, 40px) var(--container-padding) 40px;
+	background-color: var(--color-white);
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	animation: fade-in 0.2s ease;
+
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+	}
+
+	&__header-main {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	&__logo {
+		width: fluid-tm(151, 103);
+		height: auto;
+	}
+}

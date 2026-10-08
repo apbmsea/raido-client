@@ -7,55 +7,55 @@ $mobile: 480.98;
 $mobile-s: 360.98;
 
 @mixin desktop {
-    @media (width >   rem($desktop)) {
-      @content;
-    }
+	@media (width > rem($desktop)) {
+		@content;
+	}
 }
 
 @mixin laptop-above {
-    @media (width > rem($laptop)) {
-      @content;
-    }
+	@media (width > rem($laptop)) {
+		@content;
+	}
 }
-  
+
 @mixin laptop {
-    @media (width <= rem($laptop)) {
-      @content;
-    }
+	@media (width <= rem($laptop)) {
+		@content;
+	}
 }
-  
+
 @mixin tablet-above {
-    @media (width > rem($tablet)) {
-      @content;
-    }
+	@media (width > rem($tablet)) {
+		@content;
+	}
 }
-  
+
 @mixin tablet {
-    @media (width <= rem($tablet)) {
-      @content;
-    }
+	@media (width <= rem($tablet)) {
+		@content;
+	}
 }
-  
+
 @mixin mobile-above {
-    @media (width > rem($mobile)) {
-      @content;
-    }
+	@media (width > rem($mobile)) {
+		@content;
+	}
 }
-  
+
 @mixin mobile {
-    @media (width <= rem($mobile)) {
-      @content;
-    }
+	@media (width <= rem($mobile)) {
+		@content;
+	}
 }
-  
+
 @mixin mobile-s-above {
-    @media (width > rem($mobile-s)) {
-      @content;
-    }
+	@media (width > rem($mobile-s)) {
+		@content;
+	}
 }
 
 @mixin mobile-s {
-    @media (width <= rem($mobile-s)) {
-      @content;
-    }
+	@media (width <= rem($mobile-s)) {
+		@content;
+	}
 }

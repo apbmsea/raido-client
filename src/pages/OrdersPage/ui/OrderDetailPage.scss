@@ -5,8 +5,6 @@
 	width: 100%;
 
 	&--state {
-		min-height: 300px;
-		justify-content: center;
 		color: var(--color-black);
 	}
 
@@ -15,7 +13,6 @@
 		color: var(--color-primary);
 		font-size: 14px;
 		font-weight: 600;
-		text-decoration: none;
 
 		&:hover {
 			text-decoration: underline;
@@ -28,7 +25,7 @@
 		gap: 6px;
 		padding: 16px 20px;
 		border: 1px solid var(--color-green);
-		border-radius: 15px;
+		border-radius: var(--radius-m);
 		color: var(--color-black);
 		font-size: 14px;
 
@@ -44,19 +41,12 @@
 		justify-content: space-between;
 		gap: 24px;
 		padding-bottom: 20px;
-		border-bottom: 1px solid var(--color-gray);
-	}
-
-	&__eyebrow {
-		margin-bottom: 8px;
-		color: var(--color-primary);
-		font-size: 12px;
-		font-weight: 700;
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	&__title {
 		color: var(--color-black);
-		font-size: 28px;
+		font-size: clamp(22px, 3vw, 28px);
 		font-weight: 600;
 	}
 
@@ -116,12 +106,13 @@
 
 	&__section {
 		padding-bottom: 24px;
-		border-bottom: 1px solid var(--color-gray);
+		border-bottom: 1px solid var(--color-border);
 
 		> p {
 			color: var(--color-black);
 			font-size: 14px;
 			line-height: 1.6;
+			overflow-wrap: anywhere;
 		}
 	}
 
@@ -149,14 +140,14 @@
 		gap: 16px;
 		min-width: 0;
 		padding: 14px 0;
-		border-top: 1px solid var(--color-gray);
+		border-top: 1px solid var(--color-border);
 	}
 
 	&__image {
 		width: 72px;
 		height: 72px;
-		border-radius: 6px;
-		background: var(--color-gray-light);
+		border-radius: var(--radius-s);
+		background: var(--color-surface);
 		object-fit: contain;
 
 		&--empty {
@@ -176,6 +167,15 @@
 			font-weight: 500;
 			line-height: 1.4;
 			overflow-wrap: anywhere;
+		}
+
+		a {
+			text-decoration: none;
+			transition: color var(--transition);
+
+			&:hover {
+				color: var(--color-primary);
+			}
 		}
 
 		p {
@@ -224,8 +224,8 @@
 		position: sticky;
 		top: 20px;
 		padding: 20px;
-		border: 1px solid var(--color-gray);
-		border-radius: 8px;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-m);
 	}
 
 	&__sum-row,
@@ -245,7 +245,7 @@
 	&__total {
 		margin-top: 18px;
 		padding-top: 16px;
-		border-top: 1px solid var(--color-gray);
+		border-top: 1px solid var(--color-border);
 		font-size: 15px;
 		font-weight: 600;
 
@@ -255,8 +255,7 @@
 		}
 	}
 
-	&__receipt,
-	&__support {
+	&__note {
 		margin-top: 16px;
 		color: var(--color-gray);
 		font-size: 13px;
@@ -270,14 +269,15 @@
 	}
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
 	.order-detail__layout {
 		grid-template-columns: minmax(0, 1fr) 260px;
 		gap: 20px;
 	}
 }
 
-@media (max-width: 720px) {
+// Сводка уходит под список: рядом с меню профиля двум колонкам уже тесно
+@media (max-width: 960px) {
 	.order-detail {
 		gap: 20px;
 
@@ -292,14 +292,8 @@
 		}
 
 		&__layout {
-			display: flex;
-			flex-direction: column;
+			grid-template-columns: minmax(0, 1fr);
 			gap: 24px;
-		}
-
-		&__main,
-		&__summary {
-			width: 100%;
 		}
 
 		&__summary {
@@ -310,10 +304,6 @@
 
 @media (max-width: 480px) {
 	.order-detail {
-		&__title {
-			font-size: 24px;
-		}
-
 		&__item {
 			grid-template-columns: 56px minmax(0, 1fr);
 			gap: 12px;
