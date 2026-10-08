@@ -25,22 +25,24 @@ export const CartWidget = () => {
 
 	return (
 		<div className='cart-widget'>
-			<div className='cart-widget__summary'>
-				<span className='cart-widget__count'>
-					{selectedCount > 0
-						? `${selectedCount} ${plural(selectedCount, ['товар', 'товара', 'товаров'])}`
-						: 'Товары не выбраны'}
-				</span>
-				<span className='cart-widget__total'>{formatPrice(total)}</span>
-			</div>
+			<div className='cart-widget__inner'>
+				<div className='cart-widget__summary'>
+					<span className='cart-widget__count'>
+						{selectedCount > 0
+							? `${selectedCount} ${plural(selectedCount, ['товар', 'товара', 'товаров'])}`
+							: 'Товары не выбраны'}
+					</span>
+					<span className='cart-widget__total'>{formatPrice(total)}</span>
+				</div>
 
-			<Button
-				size='l'
-				onClick={handleCheckout}
-				disabled={selectedCount === 0}
-			>
-				Оформить заказ
-			</Button>
+				<Button
+					size='l'
+					onClick={handleCheckout}
+					disabled={selectedCount === 0}
+				>
+					Оформить заказ
+				</Button>
+			</div>
 		</div>
 	);
 };

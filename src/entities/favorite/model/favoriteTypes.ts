@@ -1,4 +1,5 @@
 import type { Product } from '@entities/product';
+import type { Paginated } from '@shared/utils/pagination';
 
 export interface FavoriteItem {
 	/** Идентификатор записи избранного: по нему товар убирается из списка */
@@ -7,7 +8,4 @@ export interface FavoriteItem {
 	product: Product;
 }
 
-export interface FavoriteResponse {
-	items: FavoriteItem[];
-	total: number;
-}
+export type FavoriteResponse = Paginated<FavoriteItem>;

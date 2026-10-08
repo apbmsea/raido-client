@@ -69,3 +69,18 @@ a {
 		opacity: 1;
 	}
 }
+
+// Конечное состояние не задаём: элемент приходит к собственным стилям
+@keyframes fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(24px);
+	}
+}
+
+@keyframes scale-in {
+	from {
+		opacity: 0;
+		transform: scale(0.94);
+	}
+}

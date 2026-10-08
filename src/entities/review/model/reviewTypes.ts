@@ -1,3 +1,5 @@
+import type { Paginated } from '@shared/utils/pagination';
+
 export type RatingLevel = 1 | 2 | 3 | 4 | 5;
 
 export interface ReviewType {
@@ -11,11 +13,9 @@ export interface ReviewType {
 	last_name: string | null;
 }
 
-export interface GetReviewsResponse {
-	total: number;
+export interface GetReviewsResponse extends Paginated<ReviewType> {
 	rating: number;
 	counts_of_reviews: Record<RatingLevel, number>;
-	items: ReviewType[];
 }
 
 export interface AddReviewPayload {

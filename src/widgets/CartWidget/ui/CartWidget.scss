@@ -1,18 +1,26 @@
-// sticky, а не fixed: плашка держится у нижнего края экрана, пока виден список
-// корзины, и не перекрывает подвал, когда страницу долистали до конца
+@use '@shared/styles/helpers' as *;
+
+// Плашка пришвартована к нижнему краю экрана и видна при любой прокрутке
 .cart-widget {
-	position: sticky;
-	bottom: 12px;
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	left: 0;
 	z-index: var(--z-sticky);
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 16px;
-	padding: 14px 20px;
-	border: 1px solid var(--color-border);
-	border-radius: var(--radius-l);
+	padding-block: 14px calc(14px + env(safe-area-inset-bottom));
+	border-top: 1px solid var(--color-border);
 	background: var(--color-white);
-	box-shadow: var(--shadow-m);
+	box-shadow: 0 -8px 24px rgb(12 12 12 / 8%);
+	animation: cart-widget-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+
+	&__inner {
+		@include container;
+
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px;
+	}
 
 	&__summary {
 		display: flex;
@@ -34,16 +42,33 @@
 	}
 }
 
+// Запас под плашку, чтобы в конце страницы она не закрывала подвал
+body:has(.cart-widget) {
+	padding-bottom: 76px;
+}
+
+@keyframes cart-widget-in {
+	from {
+		transform: translateY(100%);
+	}
+}
+
 @media (max-width: 480px) {
 	.cart-widget {
-		gap: 10px;
-		padding: 12px 14px;
-		border-radius: var(--radius-m);
+		padding-block: 10px calc(10px + env(safe-area-inset-bottom));
+
+		&__inner {
+			gap: 10px;
+		}
 
 		.btn {
 			height: 45px;
 			padding-inline: 16px;
 			font-size: 15px;
 		}
+	}
+
+	body:has(.cart-widget) {
+		padding-bottom: 64px;
 	}
 }

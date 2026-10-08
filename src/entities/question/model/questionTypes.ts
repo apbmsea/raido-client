@@ -1,3 +1,5 @@
+import type { Paginated } from '@shared/utils/pagination';
+
 export interface QuestionType {
 	id: number;
 	product_id: number;
@@ -8,10 +10,7 @@ export interface QuestionType {
 	answer: string | null;
 }
 
-export interface GetQuestionsResponse {
-	total: number;
-	items: QuestionType[];
-}
+export type GetQuestionsResponse = Paginated<QuestionType>;
 
 export interface AskQuestionPayload {
 	productId: number;

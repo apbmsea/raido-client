@@ -1,0 +1,119 @@
+@use '@shared/styles/helpers' as *;
+
+.toast-root {
+	position: fixed;
+	right: 12px;
+	bottom: clamp(12px, 3vw, 24px);
+	left: 12px;
+	z-index: var(--z-toast);
+	display: flex;
+	justify-content: center;
+	// Пустая область вокруг плашки не перехватывает клики по странице
+	pointer-events: none;
+}
+
+.toast {
+	--toast-color: var(--color-green);
+
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	width: 100%;
+	max-width: 420px;
+	padding: 14px 14px 17px 16px;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-m);
+	background-color: var(--color-white);
+	box-shadow: var(--shadow-l);
+	color: var(--color-black);
+	font-size: 14px;
+	line-height: 1.4;
+	overflow: hidden;
+	pointer-events: auto;
+	animation: toast-in 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+
+	&--info {
+		--toast-color: var(--color-primary);
+	}
+
+	&--error {
+		--toast-color: var(--color-red);
+	}
+
+	&__mark {
+		flex-shrink: 0;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		background-color: var(--toast-color);
+		box-shadow: 0 0 0 4px var(--color-surface);
+	}
+
+	&__message {
+		flex: 1;
+		min-width: 0;
+		overflow-wrap: anywhere;
+	}
+
+	&__undo {
+		@include button-reset;
+
+		flex-shrink: 0;
+		padding: 6px 12px;
+		border-radius: var(--radius-pill);
+		background-color: var(--color-primary-soft);
+		color: var(--color-primary);
+		font-weight: 600;
+		transition:
+			background-color var(--transition),
+			color var(--transition);
+
+		&:hover {
+			background-color: var(--color-primary);
+			color: var(--color-white);
+		}
+	}
+
+	&__close {
+		@include button-reset;
+
+		display: flex;
+		flex-shrink: 0;
+		padding: 4px;
+		border-radius: 50%;
+		color: var(--color-gray);
+		transition:
+			color var(--transition),
+			background-color var(--transition);
+
+		&:hover {
+			background-color: var(--color-surface);
+			color: var(--color-black);
+		}
+	}
+
+	&__progress {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		height: 3px;
+		background-color: var(--toast-color);
+		transform-origin: left;
+		animation: toast-progress var(--toast-duration) linear forwards;
+	}
+}
+
+@keyframes toast-in {
+	from {
+		opacity: 0;
+		transform: translateY(16px) scale(0.96);
+	}
+}
+
+@keyframes toast-progress {
+	to {
+		transform: scaleX(0);
+	}
+}

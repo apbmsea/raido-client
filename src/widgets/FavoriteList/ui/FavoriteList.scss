@@ -10,6 +10,11 @@
 		gap: 10px;
 	}
 
+	// Подгрузка занимает всю ширину сетки, а не одну ячейку
+	.load-more {
+		grid-column: 1 / -1;
+	}
+
 	&__link {
 		color: var(--color-primary);
 		font-weight: 600;

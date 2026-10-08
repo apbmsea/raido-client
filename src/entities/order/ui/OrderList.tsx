@@ -1,11 +1,14 @@
-import { useAppSelector } from '@shared/hooks/store.hooks';
+import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { EmptyState } from '@shared/ui/EmptyState';
+import { LoadMore } from '@shared/ui/LoadMore';
 import { Loader } from '@shared/ui/Loader';
+import { actions } from '../model/orderSlice';
 import { OrderCard } from './OrderCard';
 import './OrderList.scss';
 
 export const OrderList = () => {
-	const { items, isLoading } = useAppSelector(state => state.order);
+	const dispatch = useAppDispatch();
+	const { items, isLoading, paging } = useAppSelector(state => state.order);
 
 	if (isLoading && items.length === 0) {
 		return <Loader text='Загружаем заказы' />;
@@ -25,6 +28,11 @@ export const OrderList = () => {
 			{items.map(item => (
 				<OrderCard key={item.id} item={item} />
 			))}
+
+			<LoadMore
+				paging={paging}
+				onLoadMore={() => dispatch(actions.getOrdersMoreRequest())}
+			/>
 		</div>
 	);
 };

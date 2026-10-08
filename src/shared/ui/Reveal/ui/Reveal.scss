@@ -1,0 +1,8 @@
+// Анимации appear блока и его содержимого стоят на первом кадре,
+// пока блок не показался на экране
+.reveal:not(.reveal--visible) {
+	&,
+	& * {
+		animation-play-state: paused !important;
+	}
+}

@@ -1,8 +1,10 @@
 import { $api } from '@shared/api/instance';
 import type { FavoriteResponse } from '../model/favoriteTypes';
 
-export async function getFavorite() {
-	const response = await $api.get<FavoriteResponse>('/favorites');
+export async function getFavorite(page = 1) {
+	const response = await $api.get<FavoriteResponse>('/favorites', {
+		params: { page }
+	});
 	return response.data;
 }
 

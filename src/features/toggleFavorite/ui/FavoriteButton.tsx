@@ -4,7 +4,7 @@ import {
 	selectFavoriteItemByProductId,
 	selectIsFavoriteProductPending
 } from '@entities/favorite';
-import { Modal } from '@entities/modal';
+import { confirmAction, Modal } from '@entities/modal';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import FavoriteIcon from '@shared/icons/Favorite';
 import { IconButton, type IconButtonSize } from '@shared/ui/IconButton';
@@ -38,9 +38,15 @@ const FavoriteButton = ({
 
 		dispatch(
 			favoriteItem
-				? Favorite.actions.removeFavoriteRequest({
-						itemId: favoriteItem.id,
-						productId
+				? confirmAction({
+						title: 'Убрать из избранного?',
+						text: 'Товар пропадёт из списка избранного.',
+						confirmLabel: 'Убрать',
+						skipKey: 'remove-favorite',
+						action: Favorite.actions.removeFavoriteRequest({
+							itemId: favoriteItem.id,
+							productId
+						})
 					})
 				: Favorite.actions.addFavoriteRequest({ productId })
 		);

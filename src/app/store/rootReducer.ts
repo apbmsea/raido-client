@@ -10,6 +10,7 @@ import { Order } from '@entities/order';
 import { ProductDetails } from '@entities/product';
 import { Question } from '@entities/question';
 import { Review } from '@entities/review';
+import { Toast } from '@entities/toast';
 import { User } from '@entities/user';
 import { Confirm, Login, Register } from '@features/auth';
 import { Menu } from '@features/menu';
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
 	...ProductDetails.reducer,
 	...Question.reducer,
 	...Review.reducer,
+	...Toast.reducer,
 	...User.reducer,
 	...Confirm.reducer,
 	...Login.reducer,

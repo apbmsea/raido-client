@@ -1,4 +1,12 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import {
+	applyNextPage,
+	failNextPage,
+	initialPaging,
+	startNextPage,
+	toPaging,
+	type PagingState
+} from '@shared/utils/pagination';
 import type {
 	AskQuestionPayload,
 	GetQuestionsResponse,
@@ -9,6 +17,7 @@ interface QuestionState {
 	total: number;
 	questions: QuestionType[];
 	isLoading: boolean;
+	paging: PagingState;
 	isFetch: boolean;
 	submitError: string;
 	/** Растёт с каждым отправленным вопросом — по нему форма сбрасывает поля */
@@ -19,6 +28,7 @@ const initialState: QuestionState = {
 	total: 0,
 	questions: [],
 	isLoading: true,
+	paging: initialPaging,
 	isFetch: false,
 	submitError: '',
 	submittedCount: 0
@@ -41,10 +51,20 @@ export const { reducer, actions, name } = createSlice({
 			state.isLoading = false;
 			state.questions = action.payload.items;
 			state.total = action.payload.total;
+			state.paging = toPaging(action.payload);
 		},
 		getQuestionFailure: state => {
 			state.isLoading = false;
 		},
+		getQuestionMoreRequest: (
+			state,
+			_action: PayloadAction<{ productId: number }>
+		) => startNextPage(state.paging),
+		getQuestionMoreSuccess: (
+			state,
+			action: PayloadAction<GetQuestionsResponse>
+		) => applyNextPage(state.paging, state.questions, action.payload),
+		getQuestionMoreFailure: state => failNextPage(state.paging),
 		askQuestionRequest: (
 			state,
 			_action: PayloadAction<AskQuestionPayload>

@@ -7,6 +7,8 @@ import {
 	LoginForm,
 	RegisterForm
 } from '@features/auth';
+import { OrderCreatedWindow } from '@features/checkout';
+import { ConfirmActionModal } from '@features/confirmAction';
 import { DeleteManagerModal } from '@features/deleteManager';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Modal as ModalWindow } from '@shared/ui/Modal';
@@ -19,7 +21,9 @@ const MODAL_CONTENT: Record<ModalType, ComponentType> = {
 	confirmSuccess: ConfirmSuccessWindow,
 	addManager: AddManagerForm,
 	addManagerSuccess: AddManagerSuccessWindow,
-	deleteManager: DeleteManagerModal
+	deleteManager: DeleteManagerModal,
+	confirmAction: ConfirmActionModal,
+	orderCreated: OrderCreatedWindow
 };
 
 /** Единая точка показа модальных окон приложения */

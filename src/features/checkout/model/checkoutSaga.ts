@@ -1,6 +1,7 @@
 import { call, put, takeLatest } from 'typed-redux-saga';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { Cart } from '@entities/cart';
+import { Modal } from '@entities/modal';
 import { createOrder, Order, type CreateOrderPayload } from '@entities/order';
 import { editUser, User } from '@entities/user';
 import { getApiErrors } from '@shared/utils/errorHandler';
@@ -18,16 +19,14 @@ function* checkoutSaga(action: PayloadAction<CreateOrderPayload>) {
 
 		const order = yield* call(createOrder, action.payload);
 
-		yield* put(Order.actions.createOrderSuccess());
+		yield* put(Order.actions.createOrderSuccess(order?.id ?? null));
 		yield* put(Order.actions.getOrdersRequest());
 		yield* put(Cart.actions.getCartRequest());
 		yield* put(User.actions.refreshUserRequest());
 
-		yield* call(
-			navigateTo,
-			order?.id ? `/profile/orders/${order.id}` : '/profile/orders',
-			{ replace: true }
-		);
+		// Благодарим в окне поверх списка заказов, а не на отдельной странице
+		yield* call(navigateTo, '/profile/orders', { replace: true });
+		yield* put(Modal.actions.openModal('orderCreated'));
 	} catch (error) {
 		yield* put(
 			Order.actions.createOrderFailure(

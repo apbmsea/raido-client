@@ -5,8 +5,10 @@ import type {
 	OrdersResponse
 } from '../model/orderTypes';
 
-export async function getOrders() {
-	const response = await $api.get<OrdersResponse>('/orders/');
+export async function getOrders(page = 1) {
+	const response = await $api.get<OrdersResponse>('/orders/', {
+		params: { page }
+	});
 	return response.data;
 }
 

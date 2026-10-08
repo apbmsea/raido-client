@@ -89,6 +89,38 @@
 		flex-direction: column;
 	}
 
+	// Отрицательный отступ выравнивает текст пунктов по заголовку секции
+	&__subcategories {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		margin-inline: -10px;
+	}
+
+	&__subcategory {
+		@include button-reset;
+
+		padding: 7px 10px;
+		border-radius: var(--radius-s);
+		color: var(--color-black);
+		font-size: 14px;
+		line-height: 1.3;
+		transition:
+			background-color var(--transition),
+			color var(--transition);
+
+		&:hover {
+			background-color: var(--color-surface);
+		}
+
+		&--active,
+		&--active:hover {
+			background-color: var(--color-primary-soft);
+			color: var(--color-primary);
+			font-weight: 600;
+		}
+	}
+
 	&__show-more {
 		@include button-reset;
 

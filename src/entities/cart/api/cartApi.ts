@@ -1,8 +1,10 @@
 import { $api } from '@shared/api/instance';
 import type { CartResponse } from '../model/cartTypes';
 
-export async function getCart() {
-	const response = await $api.get<CartResponse>('/cart');
+export async function getCart(page = 1) {
+	const response = await $api.get<CartResponse>('/cart', {
+		params: { page }
+	});
 	return response.data;
 }
 

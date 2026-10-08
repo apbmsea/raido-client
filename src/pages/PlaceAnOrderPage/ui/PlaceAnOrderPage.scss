@@ -1,23 +1,46 @@
 @use '@shared/styles/helpers' as *;
 
 .place-an-order-page {
-	@include page;
+	@include page(clamp(20px, 3vw, 32px));
+
+	&__header {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+
+		@include appear;
+	}
+
+	&__back {
+		color: var(--color-gray);
+		font-size: 14px;
+		transition: color var(--transition);
+
+		&:hover {
+			color: var(--color-primary);
+		}
+	}
 
 	&__title {
 		@include page-title;
 	}
 
+	&__lead {
+		color: var(--color-gray);
+		font-size: 15px;
+		line-height: 1.5;
+	}
+
 	&__content {
 		display: grid;
-		grid-template-columns: minmax(0, 626px) minmax(280px, 413px);
+		grid-template-columns: minmax(0, 1fr) minmax(300px, 400px);
 		align-items: start;
-		justify-content: space-between;
-		gap: 40px;
+		gap: clamp(20px, 3vw, 40px);
 
 		// На узких экранах состав заказа встаёт над формой
-		@include tablet {
+		@include laptop {
 			grid-template-columns: minmax(0, 1fr);
-			gap: 28px;
 		}
 	}
 
@@ -25,7 +48,7 @@
 		position: sticky;
 		top: 20px;
 
-		@include tablet {
+		@include laptop {
 			position: static;
 			order: -1;
 		}

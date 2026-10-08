@@ -96,6 +96,13 @@ export const router = createBrowserRouter([
 				]
 			},
 			{
+				path: 'business-conditions',
+				lazy: async () => ({
+					Component: (await import('@pages/BusinessConditionsPage'))
+						.BusinessConditionsPage
+				})
+			},
+			{
 				path: 'warranty',
 				lazy: async () => ({
 					Component: (await import('@pages/WarrantyPage')).WarrantyPage

@@ -52,15 +52,32 @@ const ProductCard = ({
 
 					{variant === 'list' && (
 						<>
-							{item.sku && (
-								<span className='product-card__code'>
-									Код товара: {item.sku}
-								</span>
-							)}
+							<div className='product-card__details'>
+								{item.sku && <span>Код товара: {item.sku}</span>}
+								{item.producer && (
+									<span>Производитель: {item.producer}</span>
+								)}
+								{item.warranty && (
+									// Сервер часто присылает строку уже со словом «Гарантия»
+									<span>
+										{/^гарантия/i.test(item.warranty)
+											? item.warranty
+											: `Гарантия: ${item.warranty}`}
+									</span>
+								)}
+							</div>
 							<div className='product-card__delivery'>
-								{item.in_stock
-									? deliveryDate && <span>Доставка: {deliveryDate}</span>
-									: <span>Нет в наличии</span>}
+								<span
+									className={clsx(
+										'product-card__stock',
+										!item.in_stock && 'product-card__stock--out'
+									)}
+								>
+									{item.in_stock ? 'В наличии' : 'Нет в наличии'}
+								</span>
+								{item.in_stock && deliveryDate && (
+									<span>Доставка: {deliveryDate}</span>
+								)}
 							</div>
 						</>
 					)}

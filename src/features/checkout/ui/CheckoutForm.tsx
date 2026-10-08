@@ -172,7 +172,9 @@ const CheckoutForm = ({ user, cartItemIds }: CheckoutFormProps) => {
 						organization_id: organizationId
 					}),
 				shipping: isDelivery,
-				shipping_address: isDelivery ? buildShippingAddress(address) : '',
+				shipping_address: isDelivery
+					? buildShippingAddress(address)
+					: '',
 				cart_item_ids: cartItemIds,
 				comment,
 				comment_delivery: isDelivery ? commentDelivery : '',
@@ -184,89 +186,93 @@ const CheckoutForm = ({ user, cartItemIds }: CheckoutFormProps) => {
 
 	return (
 		<form className='checkout-form' onSubmit={handleSubmit}>
-			<fieldset className='checkout-form__section checkout-form__section--narrow'>
-				<legend className='checkout-form__title'>Данные покупателя</legend>
-				<Input
-					label='Фамилия'
-					placeholder='Фамилия'
-					name='surname'
-					autoComplete='family-name'
-					value={buyer.surname}
-					onChange={handleBuyerChange}
-					error={errors.surname?.message}
-				/>
-				<Input
-					label='Имя'
-					placeholder='Имя'
-					name='name'
-					autoComplete='given-name'
-					value={buyer.name}
-					onChange={handleBuyerChange}
-					error={errors.name?.message}
-				/>
-				<Input
-					label='Отчество'
-					placeholder='Отчество'
-					name='patronymic'
-					autoComplete='additional-name'
-					value={buyer.patronymic}
-					onChange={handleBuyerChange}
-					error={errors.patronymic?.message}
-				/>
-				<Input
-					label='Телефон'
-					placeholder='999 999-99-99'
-					startAdornment='+7'
-					name='phone'
-					type='tel'
-					inputMode='numeric'
-					autoComplete='tel-national'
-					value={formatPhone(buyer.phone)}
-					onChange={handleBuyerChange}
-					error={phoneError || errors.phone?.message}
-				/>
-				<Input
-					label='Дата рождения'
-					type='date'
-					name='date_of_birth'
-					autoComplete='bday'
-					value={buyer.date_of_birth}
-					onChange={handleBuyerChange}
-					max={new Date().toISOString().slice(0, 10)}
-					error={dateError || errors.date_of_birth?.message}
-				/>
-				{isCorporate && (
-					<>
-						<Input
-							label='Название организации'
-							placeholder='Название организации'
-							name='organization_name'
-							autoComplete='organization'
-							value={buyer.organization_name}
-							onChange={handleBuyerChange}
-							error={errors.organization_name?.message}
-						/>
-						<Input
-							label='ИНН'
-							placeholder='ИНН'
-							name='inn'
-							inputMode='numeric'
-							maxLength={12}
-							value={buyer.inn}
-							onChange={handleBuyerChange}
-							error={errors.inn?.message}
-						/>
-						<Input
-							label='Должность'
-							placeholder='Должность'
-							name='post'
-							autoComplete='organization-title'
-							value={buyer.post}
-							onChange={handleBuyerChange}
-							error={errors.post?.message}
-						/>
-					</>
-				)}
+			<fieldset className='checkout-form__section'>
+				<legend className='checkout-form__title'>
+					Данные покупателя
+				</legend>
+				<div className='checkout-form__grid'>
+					<Input
+						label='Фамилия'
+						placeholder='Фамилия'
+						name='surname'
+						autoComplete='family-name'
+						value={buyer.surname}
+						onChange={handleBuyerChange}
+						error={errors.surname?.message}
+					/>
+					<Input
+						label='Имя'
+						placeholder='Имя'
+						name='name'
+						autoComplete='given-name'
+						value={buyer.name}
+						onChange={handleBuyerChange}
+						error={errors.name?.message}
+					/>
+					<Input
+						label='Отчество'
+						placeholder='Отчество'
+						name='patronymic'
+						autoComplete='additional-name'
+						value={buyer.patronymic}
+						onChange={handleBuyerChange}
+						error={errors.patronymic?.message}
+					/>
+					<Input
+						label='Телефон'
+						placeholder='999 999-99-99'
+						startAdornment='+7'
+						name='phone'
+						type='tel'
+						inputMode='numeric'
+						autoComplete='tel-national'
+						value={formatPhone(buyer.phone)}
+						onChange={handleBuyerChange}
+						error={phoneError || errors.phone?.message}
+					/>
+					<Input
+						label='Дата рождения'
+						type='date'
+						name='date_of_birth'
+						autoComplete='bday'
+						value={buyer.date_of_birth}
+						onChange={handleBuyerChange}
+						max={new Date().toISOString().slice(0, 10)}
+						error={dateError || errors.date_of_birth?.message}
+					/>
+					{isCorporate && (
+						<>
+							<Input
+								label='Название организации'
+								placeholder='Название организации'
+								name='organization_name'
+								autoComplete='organization'
+								value={buyer.organization_name}
+								onChange={handleBuyerChange}
+								error={errors.organization_name?.message}
+							/>
+							<Input
+								label='ИНН'
+								placeholder='ИНН'
+								name='inn'
+								inputMode='numeric'
+								maxLength={12}
+								value={buyer.inn}
+								onChange={handleBuyerChange}
+								error={errors.inn?.message}
+							/>
+							<Input
+								label='Должность'
+								placeholder='Должность'
+								name='post'
+								autoComplete='organization-title'
+								value={buyer.post}
+								onChange={handleBuyerChange}
+								error={errors.post?.message}
+							/>
+						</>
+					)}
+				</div>
 			</fieldset>
 
 			{!isCorporate && organizations.length > 0 && (
@@ -281,7 +287,8 @@ const CheckoutForm = ({ user, cartItemIds }: CheckoutFormProps) => {
 								name='organization_id'
 								label={`${organization.organization_name} (ИНН ${organization.inn})`}
 								checked={
-									organizationId === organization.organization_id
+									organizationId ===
+									organization.organization_id
 								}
 								onChange={e =>
 									setOrganizationId(
@@ -297,7 +304,9 @@ const CheckoutForm = ({ user, cartItemIds }: CheckoutFormProps) => {
 			)}
 
 			<fieldset className='checkout-form__section'>
-				<legend className='checkout-form__title'>Способ получения</legend>
+				<legend className='checkout-form__title'>
+					Способ получения
+				</legend>
 				<Tabs<DeliveryMethod>
 					items={DELIVERY_TABS}
 					activeTab={deliveryMethod}
@@ -359,6 +368,9 @@ const CheckoutForm = ({ user, cartItemIds }: CheckoutFormProps) => {
 					</>
 				) : (
 					<div className='checkout-form__pickup'>
+						<span className='checkout-form__pickup-label'>
+							Пункт выдачи
+						</span>
 						<strong>{CONTACTS.address}</strong>
 						<span>{CONTACTS.workingHours}</span>
 					</div>
@@ -377,42 +389,49 @@ const CheckoutForm = ({ user, cartItemIds }: CheckoutFormProps) => {
 				</fieldset>
 			)}
 
-			<TextArea
-				label='Комментарий к заказу'
-				placeholder='Комментарий к заказу'
-				name='comment'
-				value={comment}
-				onChange={e => {
-					setComment(e.target.value);
-					clearError('comment');
-				}}
-				error={errors.comment?.message}
-			/>
+			<fieldset className='checkout-form__section'>
+				<legend className='checkout-form__title'>
+					Комментарий к заказу
+				</legend>
+				<TextArea
+					placeholder='Пожелания к заказу — необязательно'
+					aria-label='Комментарий к заказу'
+					name='comment'
+					value={comment}
+					onChange={e => {
+						setComment(e.target.value);
+						clearError('comment');
+					}}
+					error={errors.comment?.message}
+				/>
+			</fieldset>
 
-			<Checkbox
-				name='terms'
-				label='Принимаю условия обработки персональных данных'
-				checked={isTermsAccepted}
-				onChange={e => setIsTermsAccepted(e.target.checked)}
-				required
-			/>
+			<div className='checkout-form__footer'>
+				<Checkbox
+					name='terms'
+					label='Принимаю условия обработки персональных данных'
+					checked={isTermsAccepted}
+					onChange={e => setIsTermsAccepted(e.target.checked)}
+					required
+				/>
 
-			{otherErrors.length > 0 && (
-				<div className='checkout-form__errors' role='alert'>
-					{otherErrors.map(([key, error]) => (
-						<p key={key}>{error.message}</p>
-					))}
-				</div>
-			)}
+				{otherErrors.length > 0 && (
+					<div className='checkout-form__errors' role='alert'>
+						{otherErrors.map(([key, error]) => (
+							<p key={key}>{error.message}</p>
+						))}
+					</div>
+				)}
 
-			<Button
-				type='submit'
-				size='l'
-				className='checkout-form__submit'
-				loading={isFetching}
-			>
-				Оформить заказ
-			</Button>
+				<Button
+					type='submit'
+					size='l'
+					className='checkout-form__submit'
+					loading={isFetching}
+				>
+					Оформить заказ
+				</Button>
+			</div>
 		</form>
 	);
 };

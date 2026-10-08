@@ -1,5 +1,13 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { ApiErrors } from '@shared/types/handleError.type';
+import {
+	applyNextPage,
+	failNextPage,
+	initialPaging,
+	startNextPage,
+	toPaging,
+	type PagingState
+} from '@shared/utils/pagination';
 import type {
 	CreateOrderPayload,
 	OrdersResponse,
@@ -10,8 +18,10 @@ interface OrderState {
 	total: number;
 	items: OrderType[];
 	isLoading: boolean;
+	paging: PagingState;
 	isFetching: boolean;
-	isJustCreated: boolean;
+	/** Номер только что оформленного заказа — для окна «Спасибо за заказ» */
+	createdOrderId: number | null;
 	errors: ApiErrors;
 }
 
@@ -19,8 +29,9 @@ const initialState: OrderState = {
 	total: 0,
 	items: [],
 	isLoading: false,
+	paging: initialPaging,
 	isFetching: false,
-	isJustCreated: false,
+	createdOrderId: null,
 	errors: {}
 };
 
@@ -35,10 +46,17 @@ export const { reducer, actions, name } = createSlice({
 			state.isLoading = false;
 			state.items = action.payload.items;
 			state.total = action.payload.total;
+			state.paging = toPaging(action.payload);
 		},
 		getOrdersFailure: state => {
 			state.isLoading = false;
 		},
+		getOrdersMoreRequest: state => startNextPage(state.paging),
+		getOrdersMoreSuccess: (state, action: PayloadAction<OrdersResponse>) => {
+			applyNextPage(state.paging, state.items, action.payload);
+			state.total = action.payload.total;
+		},
+		getOrdersMoreFailure: state => failNextPage(state.paging),
 		createOrderRequest: (
 			state,
 			_action: PayloadAction<CreateOrderPayload>
@@ -46,16 +64,13 @@ export const { reducer, actions, name } = createSlice({
 			state.isFetching = true;
 			state.errors = {};
 		},
-		createOrderSuccess: state => {
+		createOrderSuccess: (state, action: PayloadAction<number | null>) => {
 			state.isFetching = false;
-			state.isJustCreated = true;
+			state.createdOrderId = action.payload;
 		},
 		createOrderFailure: (state, action: PayloadAction<ApiErrors>) => {
 			state.isFetching = false;
 			state.errors = action.payload;
-		},
-		clearJustCreated: state => {
-			state.isJustCreated = false;
 		},
 		clearError: (state, action: PayloadAction<string>) => {
 			delete state.errors[action.payload];
@@ -63,10 +78,10 @@ export const { reducer, actions, name } = createSlice({
 		clearAllErrors: state => {
 			state.errors = {};
 		},
-		// Флаг «только что оформлен» переживает сброс: он нужен странице заказа
+		// Номер нового заказа переживает сброс: он нужен окну «Спасибо за заказ»
 		reset: state => ({
 			...initialState,
-			isJustCreated: state.isJustCreated
+			createdOrderId: state.createdOrderId
 		})
 	}
 });

@@ -6,12 +6,13 @@ import { FavoriteButton } from '@features/toggleFavorite';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Checkbox } from '@shared/ui/Checkbox';
 import { EmptyState } from '@shared/ui/EmptyState';
+import { LoadMore } from '@shared/ui/LoadMore';
 import { Loader } from '@shared/ui/Loader';
 import './CartList.scss';
 
 const CartList = () => {
 	const dispatch = useAppDispatch();
-	const { items, isLoading, excludedProductIds } = useAppSelector(
+	const { items, isLoading, paging, excludedProductIds } = useAppSelector(
 		state => state.cart
 	);
 
@@ -67,6 +68,11 @@ const CartList = () => {
 					</div>
 				))}
 			</div>
+
+			<LoadMore
+				paging={paging}
+				onLoadMore={() => dispatch(Cart.actions.getCartMoreRequest())}
+			/>
 		</div>
 	);
 };

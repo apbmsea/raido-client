@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import {
-	getOrderById,
-	useOrderCreatedNotice,
-	type OrderDetails
-} from '@entities/order';
+import { getOrderById, type OrderDetails } from '@entities/order';
 import { Loader } from '@shared/ui/Loader';
 import { formatDate } from '@shared/utils/formatDate';
 import { formatPrice } from '@shared/utils/formatPrice';
@@ -18,7 +14,6 @@ type LoadResult = {
 
 const OrderDetailPage = () => {
 	const { orderId = '' } = useParams();
-	const isOrderCreated = useOrderCreatedNotice();
 	const [result, setResult] = useState<LoadResult | null>(null);
 
 	useEffect(() => {
@@ -71,16 +66,6 @@ const OrderDetailPage = () => {
 			<Link className='order-detail__back' to='/profile/orders'>
 				← Все заказы
 			</Link>
-
-			{isOrderCreated && (
-				<div className='order-detail__thanks' role='status'>
-					<strong>Спасибо за заказ!</strong>
-					<span>
-						Заказ №{order.id} оформлен. Следить за его статусом можно
-						на этой странице.
-					</span>
-				</div>
-			)}
 
 			<header className='order-detail__header'>
 				<div>

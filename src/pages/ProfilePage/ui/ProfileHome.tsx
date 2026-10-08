@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { useAppSelector } from '@shared/hooks/store.hooks';
 import './ProfileHome.scss';
 
@@ -18,22 +19,34 @@ const ProfileHome = () => {
 			</p>
 			<ul className='profile-home__sections'>
 				<li>
-					<strong>Мои заказы</strong>
-					<span>История заказов и их текущий статус.</span>
+					<Link to='/profile/orders'>
+						<strong>Мои заказы</strong>
+						<span>История заказов и их текущий статус.</span>
+					</Link>
 				</li>
 				<li>
-					<strong>Настройки профиля</strong>
-					<span>Контактные данные и информация аккаунта.</span>
+					<Link to='/profile/options'>
+						<strong>Настройки профиля</strong>
+						<span>Контактные данные и информация аккаунта.</span>
+					</Link>
 				</li>
 				{user?.is_corporate ? (
 					<li>
-						<strong>Менеджеры</strong>
-						<span>Управление доступом сотрудников организации.</span>
+						<Link to='/profile/managers'>
+							<strong>Менеджеры</strong>
+							<span>
+								Управление доступом сотрудников организации.
+							</span>
+						</Link>
 					</li>
 				) : (
 					<li>
-						<strong>Организации</strong>
-						<span>Организации, в которых вы назначены менеджером.</span>
+						<Link to='/profile/organizations'>
+							<strong>Организации</strong>
+							<span>
+								Организации, в которых вы назначены менеджером.
+							</span>
+						</Link>
 					</li>
 				)}
 			</ul>

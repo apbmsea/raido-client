@@ -5,6 +5,7 @@ import { Footer } from '@widgets/Footer';
 import { Header } from '@widgets/Header';
 import { ModalRoot } from '@widgets/ModalRoot';
 import { Navbar } from '@widgets/Navbar';
+import { ToastRoot } from '@widgets/ToastRoot';
 import { useAppInit } from './useAppInit';
 import './Layout.scss';
 
@@ -27,6 +28,7 @@ const Layout = () => {
 
 			<BurgerMenu />
 			<ModalRoot />
+			<ToastRoot />
 			<ScrollRestoration />
 		</div>
 	);

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import clsx from 'clsx';
-import { Filters } from '@entities/catalog';
+import { Catalog, Filters } from '@entities/catalog';
 import { LAPTOP_QUERY } from '@shared/constants/breakpoints';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { useLockScroll } from '@shared/hooks/useLockScroll.hook';
@@ -25,7 +25,31 @@ const FiltersPanel = ({ isOpen, onClose }: FiltersPanelProps) => {
 	const { producers, selectedProducers } = useAppSelector(
 		state => state.filters
 	);
+	const { categoryId, subcategoryId } = useAppSelector(state => state.catalog);
+	const categories = useAppSelector(state => state.categories.categories);
 	const [visibleProducerCount, setVisibleProducerCount] = useState(SHOW_STEP);
+	const [visibleSubcategoryCount, setVisibleSubcategoryCount] =
+		useState(SHOW_STEP);
+
+	// При выбранной подкатегории в выборке остаётся только её id,
+	// поэтому категорию находим по самой подкатегории
+	const category = categoryId
+		? categories.find(category => category.id === categoryId)
+		: categories.find(category =>
+				category.subcategories.some(
+					subcategory => subcategory.id === subcategoryId
+				)
+			);
+
+	// Выбранная подкатегория видна всегда, даже если она в конце списка
+	const activeSubcategoryIndex =
+		category?.subcategories.findIndex(
+			subcategory => subcategory.id === subcategoryId
+		) ?? -1;
+	const shownSubcategoryCount = Math.max(
+		visibleSubcategoryCount,
+		activeSubcategoryIndex + 1
+	);
 	// Счётчик пересоздаёт фильтр цены, сбрасывая в нём несохранённый ввод
 	const [resetCount, setResetCount] = useState(0);
 
@@ -58,6 +82,70 @@ const FiltersPanel = ({ isOpen, onClose }: FiltersPanelProps) => {
 
 				<div className='filters__body'>
 					<PriceFilter key={resetCount} />
+
+					{category && category.subcategories.length > 0 && (
+						<div className='filters__section'>
+							<h3 className='filters__section-title'>Подкатегории</h3>
+
+							<div className='filters__subcategories'>
+								<button
+									type='button'
+									className={clsx(
+										'filters__subcategory',
+										!subcategoryId && 'filters__subcategory--active'
+									)}
+									aria-pressed={!subcategoryId}
+									onClick={() =>
+										dispatch(
+											Catalog.actions.navigateToCategory({
+												id: category.id
+											})
+										)
+									}
+								>
+									Все подкатегории
+								</button>
+
+								{category.subcategories
+									.slice(0, shownSubcategoryCount)
+									.map(subcategory => (
+										<button
+											type='button'
+											key={subcategory.id}
+											className={clsx(
+												'filters__subcategory',
+												subcategory.id === subcategoryId &&
+													'filters__subcategory--active'
+											)}
+											aria-pressed={subcategory.id === subcategoryId}
+											onClick={() =>
+												dispatch(
+													Catalog.actions.navigateToSubcategory({
+														id: subcategory.id
+													})
+												)
+											}
+										>
+											{subcategory.name}
+										</button>
+									))}
+							</div>
+
+							{shownSubcategoryCount < category.subcategories.length && (
+								<button
+									type='button'
+									className='filters__show-more'
+									onClick={() =>
+										setVisibleSubcategoryCount(
+											shownSubcategoryCount + SHOW_STEP
+										)
+									}
+								>
+									Показать ещё
+								</button>
+							)}
+						</div>
+					)}
 
 					{producers.length > 0 && (
 						<div className='filters__section'>

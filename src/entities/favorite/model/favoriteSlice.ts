@@ -1,10 +1,19 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import {
+	applyNextPage,
+	failNextPage,
+	initialPaging,
+	startNextPage,
+	toPaging,
+	type PagingState
+} from '@shared/utils/pagination';
 import type { FavoriteItem, FavoriteResponse } from './favoriteTypes';
 
 interface FavoriteState {
 	total: number;
 	items: FavoriteItem[];
 	isLoading: boolean;
+	paging: PagingState;
 	/** Товары, по которым сейчас идёт запрос на изменение избранного */
 	pendingProductIds: number[];
 }
@@ -13,6 +22,7 @@ const initialState: FavoriteState = {
 	total: 0,
 	items: [],
 	isLoading: false,
+	paging: initialPaging,
 	pendingProductIds: []
 };
 
@@ -36,13 +46,24 @@ export const { reducer, actions, name } = createSlice({
 			state.isLoading = false;
 			state.items = action.payload.items;
 			state.total = action.payload.total;
+			state.paging = toPaging(action.payload);
 		},
 		getFavoriteFailure: state => {
 			state.isLoading = false;
 		},
+		getFavoriteMoreRequest: state => startNextPage(state.paging),
+		getFavoriteMoreSuccess: (
+			state,
+			action: PayloadAction<FavoriteResponse>
+		) => {
+			applyNextPage(state.paging, state.items, action.payload);
+			state.total = action.payload.total;
+		},
+		getFavoriteMoreFailure: state => failNextPage(state.paging),
 		addFavoriteRequest: (
 			state,
-			action: PayloadAction<{ productId: number }>
+			// isRestore — товар возвращают после отмены удаления
+			action: PayloadAction<{ productId: number; isRestore?: boolean }>
 		) => startMutation(state, action),
 		removeFavoriteRequest: (
 			state,

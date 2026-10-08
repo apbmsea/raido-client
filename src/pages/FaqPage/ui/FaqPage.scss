@@ -3,8 +3,36 @@
 .faq-page {
 	@include page;
 
+	&__header {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 12px;
+
+		> * {
+			@include appear-stagger(3, 0s, 0.1s);
+		}
+	}
+
+	&__eyebrow {
+		padding: 6px 14px;
+		border-radius: var(--radius-pill);
+		background-color: var(--color-primary-soft);
+		color: var(--color-primary);
+		font-size: 14px;
+		font-weight: 600;
+	}
+
 	&__title {
 		@include page-title;
+	}
+
+	&__lead {
+		max-width: 620px;
+		color: var(--color-gray);
+		line-height: 1.5;
+
+		@include f(font-size, 16, 16, 14);
 	}
 
 	&__content {
@@ -12,5 +40,62 @@
 		flex-direction: column;
 		gap: clamp(12px, 2vw, 20px);
 		max-width: 960px;
+
+		// Вопросы появляются один за другим
+		> * {
+			@include appear-stagger(12, 0.25s, 0.08s);
+		}
+	}
+
+	&__help {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 16px 32px;
+		max-width: 960px;
+		padding: clamp(20px, 4vw, 32px);
+		border-radius: var(--radius-l);
+		background:
+			radial-gradient(
+				circle at 100% 0,
+				rgb(74 88 246 / 22%),
+				transparent 55%
+			),
+			var(--color-primary-soft);
+
+		@include appear($name: scale-in);
+	}
+
+	&__help-text {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		color: var(--color-gray-dark);
+		line-height: 1.5;
+	}
+
+	&__help-title {
+		color: var(--color-black);
+
+		@include f(font-size, 24, 20, 18);
+	}
+
+	&__contacts {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+
+		a {
+			color: var(--color-black);
+			font-size: 18px;
+			font-weight: 700;
+			text-decoration: none;
+			transition: color var(--transition);
+
+			&:hover {
+				color: var(--color-primary);
+			}
+		}
 	}
 }

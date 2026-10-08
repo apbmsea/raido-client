@@ -1,5 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { Catalog, useOpenCatalogPage } from '@entities/catalog';
 import {
 	getDeliveryDate,
 	getDiscountPercent,
@@ -12,7 +13,7 @@ import { AddToCartButton } from '@features/addToCart';
 import { FavoriteButton } from '@features/toggleFavorite';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import SharedIcon from '@shared/icons/Shared';
-import { Breadcrumbs } from '@shared/ui/Breadcrumbs';
+import { Breadcrumbs, type BreadcrumbItem } from '@shared/ui/Breadcrumbs';
 import { EmptyState } from '@shared/ui/EmptyState';
 import { IconButton } from '@shared/ui/IconButton';
 import { Loader } from '@shared/ui/Loader';
@@ -180,6 +181,8 @@ const ProductPage = () => {
 	const { id } = useParams();
 	const dispatch = useAppDispatch();
 	const { item, isError } = useAppSelector(state => state.product);
+	const categories = useAppSelector(state => state.categories.categories);
+	const openCatalogPage = useOpenCatalogPage();
 
 	useEffect(() => {
 		if (!id) return;
@@ -223,11 +226,47 @@ const ProductPage = () => {
 		);
 	}
 
+	// Подкатегорию ищем по всем категориям: category_id у товара может не прийти
+	const category =
+		categories.find(category => category.id === product.category_id) ??
+		categories.find(category =>
+			category.subcategories.some(
+				subcategory => subcategory.id === product.subcategory_id
+			)
+		);
+	const subcategory = category?.subcategories.find(
+		subcategory => subcategory.id === product.subcategory_id
+	);
+
+	const breadcrumbs: BreadcrumbItem[] = [{ label: 'Главная', to: '/' }];
+
+	if (category) {
+		breadcrumbs.push({
+			label: category.name,
+			onClick: () => {
+				dispatch(Catalog.actions.navigateToCategory({ id: category.id }));
+				openCatalogPage();
+			}
+		});
+	}
+
+	if (subcategory) {
+		breadcrumbs.push({
+			label: subcategory.name,
+			onClick: () => {
+				dispatch(
+					Catalog.actions.navigateToSubcategory({ id: subcategory.id })
+				);
+				openCatalogPage();
+			}
+		});
+	}
+
+	breadcrumbs.push({ label: product.name });
+
 	return (
 		<main className='product-page'>
-			<Breadcrumbs
-				items={[{ label: 'Главная', to: '/' }, { label: product.name }]}
-			/>
+			<Breadcrumbs items={breadcrumbs} />
 			{/* key сбрасывает вкладку и состояние при переходе к другому товару */}
 			<ProductView key={product.id} item={product} />
 		</main>

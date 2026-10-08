@@ -2,4 +2,9 @@
 
 .home-page {
 	@include page(clamp(40px, 6vw, 80px));
+
+	// Блоки страницы появляются по очереди; первый ребёнок — скрытый заголовок
+	> :not(.visually-hidden) {
+		@include appear-stagger(5, 0s, 0.12s);
+	}
 }

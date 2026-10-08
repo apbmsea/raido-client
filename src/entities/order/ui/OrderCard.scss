@@ -1,48 +1,46 @@
 .order-card {
-	display: grid;
-	grid-template-columns: minmax(0, 1fr) auto;
-	gap: 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 	width: 100%;
 	padding: 22px 24px;
 	border: 1px solid var(--color-border);
-	border-radius: var(--radius-m);
+	border-radius: var(--radius-l);
+	background-color: var(--color-white);
 	color: inherit;
 	transition:
 		border-color var(--transition),
-		box-shadow var(--transition);
+		box-shadow var(--transition),
+		transform var(--transition);
 
 	&:hover,
 	&:focus-visible {
 		border-color: var(--color-primary);
-		box-shadow: var(--shadow-s);
+		box-shadow: var(--shadow-m);
 		outline: none;
-	}
-
-	&__content {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		gap: 16px;
-		min-width: 0;
+		transform: translateY(-2px);
 	}
 
 	&__header {
 		display: flex;
-		align-items: center;
+		align-items: flex-start;
 		justify-content: space-between;
 		gap: 16px;
 	}
 
 	&__heading {
 		display: flex;
-		flex-direction: column;
-		gap: 4px;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 4px 10px;
+		min-width: 0;
 	}
 
 	&__title {
 		color: var(--color-black);
-		font-size: 18px;
+		font-size: 20px;
 		font-weight: 700;
+		line-height: 1.2;
 	}
 
 	&__date {
@@ -50,18 +48,52 @@
 		font-size: 14px;
 	}
 
+	// Цвет статуса задаётся одной переменной: из неё собираются точка и фон
+	&__badge {
+		--badge-color: var(--color-gray);
+
+		display: inline-flex;
+		flex-shrink: 0;
+		align-items: center;
+		gap: 8px;
+		padding: 6px 12px;
+		border-radius: var(--radius-pill);
+		background-color: color-mix(in srgb, var(--badge-color) 14%, transparent);
+		color: var(--color-gray-dark);
+		font-size: 13px;
+		font-weight: 600;
+		line-height: 1.2;
+
+		&::before {
+			flex-shrink: 0;
+			width: 8px;
+			height: 8px;
+			border-radius: 50%;
+			background-color: var(--badge-color);
+			content: '';
+		}
+	}
+
 	&__status {
-		font-size: 14px;
-		font-weight: 700;
-		color: var(--color-green);
+		--badge-color: var(--color-green);
 
 		&--cancelled {
-			color: var(--color-red);
+			--badge-color: var(--color-red);
 		}
 
 		&--reservation_in_progress,
 		&--awaiting_manual_approval {
-			color: var(--color-yellow);
+			--badge-color: var(--color-yellow);
+		}
+	}
+
+	&__payment-status {
+		&--paid {
+			--badge-color: var(--color-green);
+		}
+
+		&--unpaid {
+			--badge-color: var(--color-red);
 		}
 	}
 
@@ -73,18 +105,20 @@
 	}
 
 	&__item {
-		flex: 0 0 76px;
-		width: 76px;
-		height: 76px;
-		border-radius: var(--radius-s);
+		position: relative;
+		flex: 0 0 84px;
+		width: 84px;
+		height: 84px;
+		padding: 6px;
+		border-radius: var(--radius-m);
 		background: var(--color-surface);
-		overflow: hidden;
 
 		&--more {
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			color: var(--color-black);
+			background: var(--color-primary-soft);
+			color: var(--color-primary);
 			font-size: 18px;
 			font-weight: 700;
 		}
@@ -93,7 +127,9 @@
 	&__image {
 		width: 100%;
 		height: 100%;
+		border-radius: var(--radius-s);
 		object-fit: contain;
+		mix-blend-mode: multiply;
 	}
 
 	&__no-image {
@@ -102,75 +138,109 @@
 		justify-content: center;
 		width: 100%;
 		height: 100%;
-		padding: 5px;
 		color: var(--color-gray);
 		font-size: 12px;
 		text-align: center;
 	}
 
-	&__info {
+	&__quantity {
+		position: absolute;
+		right: 4px;
+		bottom: 4px;
+		padding: 2px 6px;
+		border-radius: var(--radius-pill);
+		background-color: var(--color-white);
+		box-shadow: var(--shadow-s);
+		color: var(--color-black);
+		font-size: 12px;
+		font-weight: 700;
+		line-height: 1.2;
+	}
+
+	&__footer {
+		display: flex;
+		align-items: center;
+		gap: 12px 16px;
+		padding-top: 18px;
+		border-top: 1px solid var(--color-border);
+	}
+
+	&__total {
 		display: flex;
 		flex-direction: column;
-		align-items: flex-end;
-		justify-content: center;
-		gap: 8px;
-		min-width: 140px;
-		text-align: right;
+		gap: 2px;
+		min-width: 0;
+	}
+
+	&__count {
+		color: var(--color-gray);
+		font-size: 13px;
 	}
 
 	&__price {
 		color: var(--color-black);
-		font-size: 20px;
+		font-size: 22px;
 		font-weight: 700;
+		line-height: 1.2;
 		white-space: nowrap;
 	}
 
-	&__payment-status {
-		color: var(--color-gray);
+	&__more {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		margin-left: auto;
+		color: var(--color-primary);
 		font-size: 14px;
-		font-weight: 700;
+		font-weight: 600;
+		white-space: nowrap;
 
-		&--paid {
-			color: var(--color-green);
+		svg {
+			transition: transform var(--transition);
 		}
+	}
 
-		&--unpaid {
-			color: var(--color-red);
-		}
+	&:hover &__more svg,
+	&:focus-visible &__more svg {
+		transform: translateX(4px);
 	}
 }
 
 @media (max-width: 700px) {
 	.order-card {
-		grid-template-columns: minmax(0, 1fr);
-		gap: 18px;
+		gap: 16px;
 		padding: 16px;
+		border-radius: var(--radius-m);
 
-		&__header {
-			align-items: flex-start;
-		}
-
-		&__status {
-			flex: 0 0 auto;
-			max-width: 45%;
-			text-align: right;
+		&__title {
+			font-size: 18px;
 		}
 
 		&__item {
-			flex-basis: 60px;
-			width: 60px;
-			height: 60px;
+			flex-basis: 64px;
+			width: 64px;
+			height: 64px;
+			padding: 4px;
+			border-radius: var(--radius-s);
 		}
 
-		&__info {
-			flex-direction: row;
-			align-items: center;
-			justify-content: space-between;
-			text-align: left;
+		&__footer {
+			flex-wrap: wrap;
+			padding-top: 14px;
 		}
 
 		&__price {
-			font-size: 18px;
+			font-size: 20px;
+		}
+
+		// Сумма и статус оплаты делят строку, ссылка уходит на свою
+		&__payment-status {
+			margin-left: auto;
+		}
+
+		&__more {
+			width: 100%;
+			margin-left: 0;
 		}
 	}
 }

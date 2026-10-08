@@ -1,9 +1,10 @@
 import { $api } from '@shared/api/instance';
 import type { AddReviewPayload, GetReviewsResponse } from '../model/reviewTypes';
 
-export async function getReviews(productId: number) {
+export async function getReviews(productId: number, page = 1) {
 	const response = await $api.get<GetReviewsResponse>(
-		`/reviews/${productId}`
+		`/reviews/${productId}`,
+		{ params: { page } }
 	);
 	return response.data;
 }

@@ -1,9 +1,13 @@
+@use '@shared/styles/helpers' as *;
+
 .checkout-form {
 	display: flex;
 	flex-direction: column;
-	gap: 32px;
+	gap: clamp(14px, 2vw, 20px);
 	width: 100%;
 	min-width: 0;
+	// Шаги оформления нумеруются сами, сколько бы их ни показала форма
+	counter-reset: checkout-step;
 
 	&__section {
 		display: flex;
@@ -11,20 +15,57 @@
 		gap: 20px;
 		min-width: 0;
 		margin: 0;
-		padding: 0;
-		border: none;
+		padding: clamp(18px, 3vw, 28px);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-l);
+		background-color: var(--color-white);
+		transition:
+			border-color var(--transition),
+			box-shadow var(--transition);
 
-		&--narrow {
-			max-width: 420px;
+		@include appear-stagger(6, 0.05s, 0.08s);
+
+		// Шаг, который сейчас заполняют
+		&:focus-within {
+			border-color: var(--color-primary);
+			box-shadow: var(--shadow-m);
 		}
 	}
 
 	&__title {
-		// legend не участвует во flex-раскладке, отступ задаём сами
-		margin-bottom: 20px;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		// float делает legend обычным элементом колонки: иначе он встаёт на рамку
+		float: left;
+		width: 100%;
 		padding: 0;
-		font-size: clamp(18px, 2.5vw, 24px);
+		font-size: clamp(18px, 2.5vw, 22px);
 		font-weight: 700;
+		line-height: 1.2;
+
+		&::before {
+			content: counter(checkout-step);
+			counter-increment: checkout-step;
+			display: flex;
+			flex-shrink: 0;
+			align-items: center;
+			justify-content: center;
+			width: 32px;
+			height: 32px;
+			border-radius: 50%;
+			background-color: var(--color-primary-soft);
+			color: var(--color-primary);
+			font-size: 15px;
+			transition:
+				background-color var(--transition),
+				color var(--transition);
+		}
+	}
+
+	&__section:focus-within &__title::before {
+		background-color: var(--color-primary);
+		color: var(--color-white);
 	}
 
 	&__options {
@@ -37,6 +78,10 @@
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 16px;
+
+		@include mobile {
+			grid-template-columns: minmax(0, 1fr);
+		}
 	}
 
 	&__pickup {
@@ -44,13 +89,37 @@
 		flex-direction: column;
 		gap: 6px;
 		padding: 20px;
-		border: 1px solid var(--color-black);
+		border-left: 4px solid var(--color-primary);
 		border-radius: var(--radius-m);
+		background-color: var(--color-primary-soft);
+		color: var(--color-gray-dark);
 		font-size: 14px;
+		animation: fade-up 0.35s ease backwards;
 
 		strong {
+			color: var(--color-black);
 			font-size: 16px;
 		}
+	}
+
+	&__pickup-label {
+		color: var(--color-primary);
+		font-size: 13px;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	&__footer {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 16px;
+		padding: clamp(18px, 3vw, 28px);
+		border-radius: var(--radius-l);
+		background-color: var(--color-surface);
+
+		@include appear(0.5s);
 	}
 
 	&__errors {
@@ -62,18 +131,11 @@
 	}
 
 	&__submit {
-		align-self: flex-start;
-	}
-}
+		min-width: 240px;
 
-@media (max-width: 480px) {
-	.checkout-form {
-		&__section--narrow {
-			max-width: none;
-		}
-
-		&__submit {
+		@include mobile {
 			align-self: stretch;
+			min-width: 0;
 		}
 	}
 }

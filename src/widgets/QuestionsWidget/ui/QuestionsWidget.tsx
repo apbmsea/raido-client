@@ -14,7 +14,7 @@ export const QuestionsWidget = ({ productId }: { productId: number }) => {
 	return (
 		<div className='questions-widget'>
 			<div className='questions-widget__main'>
-				<QuestionsList />
+				<QuestionsList productId={productId} />
 			</div>
 			<aside className='questions-widget__form'>
 				<h3 className='questions-widget__title'>Задайте вопрос о товаре</h3>

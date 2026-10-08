@@ -12,7 +12,7 @@ export const ReviewsWidget = ({ productId }: { productId: number }) => {
 	return (
 		<div className='reviews-widget'>
 			<div className='reviews-widget__main'>
-				<ReviewsList />
+				<ReviewsList productId={productId} />
 			</div>
 			<aside className='reviews-widget__aside'>
 				<ReviewTotal />

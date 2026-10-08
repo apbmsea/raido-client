@@ -65,6 +65,23 @@
 	color: var(--color-black);
 }
 
+// Появление при открытии страницы. backwards, а не both: после анимации
+// transform освобождается, и hover-эффекты элемента продолжают работать
+@mixin appear($delay: 0s, $name: fade-up) {
+	animation: $name 0.6s cubic-bezier(0.22, 1, 0.36, 1) $delay backwards;
+}
+
+// То же для списка: каждый следующий элемент появляется с задержкой
+@mixin appear-stagger($count, $start: 0s, $step: 0.07s) {
+	@include appear($start);
+
+	@for $i from 2 through $count {
+		&:nth-child(#{$i}) {
+			animation-delay: $start + $step * ($i - 1);
+		}
+	}
+}
+
 @mixin line-clamp($lines: 2) {
 	display: -webkit-box;
 	-webkit-box-orient: vertical;

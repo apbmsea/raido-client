@@ -1,56 +1,108 @@
+import {
+	COMPLEX_GOODS_RIGHTS,
+	LATE_CLAIM_CASES,
+	WARRANTY_RIGHTS
+} from '../model/warranty';
 import './WarrantyPage.scss';
 
 const WarrantyPage = () => {
 	return (
 		<main className='warranty-page'>
-			<h1 className='warranty-page__title'>Гарантия</h1>
-			<div className='warranty-page__text'>
-				<p>
-					Если в купленном Вами товаре в течение установленного
-					гарантийного срока обнаружены недостатки, Вы по своему выбору
-					вправе:
+			<section className='warranty-page__hero'>
+				<span className='warranty-page__eyebrow'>Покупателям</span>
+				<h1 className='warranty-page__title'>Гарантия</h1>
+				<p className='warranty-page__lead'>
+					Если в купленном вами товаре в течение установленного
+					гарантийного срока обнаружены недостатки, вы сами выбираете,
+					как решить вопрос.
 				</p>
-				<p>
-					потребовать замены на товар этой же марки (этой же модели и
-					(или) артикула) потребовать замены на такой же товар другой
-					марки (модели, артикула) с соответствующим перерасчетом
-					покупной цены; потребовать соразмерного уменьшения покупной
-					цены; потребовать незамедлительного безвозмездного устранения
-					недостатков товара или возмещения расходов на их исправление
-					потребителем или третьим лицом; отказаться от исполнения
-					договора купли-продажи и потребовать возврата уплаченной за
-					товар суммы. В этом случае Вы обязаны вернуть товар с
-					недостатками продавцу за его счет. В отношении технически
-					сложного товара Вы в случае обнаружения в нем недостатков по
-					своему выбору вправе:
-				</p>
-				<p>
-					отказаться от исполнения договора купли-продажи и потребовать
-					возврата уплаченной за такой товар суммы; предъявить требование
-					о его замене на товар этой же марки (модели, артикула) или на
-					такой же товар другой марки (модели, артикула) с
-					соответствующим перерасчетом покупной цены. Срок предъявления
-					вышеназванных требований составляет 15 дней со дня передачи Вам
-					такого товара. По истечении указанного 15-дневного срока данные
-					требования подлежат удовлетворению в одном из следующих
-					случаев:
-				</p>
-				<p>
-					обнаружение существенного недостатка товара (существенный
-					недостаток товара: неустранимый недостаток или недостаток,
-					который не может быть устранен без несоразмерных расходов или
-					затрат времени, или выявляется неоднократно, или проявляется
-					вновь после его устранения); нарушение установленных законом РФ
-					«О защите прав потребителей» сроков устранения недостатков
-					товара; невозможность использования товара в течение каждого
-					года гарантийного срока в совокупности более чем тридцать дней
-					вследствие неоднократного устранения его различных недостатков.
-					В случае если Вы приобрели уцененный или бывший в употреблении
-					товар ненадлежащего качества, и были заранее предупреждены о
-					недостатках, из-за которых произошла уценка, в письменной
-					форме, то претензии по таким недостаткам не принимаются.
-				</p>
-			</div>
+			</section>
+
+			<section className='warranty-page__section'>
+				<h2 className='warranty-page__subtitle'>
+					Что вы вправе потребовать
+				</h2>
+
+				<ol className='warranty-page__rights'>
+					{WARRANTY_RIGHTS.map((right, index) => (
+						<li className='warranty-page__right' key={right.title}>
+							<span className='warranty-page__number'>{index + 1}</span>
+							<h3 className='warranty-page__card-title'>
+								{right.title}
+							</h3>
+							<p className='warranty-page__card-text'>{right.text}</p>
+						</li>
+					))}
+				</ol>
+			</section>
+
+			<section className='warranty-page__section'>
+				<h2 className='warranty-page__subtitle'>
+					Технически сложные товары
+				</h2>
+
+				<div className='warranty-page__complex'>
+					<div className='warranty-page__term'>
+						<span className='warranty-page__term-value'>15</span>
+						<span className='warranty-page__term-unit'>дней</span>
+						<p className='warranty-page__term-text'>
+							со дня передачи вам товара — срок, в который можно
+							предъявить эти требования
+						</p>
+					</div>
+
+					<ul className='warranty-page__options'>
+						{COMPLEX_GOODS_RIGHTS.map(right => (
+							<li className='warranty-page__option' key={right.title}>
+								<h3 className='warranty-page__card-title'>
+									{right.title}
+								</h3>
+								<p className='warranty-page__card-text'>
+									{right.text}
+								</p>
+							</li>
+						))}
+					</ul>
+				</div>
+			</section>
+
+			<section className='warranty-page__section'>
+				<div className='warranty-page__heading'>
+					<h2 className='warranty-page__subtitle'>
+						Если 15 дней уже прошло
+					</h2>
+					<p className='warranty-page__description'>
+						Требования о возврате денег или замене технически сложного
+						товара подлежат удовлетворению в одном из следующих случаев.
+					</p>
+				</div>
+
+				<ul className='warranty-page__cases'>
+					{LATE_CLAIM_CASES.map(item => (
+						<li className='warranty-page__case' key={item.title}>
+							<h3 className='warranty-page__card-title'>{item.title}</h3>
+							<p className='warranty-page__card-text'>{item.text}</p>
+						</li>
+					))}
+				</ul>
+			</section>
+
+			<aside className='warranty-page__note'>
+				<span className='warranty-page__note-mark' aria-hidden='true'>
+					!
+				</span>
+				<div className='warranty-page__note-body'>
+					<h2 className='warranty-page__card-title'>
+						Уценённые и бывшие в употреблении товары
+					</h2>
+					<p className='warranty-page__card-text'>
+						Если вы приобрели уценённый или бывший в употреблении товар
+						ненадлежащего качества и были заранее в письменной форме
+						предупреждены о недостатках, из-за которых произошла уценка,
+						претензии по таким недостаткам не принимаются.
+					</p>
+				</div>
+			</aside>
 		</main>
 	);
 };

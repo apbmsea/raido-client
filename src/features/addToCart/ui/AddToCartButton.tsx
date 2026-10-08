@@ -4,7 +4,7 @@ import {
 	selectCartItemByProductId,
 	selectIsCartProductPending
 } from '@entities/cart';
-import { Modal } from '@entities/modal';
+import { confirmAction, Modal } from '@entities/modal';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import CartIcon from '@shared/icons/Cart';
 import MinusIcon from '@shared/icons/Minus';
@@ -55,7 +55,16 @@ const AddToCartButton = ({ productId, size = 'm' }: AddToCartButtonProps) => {
 	const handleDecrease = () => {
 		dispatch(
 			quantity <= 1
-				? Cart.actions.removeItemRequest({ itemId, productId })
+				? confirmAction({
+						title: 'Удалить из корзины?',
+						text: 'Товар пропадёт из корзины.',
+						confirmLabel: 'Удалить',
+						skipKey: 'remove-cart-item',
+						action: Cart.actions.removeItemRequest({
+							itemId,
+							productId
+						})
+					})
 				: Cart.actions.changeQuantityRequest({
 						itemId,
 						productId,
@@ -96,7 +105,11 @@ const AddToCartButton = ({ productId, size = 'm' }: AddToCartButtonProps) => {
 				<MinusIcon size={10} />
 			</button>
 			<span className='cart-stepper__count' aria-live='polite'>
-				{isPending ? <span className='cart-stepper__spinner' /> : quantity}
+				{isPending ? (
+					<span className='cart-stepper__spinner' />
+				) : (
+					quantity
+				)}
 			</span>
 			<button
 				type='button'

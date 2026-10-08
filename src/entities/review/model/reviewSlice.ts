@@ -1,4 +1,12 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import {
+	applyNextPage,
+	failNextPage,
+	initialPaging,
+	startNextPage,
+	toPaging,
+	type PagingState
+} from '@shared/utils/pagination';
 import type {
 	AddReviewPayload,
 	GetReviewsResponse,
@@ -12,6 +20,7 @@ interface ReviewState {
 	rating: number;
 	counts_of_reviews: Record<RatingLevel, number>;
 	isLoading: boolean;
+	paging: PagingState;
 	isFetch: boolean;
 	submitError: string;
 	/** Растёт с каждым отправленным отзывом — по нему форма сбрасывает поля */
@@ -24,6 +33,7 @@ const initialState: ReviewState = {
 	counts_of_reviews: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
 	reviews: [],
 	isLoading: true,
+	paging: initialPaging,
 	isFetch: false,
 	submitError: '',
 	submittedCount: 0
@@ -48,10 +58,20 @@ export const { reducer, actions, name } = createSlice({
 			state.total = action.payload.total;
 			state.rating = action.payload.rating;
 			state.counts_of_reviews = action.payload.counts_of_reviews;
+			state.paging = toPaging(action.payload);
 		},
 		getReviewFailure: state => {
 			state.isLoading = false;
 		},
+		getReviewMoreRequest: (
+			state,
+			_action: PayloadAction<{ productId: number }>
+		) => startNextPage(state.paging),
+		getReviewMoreSuccess: (
+			state,
+			action: PayloadAction<GetReviewsResponse>
+		) => applyNextPage(state.paging, state.reviews, action.payload),
+		getReviewMoreFailure: state => failNextPage(state.paging),
 		addReviewRequest: (
 			state,
 			_action: PayloadAction<AddReviewPayload>

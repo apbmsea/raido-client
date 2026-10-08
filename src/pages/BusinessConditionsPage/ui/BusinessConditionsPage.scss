@@ -1,0 +1,351 @@
+@use '@shared/styles/helpers' as *;
+
+.business-page {
+	@include page(clamp(40px, 6vw, 72px));
+
+	&__hero {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: clamp(14px, 2vw, 22px);
+		padding: clamp(28px, 7vw, 80px) clamp(24px, 6vw, 64px);
+		border-radius: var(--radius-l);
+		background: linear-gradient(
+			135deg,
+			#1b1f4b 0%,
+			var(--color-primary) 100%
+		);
+		color: var(--color-white);
+		overflow: hidden;
+
+		@include appear($name: scale-in);
+
+		// Содержимое выезжает следом за самим блоком
+		> :not(.business-page__glow) {
+			position: relative;
+
+			@include appear-stagger(6, 0.15s, 0.1s);
+		}
+	}
+
+	// Световые пятна медленно плавают по фону
+	&__glow {
+		position: absolute;
+		top: -30%;
+		right: -10%;
+		width: min(520px, 70%);
+		aspect-ratio: 1;
+		border-radius: 50%;
+		background: radial-gradient(
+			circle,
+			rgb(255 255 255 / 28%),
+			transparent 65%
+		);
+		animation: business-float 12s ease-in-out infinite alternate;
+		pointer-events: none;
+
+		&--second {
+			top: auto;
+			right: auto;
+			bottom: -45%;
+			left: 15%;
+			width: min(380px, 55%);
+			background: radial-gradient(
+				circle,
+				rgb(188 195 237 / 35%),
+				transparent 65%
+			);
+			animation-duration: 16s;
+			animation-direction: alternate-reverse;
+		}
+	}
+
+	&__eyebrow {
+		padding: 6px 14px;
+		border-radius: var(--radius-pill);
+		background-color: rgb(255 255 255 / 16%);
+		font-size: 14px;
+		font-weight: 600;
+	}
+
+	&__title {
+		font-weight: 700;
+		line-height: 1.1;
+
+		@include f(font-size, 52, 34, 26);
+	}
+
+	&__lead {
+		max-width: 640px;
+		line-height: 1.5;
+		opacity: 0.9;
+
+		@include f(font-size, 18, 16, 14);
+	}
+
+	&__actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 12px 24px;
+		margin-top: 8px;
+
+		// На тёмном фоне основная кнопка становится светлой
+		.btn--primary {
+			border-color: var(--color-white);
+			background-color: var(--color-white);
+			color: var(--color-primary);
+
+			&:hover:not(:disabled) {
+				border-color: var(--color-primary-soft);
+				background-color: var(--color-primary-soft);
+			}
+		}
+	}
+
+	&__cabinet {
+		padding: 14px 28px;
+		border-radius: var(--radius-pill);
+		background-color: var(--color-white);
+		color: var(--color-primary);
+		font-weight: 600;
+		transition:
+			background-color var(--transition),
+			transform var(--transition);
+
+		&:hover {
+			background-color: var(--color-primary-soft);
+			transform: translateY(-2px);
+		}
+	}
+
+	&__phone {
+		font-size: 18px;
+		font-weight: 600;
+		transition: opacity var(--transition);
+
+		&:hover {
+			opacity: 0.75;
+		}
+	}
+
+	&__section {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(18px, 3vw, 28px);
+		min-width: 0;
+	}
+
+	&__subtitle {
+		color: var(--color-black);
+		line-height: 1.2;
+
+		@include f(font-size, 30, 22, 18);
+		@include appear;
+	}
+
+	&__card-title {
+		color: var(--color-black);
+		font-size: 18px;
+		line-height: 1.3;
+	}
+
+	&__card-text {
+		color: var(--color-gray);
+		font-size: 14px;
+		line-height: 1.5;
+	}
+
+	&__advantages {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: clamp(12px, 2vw, 20px);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		@include laptop {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		@include mobile {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+
+	&__advantage {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		padding: clamp(18px, 3vw, 24px);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-m);
+		background-color: var(--color-white);
+		transition:
+			border-color var(--transition),
+			box-shadow var(--transition),
+			transform var(--transition);
+
+		@include appear-stagger(4, 0.1s, 0.1s);
+
+		&:hover {
+			border-color: var(--color-primary);
+			box-shadow: var(--shadow-m);
+			transform: translateY(-4px);
+
+			.business-page__icon {
+				background-color: var(--color-primary);
+				color: var(--color-white);
+				transform: rotate(-6deg) scale(1.08);
+			}
+		}
+	}
+
+	&__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 52px;
+		height: 52px;
+		margin-bottom: 4px;
+		border-radius: var(--radius-m);
+		background-color: var(--color-primary-soft);
+		color: var(--color-primary);
+		transition:
+			background-color var(--transition),
+			color var(--transition),
+			transform 0.3s ease;
+	}
+
+	&__steps {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: clamp(12px, 2vw, 20px);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+
+		@include laptop {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		@include mobile {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+
+	&__step {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		padding: clamp(18px, 3vw, 24px);
+		border-radius: var(--radius-m);
+		background-color: var(--color-surface);
+
+		@include appear-stagger(4, 0.1s, 0.14s);
+
+		// Линия ведёт от шага к следующему
+		&:not(:last-child)::after {
+			content: '';
+			position: absolute;
+			top: calc(clamp(18px, 3vw, 24px) + 20px);
+			right: clamp(-20px, -2vw, -12px);
+			width: clamp(12px, 2vw, 20px);
+			height: 2px;
+			background-color: var(--color-lilak);
+
+			@include laptop {
+				display: none;
+			}
+		}
+	}
+
+	&__number {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		margin-bottom: 4px;
+		border-radius: 50%;
+		background-color: var(--color-primary);
+		color: var(--color-white);
+		font-size: 18px;
+		font-weight: 700;
+	}
+
+	&__faq {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(12px, 2vw, 16px);
+		max-width: 960px;
+
+		> * {
+			@include appear-stagger(5, 0.1s, 0.08s);
+		}
+	}
+
+	&__cta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 24px;
+		padding: clamp(24px, 5vw, 48px);
+		border-radius: var(--radius-l);
+		background:
+			radial-gradient(
+				circle at 100% 0,
+				rgb(74 88 246 / 22%),
+				transparent 55%
+			),
+			var(--color-primary-soft);
+
+		@include appear($name: scale-in);
+
+		@include tablet {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		.business-page__subtitle {
+			animation: none;
+		}
+	}
+
+	&__cta-text {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		max-width: 560px;
+		color: var(--color-gray-dark);
+		line-height: 1.5;
+	}
+
+	&__contacts {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		flex-shrink: 0;
+
+		a {
+			color: var(--color-black);
+			font-weight: 700;
+			text-decoration: none;
+			transition: color var(--transition);
+
+			@include f(font-size, 24, 20, 18);
+
+			&:hover {
+				color: var(--color-primary);
+			}
+		}
+	}
+}
+
+@keyframes business-float {
+	to {
+		transform: translate(-40px, 30px) scale(1.15);
+	}
+}

@@ -1,4 +1,12 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import {
+	applyNextPage,
+	failNextPage,
+	initialPaging,
+	startNextPage,
+	toPaging,
+	type PagingState
+} from '@shared/utils/pagination';
 import type {
 	AddItemPayload,
 	CartItem,
@@ -11,6 +19,7 @@ interface CartState {
 	total: number;
 	items: CartItem[];
 	isLoading: boolean;
+	paging: PagingState;
 	/** Товары, по которым сейчас идёт запрос на изменение корзины */
 	pendingProductIds: number[];
 	/**
@@ -24,6 +33,7 @@ const initialState: CartState = {
 	total: 0,
 	items: [],
 	isLoading: false,
+	paging: initialPaging,
 	pendingProductIds: [],
 	excludedProductIds: []
 };
@@ -50,6 +60,7 @@ export const { reducer, actions, name } = createSlice({
 			state.isLoading = false;
 			state.items = items;
 			state.total = total;
+			state.paging = toPaging(action.payload);
 			state.excludedProductIds = state.excludedProductIds.filter(id =>
 				items.some(item => item.product_id === id)
 			);
@@ -57,6 +68,12 @@ export const { reducer, actions, name } = createSlice({
 		getCartFailure: state => {
 			state.isLoading = false;
 		},
+		getCartMoreRequest: state => startNextPage(state.paging),
+		getCartMoreSuccess: (state, action: PayloadAction<CartResponse>) => {
+			applyNextPage(state.paging, state.items, action.payload);
+			state.total = action.payload.total;
+		},
+		getCartMoreFailure: state => failNextPage(state.paging),
 		addItemRequest: (state, action: PayloadAction<AddItemPayload>) =>
 			startMutation(state, action),
 		changeQuantityRequest: (

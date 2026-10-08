@@ -1,17 +1,22 @@
 import { useState } from 'react';
-import { useAppSelector } from '@shared/hooks/store.hooks';
+import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import MessageIcon from '@shared/icons/Message';
 import { Button } from '@shared/ui/Button';
 import { EmptyState } from '@shared/ui/EmptyState';
+import { LoadMore } from '@shared/ui/LoadMore';
 import { Loader } from '@shared/ui/Loader';
+import { actions } from '../model/reviewSlice';
 import { ReviewCard } from './ReviewCard';
 import './ReviewsList.scss';
 
 const INITIAL_COUNT = 3;
 const SHOW_MORE_STEP = 5;
 
-export const ReviewsList = () => {
-	const { reviews, isLoading } = useAppSelector(state => state.review);
+export const ReviewsList = ({ productId }: { productId: number }) => {
+	const dispatch = useAppDispatch();
+	const { reviews, isLoading, paging } = useAppSelector(
+		state => state.review
+	);
 	const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
 
 	if (isLoading && reviews.length === 0) return <Loader />;
@@ -19,9 +24,9 @@ export const ReviewsList = () => {
 	if (reviews.length === 0) {
 		return (
 			<EmptyState
-				variant='compact'
 				icon={<MessageIcon size={40} />}
 				title='Отзывов о товаре пока нет'
+				description='Поделитесь впечатлениями — ваш отзыв будет первым.'
 			/>
 		);
 	}
@@ -33,7 +38,7 @@ export const ReviewsList = () => {
 					<ReviewCard review={review} key={review.id} />
 				))}
 			</div>
-			{reviews.length > visibleCount && (
+			{reviews.length > visibleCount ? (
 				<Button
 					size='s'
 					variant='outline'
@@ -41,6 +46,15 @@ export const ReviewsList = () => {
 				>
 					Показать ещё
 				</Button>
+			) : (
+				// Всё загруженное уже раскрыто — дальше список дочитывается с сервера
+				<LoadMore
+					paging={paging}
+					onLoadMore={() => {
+						setVisibleCount(Infinity);
+						dispatch(actions.getReviewMoreRequest({ productId }));
+					}}
+				/>
 			)}
 		</div>
 	);

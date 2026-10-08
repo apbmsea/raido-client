@@ -1,51 +1,82 @@
+import type { ReactNode } from 'react';
 import { CONTACTS } from '@shared/constants/contacts';
+import CatalogIcon from '@shared/icons/Catalog';
+import MessageIcon from '@shared/icons/Message';
+import PasswordIcon from '@shared/icons/Password';
+import StarIcon from '@shared/icons/Star';
 import './AboutCompanyPage.scss';
+
+interface Advantage {
+	icon: ReactNode;
+	title: string;
+	text: string;
+}
+
+const ADVANTAGES: Advantage[] = [
+	{
+		icon: <StarIcon size={24} />,
+		title: 'Технологии для каждого',
+		text: 'Подбираем электронику, которая не только функциональна, но и удобна в использовании: смартфоны, ноутбуки, бытовую технику и аксессуары.'
+	},
+	{
+		icon: <MessageIcon size={24} />,
+		title: 'Поддержка на связи',
+		text: 'Ответим на вопросы, поможем с выбором товара и решим любые возникшие проблемы.'
+	},
+	{
+		icon: <PasswordIcon size={24} />,
+		title: 'Безопасные покупки',
+		text: 'Сайт использует современные технологии шифрования для защиты личных данных клиентов.'
+	},
+	{
+		icon: <CatalogIcon size={24} />,
+		title: 'Актуальный ассортимент',
+		text: 'Постоянно обновляем каталог и следим за последними тенденциями в мире технологий.'
+	}
+];
 
 const AboutCompanyPage = () => {
 	return (
 		<main className='about-company-page'>
-			<h1 className='about-company-page__title'>О компании</h1>
-
-			<div className='about-company-page__text'>
-				<p>
-					Наша миссия — сделать современные технологии доступными для
-					каждого. Мы верим, что качественная электроника должна быть не
-					только функциональной, но и удобной в использовании. Мы
-					стремимся предложить нашим клиентам лучшие решения для их
-					повседневной жизни, будь то смартфоны, ноутбуки, бытовая техника
-					или аксессуары.
+			<section className='about-company-page__hero'>
+				<span className='about-company-page__eyebrow'>О компании</span>
+				<h1 className='about-company-page__title'>
+					Делаем современные технологии доступными для каждого
+				</h1>
+				<p className='about-company-page__lead'>
+					Мы верим, что качественная электроника должна быть не только
+					функциональной, но и удобной в использовании, и стремимся
+					предложить лучшие решения для повседневной жизни.
 				</p>
+			</section>
 
-				<p>
-					Мы ценим каждого клиента и стремимся обеспечить высокий уровень
-					обслуживания. Наша команда поддержки всегда готова ответить на
-					ваши вопросы, помочь с выбором товара и решить любые возникшие
-					проблемы.
-				</p>
+			<section className='about-company-page__section'>
+				<h2 className='about-company-page__subtitle'>Почему выбирают нас</h2>
 
-				<p>
-					Мы гарантируем безопасность ваших покупок. Наш сайт использует
-					современные технологии шифрования для защиты личных данных
-					клиентов.
-				</p>
+				<ul className='about-company-page__advantages'>
+					{ADVANTAGES.map(advantage => (
+						<li
+							className='about-company-page__advantage'
+							key={advantage.title}
+						>
+							<span className='about-company-page__advantage-icon'>
+								{advantage.icon}
+							</span>
+							<h3 className='about-company-page__advantage-title'>
+								{advantage.title}
+							</h3>
+							<p className='about-company-page__advantage-text'>
+								{advantage.text}
+							</p>
+						</li>
+					))}
+				</ul>
+			</section>
 
-				<p>
-					Мы постоянно обновляем наш ассортимент и следим за последними
-					тенденциями в мире технологий.
-				</p>
-			</div>
+			<section className='about-company-page__section'>
+				<h2 className='about-company-page__subtitle'>Как нас найти</h2>
 
-			<div className='about-company-page__content'>
-				<section className='about-company-page__section'>
-					<h2 className='about-company-page__subtitle'>Адрес магазина</h2>
-
-					<div className='about-company-page__address'>
-						<h3 className='about-company-page__address-title'>
-							{CONTACTS.address}
-						</h3>
-						<span>{CONTACTS.workingHours}</span>
-					</div>
-
+				<div className='about-company-page__location'>
 					<iframe
 						className='about-company-page__map'
 						src='https://yandex.ru/map-widget/v1/?um=constructor%3A65ae8a7ff85da3cbdd73afd4719b7d48e7f7ee249a2739c58fedc82cb240728e&amp;source=constructor'
@@ -53,25 +84,31 @@ const AboutCompanyPage = () => {
 						loading='lazy'
 						allowFullScreen
 					/>
-				</section>
 
-				<section className='about-company-page__section'>
-					<h2 className='about-company-page__subtitle'>Контакты</h2>
-
-					<ul className='about-company-page__contacts'>
-						<li>
-							Телефон: <a href={CONTACTS.phoneHref}>{CONTACTS.phone}</a>
-						</li>
-						<li>
-							Эл. почта:{' '}
-							<a href={CONTACTS.emailHref}>{CONTACTS.email}</a>
-						</li>
-						<li>Соц. сети: ссылка</li>
-						<li>Соц. сети: ссылка</li>
-						<li>Соц. сети: ссылка</li>
-					</ul>
-				</section>
-			</div>
+					<dl className='about-company-page__contacts'>
+						<div className='about-company-page__contact'>
+							<dt>Адрес магазина</dt>
+							<dd>{CONTACTS.address}</dd>
+						</div>
+						<div className='about-company-page__contact'>
+							<dt>Режим работы</dt>
+							<dd>{CONTACTS.workingHours}</dd>
+						</div>
+						<div className='about-company-page__contact'>
+							<dt>Телефон</dt>
+							<dd>
+								<a href={CONTACTS.phoneHref}>{CONTACTS.phone}</a>
+							</dd>
+						</div>
+						<div className='about-company-page__contact'>
+							<dt>Эл. почта</dt>
+							<dd>
+								<a href={CONTACTS.emailHref}>{CONTACTS.email}</a>
+							</dd>
+						</div>
+					</dl>
+				</div>
+			</section>
 		</main>
 	);
 };

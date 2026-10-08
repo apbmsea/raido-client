@@ -4,9 +4,10 @@ import type {
 	GetQuestionsResponse
 } from '../model/questionTypes';
 
-export async function getQuestions(productId: number) {
+export async function getQuestions(productId: number, page = 1) {
 	const response = await $api.get<GetQuestionsResponse>(
-		`/questions/${productId}`
+		`/questions/${productId}`,
+		{ params: { page } }
 	);
 	return response.data;
 }

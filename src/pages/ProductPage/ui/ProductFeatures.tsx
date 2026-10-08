@@ -1,4 +1,5 @@
 import type { ProductProperty } from '@entities/product';
+import ListViewIcon from '@shared/icons/ListView';
 import { EmptyState } from '@shared/ui/EmptyState';
 import './ProductFeatures.scss';
 
@@ -9,8 +10,9 @@ const ProductFeatures = ({ properties }: { properties: ProductProperty[] }) => {
 	if (properties.length === 0) {
 		return (
 			<EmptyState
-				variant='compact'
-				title='Характеристики товара пока не заполнены'
+				icon={<ListViewIcon size={40} />}
+				title='Характеристики пока не заполнены'
+				description='Мы добавим их в ближайшее время. Уточнить детали можно во вкладке «Вопросы».'
 			/>
 		);
 	}

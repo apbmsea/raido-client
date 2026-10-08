@@ -1,3 +1,5 @@
+import type { Paginated } from '@shared/utils/pagination';
+
 export interface OrderProduct {
 	final_subtotal: string;
 	id: number;
@@ -44,10 +46,7 @@ export interface OrderDetails extends OrderType {
 	shipping_address: string;
 }
 
-export interface OrdersResponse {
-	items: OrderType[];
-	total: number;
-}
+export type OrdersResponse = Paginated<OrderType>;
 
 export interface CreateOrderPayload {
 	user: {
