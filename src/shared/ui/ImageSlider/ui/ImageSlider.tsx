@@ -2,6 +2,8 @@ import { useRef, useState, type MouseEvent } from 'react';
 import clsx from 'clsx';
 import './ImageSlider.scss';
 
+const MAX_DOTS = 5;
+
 type ImageSliderProps = {
 	images: { image_250x250?: string }[];
 	alt?: string;
@@ -17,7 +19,10 @@ const ImageSlider = ({ images, alt = '', className }: ImageSliderProps) => {
 		const track = trackRef.current;
 		if (!track) return;
 
-		track.scrollTo({ left: index * track.clientWidth, behavior: 'instant' });
+		track.scrollTo({
+			left: index * track.clientWidth,
+			behavior: 'instant'
+		});
 	};
 
 	const handleScroll = () => {
@@ -34,11 +39,20 @@ const ImageSlider = ({ images, alt = '', className }: ImageSliderProps) => {
 		const { left, width } = e.currentTarget.getBoundingClientRect();
 		const index = Math.min(
 			images.length - 1,
-			Math.max(0, Math.floor(((e.clientX - left) / width) * images.length))
+			Math.max(
+				0,
+				Math.floor(((e.clientX - left) / width) * images.length)
+			)
 		);
 
 		if (index !== current) scrollToSlide(index);
 	};
+
+	const dotsStart = Math.min(
+		Math.max(current - Math.floor(MAX_DOTS / 2), 0),
+		Math.max(images.length - MAX_DOTS, 0)
+	);
+	const dotsEnd = Math.min(dotsStart + MAX_DOTS, images.length);
 
 	return (
 		<div
@@ -73,15 +87,26 @@ const ImageSlider = ({ images, alt = '', className }: ImageSliderProps) => {
 
 			{images.length > 1 && (
 				<div className='image-slider__dots' aria-hidden='true'>
-					{images.map((_, i) => (
-						<span
-							key={i}
-							className={clsx(
-								'image-slider__dot',
-								i === current && 'image-slider__dot--active'
-							)}
-						/>
-					))}
+					{images.slice(dotsStart, dotsEnd).map((_, offset) => {
+						const i = dotsStart + offset;
+						const hasHiddenBefore =
+							i === dotsStart && dotsStart > 0;
+						const hasHiddenAfter =
+							i === dotsEnd - 1 && dotsEnd < images.length;
+
+						return (
+							<span
+								key={i}
+								className={clsx(
+									'image-slider__dot',
+									i === current &&
+										'image-slider__dot--active',
+									(hasHiddenBefore || hasHiddenAfter) &&
+										'image-slider__dot--small'
+								)}
+							/>
+						);
+					})}
 				</div>
 			)}
 		</div>

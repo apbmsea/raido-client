@@ -46,7 +46,12 @@ const ProductCard = ({
 			)}
 		>
 			<div className='product-card__image'>
-				<Link to={productLink} tabIndex={-1} aria-hidden='true'>
+				<Link
+					className='product-card__image-link'
+					to={productLink}
+					tabIndex={-1}
+					aria-hidden='true'
+				>
 					<ImageSlider images={item.images} alt={item.name} />
 				</Link>
 

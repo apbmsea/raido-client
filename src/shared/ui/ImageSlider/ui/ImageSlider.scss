@@ -63,10 +63,16 @@
 		height: 6px;
 		border-radius: 50%;
 		background: var(--color-gray-light);
-		transition: background var(--transition);
+		transition:
+			background var(--transition),
+			transform var(--transition);
 
 		&--active {
 			background: var(--color-primary);
+		}
+
+		&--small {
+			transform: scale(0.6);
 		}
 	}
 }

@@ -21,8 +21,9 @@
 		max-width: 100%;
 
 		@include mobile {
-			flex: 1;
-			min-width: 200px;
+			order: -1;
+			flex: 0 0 100%;
+			width: 100%;
 		}
 	}
 

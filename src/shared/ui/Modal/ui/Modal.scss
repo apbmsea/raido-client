@@ -10,6 +10,7 @@
 	padding: 16px;
 	background: var(--color-overlay);
 	overflow-y: auto;
+	overscroll-behavior: contain;
 	animation: fade-in 0.2s ease;
 
 	&__content {

@@ -1,6 +1,7 @@
 import { actions, reducer, name } from './model/categoriesSlice';
 
 export { default as watchCategories } from './model/categoriesSaga';
+export { selectCategoryBySubcategoryId } from './model/categorySelectors';
 export type { Category, SubCategory } from './model/categoryTypes';
 
 export const Categories = {

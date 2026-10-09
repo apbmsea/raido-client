@@ -14,7 +14,10 @@ export const CartWidget = () => {
 
 	if (!hasItems) return null;
 
-	const selectedCount = selectedItems.length;
+	const selectedCount = selectedItems.reduce(
+		(sum, item) => sum + item.quantity,
+		0
+	);
 
 	const handleCheckout = () => {
 		const ids = selectedItems.map(item => item.id).join(',');
