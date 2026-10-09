@@ -11,7 +11,6 @@ import { Button } from '@shared/ui/Button';
 import { Loader } from '@shared/ui/Loader';
 import './ManagerInvitation.scss';
 
-/** Страница приглашения стать менеджером организации — открывается из письма */
 const ManagerInvitation = ({ token }: { token: string }) => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
@@ -23,7 +22,6 @@ const ManagerInvitation = ({ token }: { token: string }) => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [isAccepting, setIsAccepting] = useState(false);
 
-	// Данные приглашения перезапрашиваются после входа: гостю сервер их может не отдать
 	useEffect(() => {
 		let isCurrent = true;
 

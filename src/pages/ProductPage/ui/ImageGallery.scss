@@ -9,8 +9,6 @@ $thumbs-gap: 20px;
 	max-width: 506px + $thumb-size + $thumbs-gap;
 	min-width: 0;
 
-	// Лента миниатюр привязана к краям галереи, поэтому её высота
-	// всегда равна высоте главного фото
 	&__thumbs {
 		@include hide-scrollbar;
 
@@ -84,7 +82,6 @@ $thumbs-gap: 20px;
 		}
 	}
 
-	// На планшетах и телефонах миниатюры — горизонтальная лента под фото
 	@include tablet {
 		display: flex;
 		flex-direction: column-reverse;

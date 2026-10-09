@@ -12,7 +12,6 @@ export type {
 	ProductsResponse
 } from './model/productTypes';
 
-/** Товар, открытый на странице товара */
 export const ProductDetails = {
 	reducer: {
 		[name]: reducer

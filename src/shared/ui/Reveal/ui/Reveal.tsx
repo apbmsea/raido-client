@@ -14,14 +14,9 @@ interface RevealProps {
 	children: ReactNode;
 }
 
-/**
- * Откладывает анимации появления внутри блока до момента, когда до него
- * долистали: без этого блоки внизу страницы отыграли бы их за кадром
- */
 const Reveal = ({ as = 'div', className, children }: RevealProps) => {
 	const ref = useRef<HTMLElement>(null);
 	const [isVisible, setIsVisible] = useState(false);
-	// Тип элемента для JSX не важен: набор пропсов у всех вариантов одинаковый
 	const Tag = as as 'div';
 
 	useEffect(() => {

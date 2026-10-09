@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 
 interface AppLinkProps {
 	to: string;
-	/** Ссылка за пределы роутера (tel:, mailto:, другой сайт) — обычный переход */
 	isExternal?: boolean;
 	className?: string;
 	onClick?: MouseEventHandler<HTMLAnchorElement>;

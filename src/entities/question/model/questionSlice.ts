@@ -20,7 +20,6 @@ interface QuestionState {
 	paging: PagingState;
 	isFetch: boolean;
 	submitError: string;
-	/** Растёт с каждым отправленным вопросом — по нему форма сбрасывает поля */
 	submittedCount: number;
 }
 

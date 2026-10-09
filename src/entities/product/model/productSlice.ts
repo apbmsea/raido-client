@@ -20,7 +20,6 @@ export const { reducer, actions, name } = createSlice({
 		productRequest: (state, _action: PayloadAction<{ id: string }>) => {
 			state.isLoading = true;
 			state.isError = false;
-			// Иначе до ответа сервера на странице мелькнёт предыдущий товар
 			state.item = null;
 		},
 		productSuccess: (state, action: PayloadAction<Product>) => {

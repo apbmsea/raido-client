@@ -1,6 +1,5 @@
 @use '@shared/styles/helpers' as *;
 
-// Плашка пришвартована к нижнему краю экрана и видна при любой прокрутке
 .cart-widget {
 	position: fixed;
 	right: 0;
@@ -42,7 +41,6 @@
 	}
 }
 
-// Запас под плашку, чтобы в конце страницы она не закрывала подвал
 body:has(.cart-widget) {
 	padding-bottom: 76px;
 }

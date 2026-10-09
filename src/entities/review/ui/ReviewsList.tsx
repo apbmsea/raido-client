@@ -47,7 +47,6 @@ export const ReviewsList = ({ productId }: { productId: number }) => {
 					Показать ещё
 				</Button>
 			) : (
-				// Всё загруженное уже раскрыто — дальше список дочитывается с сервера
 				<LoadMore
 					paging={paging}
 					onLoadMore={() => {

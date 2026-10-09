@@ -16,7 +16,6 @@ import { ProfileNavbar } from '@widgets/ProfileNavbar';
 import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './ProfilePage.scss';
 
-/** Каркас личного кабинета: проверка входа, меню разделов и вложенная страница */
 const ProfilePage = () => {
 	const dispatch = useAppDispatch();
 	const { isLogin, isLoading } = useAppSelector(state => state.user);
@@ -24,10 +23,7 @@ const ProfilePage = () => {
 	const { pathname } = useLocation();
 	const [searchParams] = useSearchParams();
 	const isProfileRoot = /^\/profile\/?$/.test(pathname);
-	// Приглашение менеджера открывается по ссылке из письма и доступно без входа
 	const isManagerInvitation = searchParams.has('invitation_token');
-	// Заголовок вкладки задаёт вложенная страница. Пока её нет на экране
-	// (идёт проверка входа или гость не вошёл), ставим его сами
 	usePageTitle(
 		isManagerInvitation || (!isLoading && isLogin) ? null : 'Профиль'
 	);
@@ -66,7 +62,6 @@ const ProfilePage = () => {
 	return (
 		<main className='profile-page'>
 			<div className='profile-page__heading'>
-				{/* На узких экранах меню разделов скрыто — к нему ведёт кнопка «Назад» */}
 				{!isProfileRoot && (
 					<IconButton
 						className='visible-tablet'

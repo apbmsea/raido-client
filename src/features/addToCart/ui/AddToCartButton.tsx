@@ -17,10 +17,6 @@ type AddToCartButtonProps = {
 	size?: 'm' | 'l';
 };
 
-/**
- * Кнопка «В корзину», которая превращается в счётчик количества,
- * когда товар уже лежит в корзине
- */
 const AddToCartButton = ({ productId, size = 'm' }: AddToCartButtonProps) => {
 	const dispatch = useAppDispatch();
 	const isLogin = useAppSelector(state => state.user.isLogin);
@@ -28,7 +24,6 @@ const AddToCartButton = ({ productId, size = 'm' }: AddToCartButtonProps) => {
 	const isPending = useAppSelector(selectIsCartProductPending(productId));
 
 	const handleAdd = () => {
-		// Корзина хранится в аккаунте, поэтому гостю сначала предлагаем войти
 		if (!isLogin) {
 			dispatch(Modal.actions.openModal('login'));
 			return;

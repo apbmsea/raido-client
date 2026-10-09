@@ -10,10 +10,6 @@ export const isApiError = (error: unknown): error is HandleError => {
 	);
 };
 
-/**
- * Ошибки ответа сервера по полям. Если сервер ничего не объяснил,
- * возвращает общую ошибку формы с запасным текстом
- */
 export const getApiErrors = (error: unknown, fallback: string): ApiErrors =>
 	isApiError(error) && Object.keys(error.errors).length > 0
 		? error.errors

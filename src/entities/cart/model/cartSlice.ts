@@ -20,12 +20,7 @@ interface CartState {
 	items: CartItem[];
 	isLoading: boolean;
 	paging: PagingState;
-	/** Товары, по которым сейчас идёт запрос на изменение корзины */
 	pendingProductIds: number[];
-	/**
-	 * Товары, с которых покупатель снял отметку. Храним исключения, а не выбранные:
-	 * так новые товары в корзине отмечены сразу, а выбор переживает перезагрузку списка
-	 */
 	excludedProductIds: number[];
 }
 

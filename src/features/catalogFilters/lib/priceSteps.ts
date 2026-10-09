@@ -1,6 +1,5 @@
 import { PRICE_LIMITS } from '@entities/catalog';
 
-// Шкала ползунка нелинейная: чем выше цена, тем крупнее шаг
 const buildSteps = () => {
 	const steps: number[] = [];
 

@@ -1,5 +1,4 @@
 :root {
-	/* Цвета */
 	--color-black: #0c0c0c;
 	--color-white: #ffffff;
 	--color-gray: #656565;
@@ -17,25 +16,20 @@
 	--color-star: #ffd21e;
 	--color-overlay: rgb(12 12 12 / 55%);
 
-	/* Скругления */
 	--radius-s: 8px;
 	--radius-m: 15px;
 	--radius-l: 24px;
 	--radius-pill: 999px;
 
-	/* Тени */
 	--shadow-s: 0 2px 8px rgb(12 12 12 / 6%);
 	--shadow-m: 0 8px 24px rgb(12 12 12 / 10%);
 	--shadow-l: 0 16px 48px rgb(12 12 12 / 16%);
 
-	/* Анимации */
 	--transition: 0.2s ease;
 
-	/* Сетка */
 	--container-width: 1280px;
 	--container-padding: clamp(16px, 5vw, 40px);
 
-	/* Слои */
 	--z-dropdown: 20;
 	--z-sticky: 50;
 	--z-menu: 100;

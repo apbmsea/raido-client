@@ -49,7 +49,6 @@ export const { reducer, actions, name } = createSlice({
 		resetFilters: resetSelection
 	},
 	extraReducers: builder => {
-		// Фильтры относятся к конкретной выборке и не переносятся в другой раздел
 		builder.addMatcher(
 			isAnyOf(
 				catalogActions.navigateToCategory,

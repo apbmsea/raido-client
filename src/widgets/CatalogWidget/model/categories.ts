@@ -1,4 +1,3 @@
-/** Категории, вынесенные на главную. categoryId — идентификатор категории каталога */
 export const HOME_CATEGORIES = [
 	{ categoryId: 3, title: 'Компьютеры и ноутбуки', image: '/catalog1.png' },
 	{ categoryId: 5, title: 'Печать и сканирование', image: '/catalog2.png' },

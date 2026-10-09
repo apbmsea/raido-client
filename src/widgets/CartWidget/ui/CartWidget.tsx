@@ -6,7 +6,6 @@ import { formatPrice } from '@shared/utils/formatPrice';
 import { plural } from '@shared/utils/plural';
 import './CartWidget.scss';
 
-/** Плашка с итогом по выбранным товарам и переходом к оформлению */
 export const CartWidget = () => {
 	const navigate = useNavigate();
 	const hasItems = useAppSelector(state => state.cart.items.length > 0);
@@ -18,7 +17,6 @@ export const CartWidget = () => {
 	const selectedCount = selectedItems.length;
 
 	const handleCheckout = () => {
-		// Страница оформления получает идентификаторы позиций корзины через адрес
 		const ids = selectedItems.map(item => item.id).join(',');
 		navigate(`/place-an-order?ids=${ids}`);
 	};

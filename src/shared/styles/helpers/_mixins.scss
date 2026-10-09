@@ -38,7 +38,6 @@
 	}
 }
 
-// Центрированная колонка с боковыми полями — общая для шапки, страниц и подвала
 @mixin container {
 	width: 100%;
 	max-width: var(--container-width);
@@ -46,7 +45,6 @@
 	padding-inline: var(--container-padding);
 }
 
-// Каркас страницы: контейнер + вертикальные отступы и расстояние между блоками
 @mixin page($gap: 40px) {
 	@include container;
 
@@ -65,13 +63,10 @@
 	color: var(--color-black);
 }
 
-// Появление при открытии страницы. backwards, а не both: после анимации
-// transform освобождается, и hover-эффекты элемента продолжают работать
 @mixin appear($delay: 0s, $name: fade-up) {
 	animation: $name 0.6s cubic-bezier(0.22, 1, 0.36, 1) $delay backwards;
 }
 
-// То же для списка: каждый следующий элемент появляется с задержкой
 @mixin appear-stagger($count, $start: 0s, $step: 0.07s) {
 	@include appear($start);
 
@@ -116,7 +111,6 @@
 	white-space: nowrap;
 }
 
-// Сброс оформления кнопки для кликабельных элементов без вида кнопки
 @mixin button-reset {
 	padding: 0;
 	border: none;

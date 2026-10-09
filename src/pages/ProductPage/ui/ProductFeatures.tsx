@@ -1,13 +1,15 @@
 import type { ProductProperty } from '@entities/product';
 import ListViewIcon from '@shared/icons/ListView';
 import { EmptyState } from '@shared/ui/EmptyState';
+import { hasInfo } from '@shared/utils/hasInfo';
 import './ProductFeatures.scss';
 
-// Так сервер помечает характеристику без единицы измерения
-const NO_UNIT = 'Не указана';
-
 const ProductFeatures = ({ properties }: { properties: ProductProperty[] }) => {
-	if (properties.length === 0) {
+	const filledProperties = properties.filter(property =>
+		hasInfo(property.value)
+	);
+
+	if (filledProperties.length === 0) {
 		return (
 			<EmptyState
 				icon={<ListViewIcon size={40} />}
@@ -21,16 +23,14 @@ const ProductFeatures = ({ properties }: { properties: ProductProperty[] }) => {
 		<div className='product-features'>
 			<h3 className='product-features__title'>Общие характеристики</h3>
 			<dl className='product-features__list'>
-				{properties.map(property => (
+				{filledProperties.map(property => (
 					<div key={property.name} className='product-features__row'>
 						<dt className='product-features__name'>
 							{property.name}
 						</dt>
 						<dd className='product-features__value'>
 							{property.value}
-							{property.unit && property.unit !== NO_UNIT
-								? ` ${property.unit}`
-								: ''}
+							{hasInfo(property.unit) ? ` ${property.unit}` : ''}
 						</dd>
 					</div>
 				))}

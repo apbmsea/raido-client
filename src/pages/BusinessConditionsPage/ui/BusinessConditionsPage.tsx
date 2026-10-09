@@ -14,12 +14,14 @@ import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './BusinessConditionsPage.scss';
 
 const BusinessConditionsPage = () => {
-	usePageTitle('Условия для бизнеса');
+	usePageTitle('Условия для бизнеса', {
+		description:
+			'Условия для корпоративных клиентов «Райдо Сервис»: корпоративный аккаунт, подключение сотрудников и заказы на организацию.'
+	});
 
 	const dispatch = useAppDispatch();
 	const isLogin = useAppSelector(state => state.user.isLogin);
 
-	// Вошедшему регистрация не нужна — ведём его в личный кабинет
 	const accountAction = isLogin ? (
 		<Link className='business-page__cabinet' to='/profile'>
 			Перейти в личный кабинет

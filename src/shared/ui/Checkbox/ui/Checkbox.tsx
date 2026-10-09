@@ -9,7 +9,6 @@ interface CheckboxProps extends Omit<
 	InputHTMLAttributes<HTMLInputElement>,
 	'type'
 > {
-	/** Без подписи чекбоксу нужен aria-label */
 	label?: string;
 }
 

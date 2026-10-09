@@ -13,7 +13,6 @@ import { DeleteManagerModal } from '@features/deleteManager';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Modal as ModalWindow } from '@shared/ui/Modal';
 
-// Чтобы добавить окно: новый тип в entities/modal и его содержимое здесь
 const MODAL_CONTENT: Record<ModalType, ComponentType> = {
 	register: RegisterForm,
 	login: LoginForm,
@@ -26,7 +25,6 @@ const MODAL_CONTENT: Record<ModalType, ComponentType> = {
 	orderCreated: OrderCreatedWindow
 };
 
-/** Единая точка показа модальных окон приложения */
 const ModalRoot = () => {
 	const dispatch = useAppDispatch();
 	const type = useAppSelector(state => state.modal.type);

@@ -31,7 +31,6 @@ function* loginSaga(action: PayloadAction<LoginPayload>) {
 		}
 
 		yield* call(setToken, response.token);
-		// Вход без кода означает, что 2FA отключена
 		yield* put(User.actions.setTwoFactorEnabled(false));
 		yield* put(Modal.actions.closeModal());
 		yield* put(User.actions.getUserRequest());
@@ -79,8 +78,6 @@ function* confirmSaga(action: PayloadAction<ConfirmPayload>) {
 		}
 
 		if (action.payload.url === 'password/change') {
-			// Сервер завершил все сессии, старый токен больше не действует.
-			// Пользователя сбрасываем после закрытия сообщения, иначе его перекроет окно входа
 			yield* call(removeToken);
 			yield* put(Modal.actions.openModal('confirmSuccess'));
 			yield* take([
@@ -94,7 +91,6 @@ function* confirmSaga(action: PayloadAction<ConfirmPayload>) {
 		if (response.token) {
 			yield* call(setToken, response.token);
 		}
-		// Вход с кодом означает включённую 2FA, после регистрации статус неизвестен
 		yield* put(
 			User.actions.setTwoFactorEnabled(
 				action.payload.url === 'login' ? true : null

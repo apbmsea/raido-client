@@ -20,8 +20,6 @@ function* getManagedOrganizationsSaga() {
 	}
 }
 
-// Добавление и удаление менеджера открывают и закрывают модальные окна,
-// поэтому их сценарии лежат в features/addManager и features/deleteManager
 export default function* watchManager() {
 	yield* takeLatest(actions.getManagersRequest.type, getManagersSaga);
 	yield* takeLatest(

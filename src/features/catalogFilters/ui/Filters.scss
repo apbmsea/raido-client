@@ -22,7 +22,6 @@
 		font-size: 20px;
 	}
 
-	// Крестик и «Показать» нужны только шторке
 	& &__close,
 	& &__apply {
 		display: none;
@@ -76,7 +75,6 @@
 				box-shadow: 0 0 0 4px rgb(74 88 246 / 25%);
 			}
 
-			// Тройной класс повторяет специфичность стилей rc-slider
 			&-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
 				border-color: var(--color-primary);
 				box-shadow: 0 0 0 4px rgb(74 88 246 / 25%);
@@ -89,7 +87,6 @@
 		flex-direction: column;
 	}
 
-	// Отрицательный отступ выравнивает текст пунктов по заголовку секции
 	&__subcategories {
 		display: flex;
 		flex-direction: column;
@@ -153,10 +150,7 @@
 	}
 }
 
-// На планшетах и телефонах фильтры превращаются в шторку справа
 @include laptop {
-	// Слой обрезает панель, пока она спрятана за правым краем: иначе
-	// она добавляла бы странице горизонтальную прокрутку
 	.filters-layer {
 		position: fixed;
 		inset: 0;
@@ -193,7 +187,6 @@
 		top: 0;
 		right: 0;
 		bottom: 0;
-		// Для абсолютного блока align-self отменил бы растягивание на высоту экрана
 		align-self: stretch;
 		gap: 0;
 		width: min(360px, 100%);

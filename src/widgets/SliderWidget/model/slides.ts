@@ -1,5 +1,5 @@
-import slider1 from '@shared/assets/slider1.png';
-import slider2 from '@shared/assets/slider2.png';
+import slider1 from '@shared/assets/slider1.webp';
+import slider2 from '@shared/assets/slider2.webp';
 
 export const SLIDES = [
 	{

@@ -17,7 +17,6 @@ export const { reducer, actions, name } = createSlice({
 	name: 'search',
 	initialState,
 	reducers: {
-		/** Меняет текст запроса; подсказки подгрузит сага после паузы в наборе */
 		setQuery: (state, action: PayloadAction<string>) => {
 			state.query = action.payload;
 

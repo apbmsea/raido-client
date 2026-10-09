@@ -36,7 +36,6 @@ interface BuyerFields {
 	post: string;
 }
 
-// Ошибки с этими ключами выводятся под своими полями, остальные — общим списком
 const FIELD_ERROR_KEYS = [
 	'surname',
 	'name',
@@ -92,7 +91,6 @@ const CheckoutForm = ({ user, cartItemIds }: CheckoutFormProps) => {
 
 	const isDelivery = deliveryMethod === 'delivery';
 
-	// Свои проверки показываем после первой попытки отправить форму
 	const phoneError =
 		isValidated &&
 		buyer.phone.length > 0 &&
@@ -112,7 +110,6 @@ const CheckoutForm = ({ user, cartItemIds }: CheckoutFormProps) => {
 		dispatch(Order.actions.clearAllErrors());
 	}, [dispatch]);
 
-	// Менеджер может оформить заказ от имени организации, к которой привязан
 	useEffect(() => {
 		if (!isCorporate) {
 			dispatch(Manager.actions.getManagedOrganizationsRequest());
@@ -371,7 +368,15 @@ const CheckoutForm = ({ user, cartItemIds }: CheckoutFormProps) => {
 						<span className='checkout-form__pickup-label'>
 							Пункт выдачи
 						</span>
-						<strong>{CONTACTS.address}</strong>
+						<a
+							className='checkout-form__pickup-address'
+							href={CONTACTS.routeHref}
+							target='_blank'
+							rel='noopener noreferrer'
+							title='Построить маршрут в Яндекс Картах'
+						>
+							{CONTACTS.address}
+						</a>
 						<span>{CONTACTS.workingHours}</span>
 					</div>
 				)}

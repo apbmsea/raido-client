@@ -10,7 +10,6 @@ const ProfileNavbar = ({ className }: { className?: string }) => {
 		state => state.user.user?.is_corporate ?? false
 	);
 
-	// Раздел без признака isCorporate виден всем, с признаком — только своему типу аккаунта
 	const navigationItems = PROFILE_NAVIGATION.filter(
 		item => item.isCorporate === undefined || item.isCorporate === isCorporate
 	);
@@ -50,7 +49,6 @@ const ProfileNavbar = ({ className }: { className?: string }) => {
 				<p className='profile-navbar__promo-text'>
 					Будьте в курсе всех выгодных предложений и новостей
 				</p>
-				{/* TODO: кнопка пока ничего не делает — сценария подписки на рассылку нет */}
 				<Button variant='outline'>Подписаться</Button>
 			</div>
 		</aside>

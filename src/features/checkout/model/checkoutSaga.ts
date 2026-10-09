@@ -9,13 +9,9 @@ import { navigateTo } from '@shared/utils/navigate';
 
 function* checkoutSaga(action: PayloadAction<CreateOrderPayload>) {
 	try {
-		// Данные покупателя из формы сохраняются в профиль. Если не получилось —
-		// заказ всё равно оформляем: они уйдут вместе с ним
 		try {
 			yield* call(editUser, action.payload.user);
-		} catch {
-			// намеренно пусто
-		}
+		} catch {}
 
 		const order = yield* call(createOrder, action.payload);
 
@@ -24,7 +20,6 @@ function* checkoutSaga(action: PayloadAction<CreateOrderPayload>) {
 		yield* put(Cart.actions.getCartRequest());
 		yield* put(User.actions.refreshUserRequest());
 
-		// Благодарим в окне поверх списка заказов, а не на отдельной странице
 		yield* call(navigateTo, '/profile/orders', { replace: true });
 		yield* put(Modal.actions.openModal('orderCreated'));
 	} catch (error) {

@@ -3,7 +3,6 @@ import { CONTACTS } from './contacts';
 export interface NavLinkItem {
 	title: string;
 	link: string;
-	/** Ссылка ведёт за пределы роутера: tel:, mailto: и т.п. */
 	isExternal?: boolean;
 }
 

@@ -12,7 +12,6 @@ export {
 	type SortType
 } from './model/catalogTypes';
 
-/** Текущая выборка товаров каталога: раздел, поиск, сортировка, вид */
 export const Catalog = {
 	reducer: {
 		[catalog.name]: catalog.reducer

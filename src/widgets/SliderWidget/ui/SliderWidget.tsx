@@ -21,7 +21,6 @@ const SliderWidget = () => {
 	const showPrev = () =>
 		setIndex(prev => (prev - 1 + slidesCount) % slidesCount);
 
-	// Таймер перезапускается при каждой смене слайда, в том числе ручной
 	useEffect(() => {
 		const timer = setTimeout(
 			() => setIndex(prev => (prev + 1) % slidesCount),
@@ -50,7 +49,6 @@ const SliderWidget = () => {
 			onTouchStart={handleTouchStart}
 			onTouchEnd={handleTouchEnd}
 		>
-			{/* Фоны лежат стопкой и сменяются плавным проявлением */}
 			{SLIDES.map((slide, slideIndex) => (
 				<img
 					key={slide.id}
@@ -60,7 +58,11 @@ const SliderWidget = () => {
 					)}
 					src={slide.image}
 					alt=''
+					width={1280}
+					height={354}
 					loading={slideIndex === 0 ? 'eager' : 'lazy'}
+					fetchPriority={slideIndex === 0 ? 'high' : 'low'}
+					decoding='async'
 				/>
 			))}
 

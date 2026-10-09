@@ -1,8 +1,5 @@
 import { useEffect, type RefObject } from 'react';
 
-/**
- * Вызывает onOutside при клике мимо элемента и по нажатию Escape
- */
 export function useClickOutside(
 	ref: RefObject<HTMLElement | null>,
 	onOutside: () => void,

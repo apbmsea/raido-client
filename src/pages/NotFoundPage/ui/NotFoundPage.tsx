@@ -4,7 +4,7 @@ import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './NotFoundPage.scss';
 
 const NotFoundPage = () => {
-	usePageTitle('Страница не найдена');
+	usePageTitle('Страница не найдена', { noindex: true });
 
 	const navigate = useNavigate();
 

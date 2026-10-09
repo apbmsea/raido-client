@@ -7,9 +7,7 @@ interface EmptyStateProps {
 	description?: string;
 	image?: string;
 	icon?: ReactNode;
-	/** Кнопка или ссылка под текстом */
 	action?: ReactNode;
-	/** compact — в одну строку, для пустых списков внутри блока */
 	variant?: 'default' | 'compact';
 	className?: string;
 }
@@ -25,7 +23,14 @@ const EmptyState = ({
 }: EmptyStateProps) => {
 	return (
 		<div className={clsx('empty-state', `empty-state--${variant}`, className)}>
-			{image && <img className='empty-state__image' src={image} alt='' />}
+			{image && (
+				<img
+					className='empty-state__image'
+					src={image}
+					alt=''
+					decoding='async'
+				/>
+			)}
 			{icon && <span className='empty-state__icon'>{icon}</span>}
 
 			<div className='empty-state__text'>

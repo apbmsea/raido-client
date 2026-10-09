@@ -31,7 +31,6 @@ function* getFavoriteMoreSaga() {
 	}
 }
 
-// После изменения перечитываем все уже подгруженные страницы, чтобы список не обрезался
 function* mutateFavorite(
 	productId: number,
 	request: () => Promise<void>,
@@ -42,7 +41,6 @@ function* mutateFavorite(
 		yield* put(Toast.actions.showToast(successToast));
 		yield* loadFavorite(yield* select(selectLoadedPage));
 	} catch {
-		// Список остаётся прежним: кнопка товара вернётся в исходное состояние
 		yield* put(
 			Toast.actions.showToast({
 				message: 'Не удалось обновить избранное. Попробуйте ещё раз.',
@@ -71,7 +69,6 @@ function* addFavoriteSaga({
 function* removeFavoriteSaga({
 	payload
 }: PayloadAction<{ itemId: number; productId: number }>) {
-	// Отмена удаления — это обычное добавление товара обратно
 	yield* mutateFavorite(
 		payload.productId,
 		() => removeFavorite(payload.itemId),

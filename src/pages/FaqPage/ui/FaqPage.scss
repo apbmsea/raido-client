@@ -41,7 +41,6 @@
 		gap: clamp(12px, 2vw, 20px);
 		max-width: 960px;
 
-		// Вопросы появляются один за другим
 		> * {
 			@include appear-stagger(12, 0.25s, 0.08s);
 		}

@@ -1,7 +1,6 @@
 export interface SubCategory {
 	id: number;
 	name: string;
-	/** Заголовок группы, в которую подкатегория входит внутри категории */
 	title: string | null;
 }
 

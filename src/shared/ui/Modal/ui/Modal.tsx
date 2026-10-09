@@ -27,8 +27,6 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
 	if (!isOpen) return null;
 
 	return createPortal(
-		// Закрываем по mousedown, а не по click: иначе окно закроется,
-		// если начать выделять текст в поле и отпустить кнопку за его пределами
 		<div
 			className='modal'
 			onMouseDown={e => {

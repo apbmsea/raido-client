@@ -3,6 +3,27 @@ import path from 'path';
 import react from '@vitejs/plugin-react';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 
+const REACT_PACKAGES = [
+	'react',
+	'react-dom',
+	'react-router',
+	'react-router-dom',
+	'scheduler'
+];
+const STORE_PACKAGES = [
+	'@reduxjs',
+	'redux',
+	'react-redux',
+	'redux-saga',
+	'@redux-saga',
+	'typed-redux-saga',
+	'immer',
+	'reselect'
+];
+
+const isFromPackages = (id: string, packages: string[]) =>
+	packages.some(name => id.includes(`/node_modules/${name}/`));
+
 export default defineConfig({
 	plugins: [react(), basicSsl()],
 	resolve: {
@@ -13,6 +34,20 @@ export default defineConfig({
 			'@pages': path.resolve(__dirname, './src/pages'),
 			'@shared': path.resolve(__dirname, './src/shared'),
 			'@widgets': path.resolve(__dirname, './src/widgets')
+		}
+	},
+	build: {
+		rollupOptions: {
+			output: {
+				manualChunks(id) {
+					if (!id.includes('/node_modules/')) return;
+
+					if (isFromPackages(id, REACT_PACKAGES)) return 'react';
+					if (isFromPackages(id, STORE_PACKAGES)) return 'store';
+
+					return 'vendor';
+				}
+			}
 		}
 	},
 	server: {

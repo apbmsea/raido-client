@@ -8,7 +8,14 @@ const Footer = () => {
 		<footer className='footer'>
 			<div className='footer__container'>
 				<Link className='footer__logo' to='/' aria-label='На главную'>
-					<img src='/logo.png' alt='Райдо Сервис' width={169} height={50} />
+					<img
+						src='/logo.png'
+						alt='Райдо Сервис'
+						width={169}
+						height={50}
+						loading='lazy'
+						decoding='async'
+					/>
 				</Link>
 
 				<div className='footer__links'>

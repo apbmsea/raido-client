@@ -12,10 +12,6 @@ import CloseIcon from '@shared/icons/Close';
 import { IconButton } from '@shared/ui/IconButton';
 import './CatalogMenu.scss';
 
-/**
- * Каталог для десктопа: панель с категориями поверх содержимого страницы.
- * На планшетах и телефонах те же экраны показывает BurgerMenu
- */
 const CatalogMenu = () => {
 	const dispatch = useAppDispatch();
 	const isCatalogOpen = useAppSelector(selectIsCatalogOpen);
@@ -26,7 +22,6 @@ const CatalogMenu = () => {
 	useEffect(() => {
 		if (!isVisible) return;
 
-		// Каталог могли открыть из середины страницы — показываем его начало
 		rootRef.current?.scrollIntoView({ block: 'nearest' });
 
 		const onKeyDown = (e: KeyboardEvent) => {

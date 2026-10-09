@@ -5,7 +5,6 @@ import { readTwoFactorEnabled } from './twoFactorStorage';
 
 interface UserState {
 	user: null | UserType;
-	/** Идёт проверка авторизации: до её конца неизвестно, вошёл ли пользователь */
 	isLoading: boolean;
 	isLogin: boolean;
 	isFetch: boolean;
@@ -41,7 +40,6 @@ export const { reducer, actions, name } = createSlice({
 			state.user = null;
 			state.isLogin = false;
 		},
-		/** Тихо обновляет профиль, не показывая экран проверки авторизации */
 		refreshUserRequest: () => {},
 		setUser: (state, action: PayloadAction<UserType>) => {
 			state.user = action.payload;

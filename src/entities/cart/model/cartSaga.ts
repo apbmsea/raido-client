@@ -41,11 +41,6 @@ function* getCartMoreSaga() {
 	}
 }
 
-/**
- * Общий сценарий изменения корзины: запрос, затем свежий состав с сервера —
- * суммы и скидки считает он. Товар остаётся «в ожидании» до конца обновления.
- * Перечитываем все уже подгруженные страницы, чтобы список не обрезался
- */
 function* mutateCart(
 	productId: number,
 	request: () => Promise<void>,
@@ -56,7 +51,6 @@ function* mutateCart(
 		if (successToast) yield* put(Toast.actions.showToast(successToast));
 		yield* loadCart(yield* select(selectLoadedPage));
 	} catch {
-		// Корзина остаётся прежней: кнопка товара вернётся в исходное состояние
 		yield* put(
 			Toast.actions.showToast({
 				message: 'Не удалось обновить корзину. Попробуйте ещё раз.',
@@ -89,7 +83,6 @@ function* changeQuantitySaga({
 }
 
 function* removeItemSaga({ payload }: PayloadAction<RemoveItemPayload>) {
-	// Отмена удаления — это обычное добавление товара обратно
 	yield* mutateCart(
 		payload.productId,
 		() => removeItemFromCart(payload.itemId),

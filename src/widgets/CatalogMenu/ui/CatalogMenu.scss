@@ -1,6 +1,5 @@
 @use '@shared/styles/helpers' as *;
 
-// Растянут на всю область под шапкой: затемняет страницу и держит панель
 .catalog-menu {
 	position: absolute;
 	inset: 0;
@@ -13,7 +12,6 @@
 		animation: fade-in 0.2s ease;
 	}
 
-	// sticky — панель остаётся на экране, если страницу под ней прокручивают
 	&__panel {
 		position: sticky;
 		top: 0;

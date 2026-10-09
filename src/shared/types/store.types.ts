@@ -1,4 +1,3 @@
-// Единственная связь shared → app: только типы стора, в рантайм не попадает
 import type { store } from '@app/store/store';
 
 export type RootState = ReturnType<typeof store.getState>;

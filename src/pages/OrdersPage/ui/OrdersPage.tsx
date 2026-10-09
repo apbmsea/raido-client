@@ -9,7 +9,6 @@ const OrdersPage = () => {
 
 	const dispatch = useAppDispatch();
 
-	// Статусы заказов меняются на сервере — обновляем список при каждом открытии
 	useEffect(() => {
 		dispatch(Order.actions.getOrdersRequest());
 	}, [dispatch]);

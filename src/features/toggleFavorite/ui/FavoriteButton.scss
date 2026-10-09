@@ -1,4 +1,3 @@
-// Двойной класс — чтобы состояния перекрывали базовые стили IconButton
 .favorite-button.icon-button {
 	.favorite-button__icon {
 		transition:
@@ -16,7 +15,6 @@
 		fill: var(--color-red);
 	}
 
-	// Пока идёт запрос, кнопка не должна выглядеть выключенной
 	&:disabled {
 		opacity: 1;
 		cursor: progress;

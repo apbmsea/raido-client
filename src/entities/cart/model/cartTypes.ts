@@ -2,7 +2,6 @@ import type { Product } from '@entities/product';
 import type { Paginated } from '@shared/utils/pagination';
 
 export interface CartItem {
-	/** Идентификатор позиции корзины: по нему позиция меняется и удаляется */
 	id: number;
 	product_id: number;
 	product: Product;
@@ -15,7 +14,6 @@ export type CartResponse = Paginated<CartItem>;
 
 export interface AddItemPayload {
 	productId: number;
-	/** Товар возвращают в корзину после отмены удаления */
 	isRestore?: boolean;
 }
 

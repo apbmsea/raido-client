@@ -14,7 +14,6 @@ export interface RegisterPayload {
 	is_corporate: boolean;
 }
 
-/** Действие, которое подтверждается кодом из письма */
 export type ConfirmType =
 	| 'register'
 	| 'login'

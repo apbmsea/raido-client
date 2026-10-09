@@ -17,7 +17,6 @@ const CONFIRM_URLS: Record<ConfirmType, string> = {
 export async function login(data: LoginPayload): Promise<LoginResponse> {
 	const response = await $api.post('/users/login', data);
 
-	// 202 — у пользователя включена 2FA: токена ещё нет, вход подтверждается кодом из письма
 	return response.status === 202
 		? { isConfirmRequired: true }
 		: { isConfirmRequired: false, token: response.data.token };
@@ -28,7 +27,6 @@ export async function register(data: RegisterPayload) {
 }
 
 export async function confirm({ url, email, code }: ConfirmPayload) {
-	// Переключение 2FA привязано к текущей сессии, почта в запросе не нужна
 	const response = await $api.post<{ token?: string }>(
 		CONFIRM_URLS[url],
 		url === '2fa/switch' ? { code } : { email, code }

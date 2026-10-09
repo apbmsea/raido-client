@@ -7,7 +7,6 @@ export type {
 	ToastVariant
 } from './model/toastSlice';
 
-/** Очередь всплывающих плашек. Показывает их widgets/ToastRoot */
 export const Toast = {
 	reducer: {
 		[name]: reducer

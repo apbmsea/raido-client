@@ -8,7 +8,6 @@ interface ManagerState {
 	isLoading: boolean;
 	isFetch: boolean;
 	errors: ApiErrors;
-	/** Менеджер, удаление которого сейчас подтверждается в модальном окне */
 	managerToDelete: null | ManagerType;
 }
 

@@ -5,10 +5,8 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
-// Слои от нижнего к верхнему. Слой может импортировать только те, что ниже него
 const LAYERS = ['shared', 'entities', 'features', 'widgets', 'pages', 'app'];
 
-// Внутрь чужого слайса ходить нельзя — только через его index.ts
 const DEEP_IMPORT_RULE = {
 	group: [
 		'@entities/*/**',
@@ -22,7 +20,6 @@ const DEEP_IMPORT_RULE = {
 const layerBoundaries = LAYERS.map((layer, index) => ({
 	files: [`src/${layer}/**/*.{ts,tsx}`],
 	rules: {
-		// Версия правила из typescript-eslint: она понимает allowTypeImports
 		'@typescript-eslint/no-restricted-imports': [
 			'error',
 			{
@@ -30,7 +27,6 @@ const layerBoundaries = LAYERS.map((layer, index) => ({
 					DEEP_IMPORT_RULE,
 					...LAYERS.slice(index + 1).map(upperLayer => ({
 						group: [`@${upperLayer}`, `@${upperLayer}/**`],
-						// Типы стора — единственное, что shared берёт из app (см. store.types.ts)
 						allowTypeImports: layer === 'shared' && upperLayer === 'app',
 						message: `Слой ${layer} не может зависеть от слоя ${upperLayer}.`
 					}))
@@ -55,6 +51,7 @@ export default defineConfig([
 			globals: globals.browser
 		},
 		rules: {
+			'no-empty': ['error', { allowEmptyCatch: true }],
 			'@typescript-eslint/no-unused-vars': [
 				'warn',
 				{ argsIgnorePattern: '^_' }

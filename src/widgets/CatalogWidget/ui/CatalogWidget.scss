@@ -1,7 +1,5 @@
 @use '@shared/styles/helpers' as *;
 
-// Ниже этой ширины пятая плитка «Перейти в каталог» во втором ряду не помещается:
-// её заменяет кнопка в шапке блока
 $compact: 1100px;
 
 .catalog-widget {
@@ -30,7 +28,6 @@ $compact: 1100px;
 		}
 	}
 
-	// 20 колонок делятся и на 4 плитки первого ряда, и на 5 плиток второго
 	&__items {
 		display: grid;
 		grid-template-columns: repeat(20, minmax(0, 1fr));
@@ -40,7 +37,6 @@ $compact: 1100px;
 			grid-template-columns: repeat(4, minmax(0, 1fr));
 		}
 
-		// На планшетах и телефонах плитки листаются горизонтально
 		@include tablet {
 			@include hide-scrollbar;
 

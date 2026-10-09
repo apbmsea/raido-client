@@ -9,8 +9,6 @@
 	overflow: hidden;
 	user-select: none;
 
-	// Лента вынута из потока: иначе суммарная ширина слайдов распирает
-	// карточку в резиновых сетках и каруселях
 	&__track {
 		@include hide-scrollbar;
 

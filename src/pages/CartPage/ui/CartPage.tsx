@@ -15,7 +15,6 @@ const CartPage = () => {
 	const dispatch = useAppDispatch();
 	const { isLogin, isLoading } = useAppSelector(state => state.user);
 
-	// Корзину могли изменить на другом устройстве — сверяемся при каждом открытии
 	useEffect(() => {
 		if (isLogin) dispatch(Cart.actions.getCartRequest());
 	}, [isLogin, dispatch]);

@@ -6,7 +6,6 @@ import './ReviewsWidget.scss';
 
 export const ReviewsWidget = ({ productId }: { productId: number }) => {
 	const isLogin = useAppSelector(state => state.user.isLogin);
-	// После отправки отзыва счётчик меняется, и форма пересоздаётся пустой
 	const submittedCount = useAppSelector(state => state.review.submittedCount);
 
 	return (

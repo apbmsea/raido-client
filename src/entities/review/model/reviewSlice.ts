@@ -23,7 +23,6 @@ interface ReviewState {
 	paging: PagingState;
 	isFetch: boolean;
 	submitError: string;
-	/** Растёт с каждым отправленным отзывом — по нему форма сбрасывает поля */
 	submittedCount: number;
 }
 

@@ -37,7 +37,10 @@ const ADVANTAGES: Advantage[] = [
 ];
 
 const AboutCompanyPage = () => {
-	usePageTitle('О компании');
+	usePageTitle('О компании', {
+		description:
+			'О компании «Райдо Сервис»: чем мы занимаемся, почему нас выбирают, адрес магазина в Екатеринбурге, режим работы и контакты.'
+	});
 
 	return (
 		<main className='about-company-page'>
@@ -93,7 +96,16 @@ const AboutCompanyPage = () => {
 					<dl className='about-company-page__contacts'>
 						<div className='about-company-page__contact'>
 							<dt>Адрес магазина</dt>
-							<dd>{CONTACTS.address}</dd>
+							<dd>
+								<a
+									href={CONTACTS.routeHref}
+									target='_blank'
+									rel='noopener noreferrer'
+									title='Построить маршрут в Яндекс Картах'
+								>
+									{CONTACTS.address}
+								</a>
+							</dd>
 						</div>
 						<div className='about-company-page__contact'>
 							<dt>Режим работы</dt>

@@ -11,7 +11,6 @@ type ImageGalleryProps = {
 
 const ImageGallery = ({ images, alt }: ImageGalleryProps) => {
 	const [selected, setSelected] = useState(0);
-	// Наведение на миниатюру показывает фото, не меняя выбранного
 	const [hovered, setHovered] = useState<number | null>(null);
 	const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
@@ -47,7 +46,6 @@ const ImageGallery = ({ images, alt }: ImageGalleryProps) => {
 							onMouseEnter={() => setHovered(index)}
 							onClick={e => {
 								setSelected(index);
-								// Докручиваем ленту, если миниатюра видна не целиком
 								e.currentTarget.scrollIntoView({
 									behavior: 'smooth',
 									block: 'nearest',
@@ -76,6 +74,8 @@ const ImageGallery = ({ images, alt }: ImageGalleryProps) => {
 				<img
 					src={activeImage.image_700x700 ?? activeImage.image_500x500}
 					alt={alt}
+					fetchPriority='high'
+					decoding='async'
 				/>
 			</button>
 

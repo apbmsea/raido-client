@@ -23,7 +23,6 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		// Сюжет картинки — справа, текст — слева: при обрезке сохраняем левый край
 		object-position: left center;
 		opacity: 0;
 		transition: opacity 0.5s ease;
@@ -59,7 +58,6 @@
 		@include f(margin-bottom, 30, 18, 8);
 	}
 
-	// Кнопка на слайде белая и без рамки при любом состоянии
 	& &__button {
 		height: auto;
 		padding: fluid-dt(10, 6) fluid-dt(20, 12);
@@ -84,7 +82,6 @@
 
 		@include f(font-size, 20, 14, 12);
 
-		// На узких экранах счётчик попадает на картинку слайда — даём ему подложку
 		@include tablet {
 			padding: 2px 8px;
 			border-radius: var(--radius-pill);

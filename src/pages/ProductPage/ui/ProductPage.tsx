@@ -16,9 +16,11 @@ import SharedIcon from '@shared/icons/Shared';
 import { Breadcrumbs, type BreadcrumbItem } from '@shared/ui/Breadcrumbs';
 import { EmptyState } from '@shared/ui/EmptyState';
 import { IconButton } from '@shared/ui/IconButton';
+import { JsonLd } from '@shared/ui/JsonLd';
 import { Loader } from '@shared/ui/Loader';
 import { Tabs, type TabItem } from '@shared/ui/Tabs';
 import { formatPrice } from '@shared/utils/formatPrice';
+import { hasInfo } from '@shared/utils/hasInfo';
 import { QuestionsWidget } from '@widgets/QuestionsWidget';
 import { ReviewsWidget } from '@widgets/ReviewsWidget';
 import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
@@ -31,6 +33,31 @@ type ProductTab = 'features' | 'reviews' | 'questions';
 
 const COPIED_NOTICE_MS = 2000;
 
+const getProductSchema = (item: Product) => ({
+	'@context': 'https://schema.org',
+	'@type': 'Product',
+	name: item.name,
+	...(hasInfo(item.sku) && { sku: item.sku }),
+	...(hasInfo(item.producer) && {
+		brand: { '@type': 'Brand', name: item.producer }
+	}),
+	...(hasInfo(item.description) && { description: item.description }),
+	...(item.images.length > 0 && {
+		image: item.images
+			.map(image => image.image_700x700 ?? image.image_500x500)
+			.filter(Boolean)
+	}),
+	offers: {
+		'@type': 'Offer',
+		url: `${window.location.origin}/product/${item.id}`,
+		price: Number(item.final_price).toFixed(2),
+		priceCurrency: 'RUB',
+		availability: item.in_stock
+			? 'https://schema.org/InStock'
+			: 'https://schema.org/OutOfStock'
+	}
+});
+
 const ProductView = ({ item }: { item: Product }) => {
 	const reviewCount = useAppSelector(state => state.review.total);
 	const questionCount = useAppSelector(state => state.question.total);
@@ -40,7 +67,6 @@ const ProductView = ({ item }: { item: Product }) => {
 	const discountPercent = getDiscountPercent(item);
 	const deliveryDate = getDeliveryDate(item);
 
-	// Пока отзывы и вопросы грузятся, счётчики берём из самого товара
 	const tabs: TabItem<ProductTab>[] = [
 		{ id: 'features', label: 'Характеристики' },
 		{
@@ -75,16 +101,13 @@ const ProductView = ({ item }: { item: Product }) => {
 		const url = window.location.href;
 
 		try {
-			// На телефонах откроется системное меню «Поделиться»
 			if (navigator.share) {
 				await navigator.share({ title: item.name, url });
 			} else {
 				await navigator.clipboard.writeText(url);
 				setIsLinkCopied(true);
 			}
-		} catch {
-			// Пользователь закрыл меню или браузер запретил доступ к буферу
-		}
+		} catch {}
 	};
 
 	const details = [
@@ -99,7 +122,7 @@ const ProductView = ({ item }: { item: Product }) => {
 					: 'В наличии'
 				: 'Нет в наличии'
 		}
-	].filter(detail => detail.value);
+	].filter(detail => hasInfo(detail.value));
 
 	return (
 		<>
@@ -200,9 +223,12 @@ const ProductPage = () => {
 		};
 	}, [id, dispatch]);
 
-	// В сторе может лежать товар с предыдущей страницы, пока не пришёл новый
 	const product = item && String(item.id) === id ? item : null;
-	usePageTitle(product?.name);
+	usePageTitle(product?.name, {
+		description: product
+			? `${product.name} — ${formatPrice(product.final_price)}. Характеристики, отзывы и наличие в интернет-магазине «Райдо Сервис».`
+			: undefined
+	});
 
 	if (isError && !product) {
 		return (
@@ -228,7 +254,6 @@ const ProductPage = () => {
 		);
 	}
 
-	// Подкатегорию ищем по всем категориям: category_id у товара может не прийти
 	const category =
 		categories.find(category => category.id === product.category_id) ??
 		categories.find(category =>
@@ -272,8 +297,8 @@ const ProductPage = () => {
 
 	return (
 		<main className='product-page'>
+			<JsonLd data={getProductSchema(product)} />
 			<Breadcrumbs items={breadcrumbs} />
-			{/* key сбрасывает вкладку и состояние при переходе к другому товару */}
 			<ProductView key={product.id} item={product} />
 		</main>
 	);

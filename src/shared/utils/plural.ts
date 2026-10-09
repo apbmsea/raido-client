@@ -1,6 +1,3 @@
-/**
- * Выбирает форму слова под число: plural(3, ['товар', 'товара', 'товаров'])
- */
 export const plural = (count: number, forms: [string, string, string]) => {
 	const mod10 = Math.abs(count) % 10;
 	const mod100 = Math.abs(count) % 100;

@@ -25,7 +25,6 @@ const PlaceAnOrderPage = () => {
 		paging
 	} = useAppSelector(state => state.cart);
 
-	// Позиции для заказа выбраны в корзине и переданы в адресе: ?ids=1,2,3
 	const idsParam = searchParams.get('ids') ?? '';
 	const orderIds = useMemo(
 		() => idsParam.split(',').map(Number).filter(Boolean),
@@ -36,8 +35,6 @@ const PlaceAnOrderPage = () => {
 		[orderIds, cartItems]
 	);
 
-	// Корзина приходит постранично: дочитываем её, пока не найдутся все позиции
-	// заказа, иначе после перезагрузки страницы часть товаров молча выпала бы
 	const isSearchingItems =
 		orderItems.length < orderIds.length &&
 		hasNextPage(paging) &&

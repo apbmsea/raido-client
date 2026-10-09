@@ -16,7 +16,6 @@
 		position: relative;
 		width: 100%;
 		max-width: 420px;
-		// Высокое окно не обрезается, а прокручивается вместе с подложкой
 		margin: auto;
 		padding: clamp(20px, 5vw, 30px);
 		border-radius: var(--radius-m);
@@ -47,8 +46,6 @@
 	}
 }
 
-// Каркас содержимого окна: заголовок, текст, поля и кнопки в столбик.
-// Им размечают свои формы и сообщения все модальные окна
 .modal-form {
 	display: flex;
 	flex-direction: column;
@@ -58,7 +55,6 @@
 	font-size: 14px;
 
 	&__title {
-		// Чтобы длинный заголовок не заходил под крестик
 		padding-right: 36px;
 		font-size: 20px;
 		font-weight: 700;

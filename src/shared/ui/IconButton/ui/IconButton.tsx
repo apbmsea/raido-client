@@ -2,14 +2,12 @@ import React from 'react';
 import clsx from 'clsx';
 import './IconButton.scss';
 
-/** xs — 32px, s — 40px, m — 45px, l — 50px, xl — 82px */
 export type IconButtonSize = 'xs' | 's' | 'm' | 'l' | 'xl';
 
 interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	size?: IconButtonSize;
 	icon: React.ReactNode;
 	counter?: number;
-	/** ghost — без рамки и фона, для второстепенных действий */
 	variant?: 'primary' | 'outline' | 'ghost';
 }
 

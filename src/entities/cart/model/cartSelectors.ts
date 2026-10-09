@@ -12,7 +12,6 @@ export const selectIsCartProductPending =
 	(productId: number) => (state: RootState) =>
 		state.cart.pendingProductIds.includes(productId);
 
-/** Позиции, отмеченные для оформления заказа */
 export const selectSelectedCartItems = createSelector(
 	[selectItems, selectExcludedIds],
 	(items, excludedIds) =>

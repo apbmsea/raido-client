@@ -48,7 +48,6 @@ const CatalogList = () => {
 			className={clsx(
 				'catalog-list',
 				`catalog-list--${view}`,
-				// Пока грузится новая выборка, прежняя остаётся на месте приглушённой
 				isLoading && 'catalog-list--loading'
 			)}
 			aria-busy={isLoading}

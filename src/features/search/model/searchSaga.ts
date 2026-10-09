@@ -9,8 +9,6 @@ function* searchSaga(action: PayloadAction<string>) {
 	const query = action.payload.trim();
 	if (!query) return;
 
-	// takeLatest отменяет сагу при следующем нажатии клавиши, поэтому
-	// запрос уходит только после паузы в наборе
 	yield* delay(DEBOUNCE_MS);
 
 	try {

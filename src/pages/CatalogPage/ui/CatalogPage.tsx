@@ -13,7 +13,10 @@ import './CatalogPage.scss';
 const CatalogPage = () => {
 	const dispatch = useAppDispatch();
 	const { title, total, isLoading } = useAppSelector(state => state.catalog);
-	usePageTitle(title);
+	usePageTitle(title, {
+		description: `${title} в интернет-магазине «Райдо Сервис»: цены, характеристики, наличие и отзывы покупателей.`,
+		canonical: false
+	});
 
 	const currentPage = useAppSelector(state => state.pagination.currentPage);
 	const [isFiltersOpen, setIsFiltersOpen] = useState(false);
@@ -25,7 +28,6 @@ const CatalogPage = () => {
 		dispatch(Catalog.actions.catalogRequest());
 	}, [dispatch]);
 
-	// После перехода на другую страницу списка возвращаем к его началу
 	useEffect(() => {
 		if (shownPageRef.current === currentPage) return;
 

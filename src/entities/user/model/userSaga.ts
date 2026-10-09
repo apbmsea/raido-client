@@ -13,7 +13,6 @@ function* getUserSaga() {
 		const response = yield* call(getUser);
 		yield* put(actions.getUserSuccess(response));
 	} catch (error) {
-		// Сервер не признал токен — хранить его дальше нет смысла
 		if (isApiError(error) && error.status === 401) {
 			yield* call(removeToken);
 		}
@@ -25,9 +24,7 @@ function* refreshUserSaga() {
 	try {
 		const response = yield* call(getUser);
 		yield* put(actions.setUser(response));
-	} catch {
-		// Профиль остаётся прежним до следующей загрузки
-	}
+	} catch {}
 }
 
 function* editUserSaga(action: PayloadAction<EditUserPayload>) {
@@ -50,9 +47,7 @@ function* editUserSaga(action: PayloadAction<EditUserPayload>) {
 function* logoutSaga() {
 	try {
 		yield* call(logoutUser);
-	} catch {
-		// Сессию на сервере завершить не удалось — на устройстве выходим всё равно
-	} finally {
+	} catch {} finally {
 		yield* call(removeToken);
 		yield* put(actions.clearUser());
 	}

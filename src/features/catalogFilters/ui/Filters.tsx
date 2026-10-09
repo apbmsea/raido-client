@@ -15,7 +15,6 @@ import './Filters.scss';
 const SHOW_STEP = 10;
 
 type FiltersPanelProps = {
-	/** На узких экранах панель — выезжающая шторка, её открывает кнопка в тулбаре */
 	isOpen: boolean;
 	onClose: () => void;
 };
@@ -31,8 +30,6 @@ const FiltersPanel = ({ isOpen, onClose }: FiltersPanelProps) => {
 	const [visibleSubcategoryCount, setVisibleSubcategoryCount] =
 		useState(SHOW_STEP);
 
-	// При выбранной подкатегории в выборке остаётся только её id,
-	// поэтому категорию находим по самой подкатегории
 	const category = categoryId
 		? categories.find(category => category.id === categoryId)
 		: categories.find(category =>
@@ -41,7 +38,6 @@ const FiltersPanel = ({ isOpen, onClose }: FiltersPanelProps) => {
 				)
 			);
 
-	// Выбранная подкатегория видна всегда, даже если она в конце списка
 	const activeSubcategoryIndex =
 		category?.subcategories.findIndex(
 			subcategory => subcategory.id === subcategoryId
@@ -50,7 +46,6 @@ const FiltersPanel = ({ isOpen, onClose }: FiltersPanelProps) => {
 		visibleSubcategoryCount,
 		activeSubcategoryIndex + 1
 	);
-	// Счётчик пересоздаёт фильтр цены, сбрасывая в нём несохранённый ввод
 	const [resetCount, setResetCount] = useState(0);
 
 	const isDrawer = useMediaQuery(LAPTOP_QUERY);
@@ -62,8 +57,6 @@ const FiltersPanel = ({ isOpen, onClose }: FiltersPanelProps) => {
 	};
 
 	return (
-		// На десктопе слой прозрачен для раскладки, на узких экранах — это
-		// подложка на весь экран, из-за края которой выезжает панель
 		<div className={clsx('filters-layer', isOpen && 'filters-layer--open')}>
 			<div className='filters-layer__backdrop' onClick={onClose} />
 

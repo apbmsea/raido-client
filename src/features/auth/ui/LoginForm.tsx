@@ -15,7 +15,6 @@ const LoginForm = () => {
 	});
 	const formError = getFormError(errors, ['email', 'password']);
 
-	// Ошибки прошлой попытки не должны встречать при повторном открытии окна
 	useEffect(() => {
 		dispatch(actions.clearAllErrors());
 	}, [dispatch]);

@@ -9,7 +9,6 @@ type AuthPromptProps = {
 	className?: string;
 };
 
-/** Приглашение войти или зарегистрироваться там, где нужен аккаунт */
 export const AuthPrompt = ({ message, className }: AuthPromptProps) => {
 	const dispatch = useAppDispatch();
 

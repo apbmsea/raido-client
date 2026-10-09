@@ -3,7 +3,6 @@ import ProfileIcon from '@shared/icons/Profile';
 import './Avatar.scss';
 
 interface AvatarProps {
-	/** Имя, из которого берутся инициалы. Без имени показывается иконка */
 	name?: string;
 	className?: string;
 }

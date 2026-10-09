@@ -3,7 +3,6 @@ export interface WarrantyItem {
 	text?: string;
 }
 
-/** Требования, которые можно предъявить при недостатках в гарантийный срок */
 export const WARRANTY_RIGHTS: WarrantyItem[] = [
 	{
 		title: 'Замена на такой же товар',
@@ -27,7 +26,6 @@ export const WARRANTY_RIGHTS: WarrantyItem[] = [
 	}
 ];
 
-/** Требования по технически сложному товару в первые 15 дней */
 export const COMPLEX_GOODS_RIGHTS: WarrantyItem[] = [
 	{
 		title: 'Вернуть деньги',
@@ -39,7 +37,6 @@ export const COMPLEX_GOODS_RIGHTS: WarrantyItem[] = [
 	}
 ];
 
-/** Случаи, когда эти требования удовлетворяются и после 15 дней */
 export const LATE_CLAIM_CASES: WarrantyItem[] = [
 	{
 		title: 'Обнаружен существенный недостаток',

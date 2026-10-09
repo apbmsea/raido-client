@@ -1,16 +1,10 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-/** menu — разделы сайта, category — категории каталога, subcategory — их подкатегории */
 export type MenuScreen = 'menu' | 'category' | 'subcategory';
 
 interface MenuState {
-	/**
-	 * Одно состояние на оба меню: на мобильных его показывает бургер-меню,
-	 * на десктопе — выпадающий каталог (только экраны категорий)
-	 */
 	isOpen: boolean;
 	screen: MenuScreen;
-	/** null — категория ещё не выбрана, показываем первую */
 	categoryId: number | null;
 }
 

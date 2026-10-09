@@ -6,10 +6,6 @@ export interface AddressFields {
 	intercom: string;
 }
 
-/**
- * Сервер принимает адрес одной строкой, поэтому квартира, подъезд, этаж
- * и домофон дописываются к нему через запятую
- */
 export const buildShippingAddress = ({
 	address,
 	apartment,

@@ -20,7 +20,6 @@ export const { reducer, actions, name } = createSlice({
 	name: 'confirm',
 	initialState,
 	reducers: {
-		/** Запоминает, что и для какой почты подтверждается кодом */
 		startConfirm: (
 			state,
 			action: PayloadAction<{ email: string; type: ConfirmType }>

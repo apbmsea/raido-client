@@ -30,7 +30,6 @@ const FavoriteButton = ({
 	const isFavorite = !!favoriteItem;
 
 	const handleClick = () => {
-		// Избранное хранится в аккаунте, поэтому гостю сначала предлагаем войти
 		if (!isLogin) {
 			dispatch(Modal.actions.openModal('login'));
 			return;

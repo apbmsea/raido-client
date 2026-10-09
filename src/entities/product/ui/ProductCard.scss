@@ -10,7 +10,6 @@
 		position: relative;
 		min-width: 0;
 
-		// Фото фиксированной высоты, точки слайдера — отдельной полосой под ним
 		.image-slider {
 			height: 200px;
 			aspect-ratio: auto;
@@ -127,7 +126,6 @@
 		display: flex;
 	}
 
-	// Плитка: фото сверху, под ним название, цена и кнопки в один ряд
 	&--grid {
 		flex-direction: column;
 		justify-content: space-between;
@@ -149,7 +147,6 @@
 			}
 		}
 
-		// Две плитки в ряд на телефоне: кнопке корзины нужна компактная форма
 		@include mobile {
 			.product-card__actions {
 				> :first-child {
@@ -173,20 +170,25 @@
 		}
 	}
 
-	// Строка: фото слева, описание по центру, кнопки справа
 	&--list {
 		flex-direction: row;
+		gap: clamp(14px, 2.5vw, 20px);
 
 		.product-card {
 			&__image {
 				@include f(width, 250, 250, 160);
 
 				flex-shrink: 0;
+
+				.image-slider__slide {
+					padding-inline: 0;
+				}
 			}
 
 			&__content {
 				flex: 1;
 				flex-direction: row;
+				gap: 16px;
 			}
 
 			&__info {
@@ -199,7 +201,6 @@
 				font-weight: bold;
 			}
 
-			// Избранное сверху, корзина снизу
 			&__actions {
 				flex-direction: column-reverse;
 				align-items: end;
@@ -222,6 +223,41 @@
 					flex-direction: row;
 					align-items: center;
 					gap: 10px;
+				}
+			}
+		}
+
+		@include mobile {
+			.product-card {
+				&__image {
+					width: clamp(110px, 33vw, 130px);
+
+					.image-slider {
+						height: 160px;
+					}
+				}
+
+				&__actions {
+					flex-wrap: wrap;
+					gap: 8px;
+
+					> :first-child {
+						flex: 1 1 auto;
+						min-width: min-content;
+					}
+
+					.btn {
+						padding-inline: 10px;
+						font-size: 14px;
+					}
+
+					.btn__icon {
+						display: none;
+					}
+
+					.cart-stepper__button {
+						width: 32px;
+					}
 				}
 			}
 		}

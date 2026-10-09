@@ -4,8 +4,6 @@
 	justify-content: center;
 	cursor: text;
 
-	// Настоящее поле прозрачно лежит поверх ячеек: ввод, вставка
-	// и автоподстановка кода из письма работают как в обычном инпуте
 	&__input {
 		position: absolute;
 		inset: 0;
@@ -39,7 +37,6 @@
 		}
 	}
 
-	// Курсор и подсветка — только пока поле в фокусе
 	&__input:focus ~ &__cells &__cell--active {
 		border-color: var(--color-primary);
 

@@ -20,7 +20,6 @@
 
 		@include appear($name: scale-in);
 
-		// Содержимое выезжает следом за самим блоком
 		> * {
 			@include appear-stagger(3, 0.15s, 0.1s);
 		}
@@ -116,7 +115,6 @@
 		background-color: var(--color-primary-soft);
 		color: var(--color-primary);
 
-		// У звезды свой цвет, здесь она должна совпадать с остальными иконками
 		.star-icon {
 			color: inherit;
 		}

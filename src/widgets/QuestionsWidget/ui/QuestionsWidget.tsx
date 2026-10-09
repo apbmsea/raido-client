@@ -6,7 +6,6 @@ import './QuestionsWidget.scss';
 
 export const QuestionsWidget = ({ productId }: { productId: number }) => {
 	const isLogin = useAppSelector(state => state.user.isLogin);
-	// После отправки вопроса счётчик меняется, и форма пересоздаётся пустой
 	const submittedCount = useAppSelector(
 		state => state.question.submittedCount
 	);

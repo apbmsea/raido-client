@@ -7,11 +7,9 @@ import { selectActiveCategory } from '../model/menuSelectors';
 import { actions } from '../model/menuSlice';
 import './CatalogCategories.scss';
 
-// Последние категории каталога — сервисные, их отделяет черта
 const SERVICE_CATEGORIES_COUNT = 4;
 
 type CatalogCategoriesProps = {
-	/** Подсвечивать открытую категорию: нужно там, где подкатегории видны рядом */
 	highlightActive?: boolean;
 };
 

@@ -38,7 +38,6 @@
 		align-items: start;
 		gap: clamp(20px, 3vw, 40px);
 
-		// На узких экранах состав заказа встаёт над формой
 		@include laptop {
 			grid-template-columns: minmax(0, 1fr);
 		}

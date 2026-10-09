@@ -3,10 +3,8 @@ import { formatPrice } from '@shared/utils/formatPrice';
 import { plural } from '@shared/utils/plural';
 import './OrderSummary.scss';
 
-/** Состав оформляемого заказа: позиции корзины с количеством и итогом */
 const OrderSummary = ({ items }: { items: CartItem[] }) => {
 	const totalCount = items.reduce((sum, item) => sum + item.quantity, 0);
-	// Суммы позиции приходят уже с учётом количества
 	const totalPrice = items.reduce(
 		(sum, item) => sum + Number(item.final_subtotal),
 		0

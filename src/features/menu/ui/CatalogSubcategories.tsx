@@ -7,7 +7,6 @@ import { selectActiveCategory } from '../model/menuSelectors';
 import { actions } from '../model/menuSlice';
 import './CatalogSubcategories.scss';
 
-// Короткие группы показываем столбиком, длинные раскладываем по колонкам
 const MAX_ONE_COLUMN_ITEMS = 5;
 
 const CatalogSubcategories = () => {

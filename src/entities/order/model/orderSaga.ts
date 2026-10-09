@@ -24,8 +24,6 @@ function* getOrdersMoreSaga() {
 	}
 }
 
-// Оформление заказа затрагивает профиль и корзину, поэтому его сценарий
-// собран уровнем выше — в features/checkout
 export default function* watchOrder() {
 	yield* takeLatest(actions.getOrdersRequest.type, getOrdersSaga);
 	yield* takeLatest(actions.getOrdersMoreRequest.type, getOrdersMoreSaga);

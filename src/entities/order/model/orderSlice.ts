@@ -20,7 +20,6 @@ interface OrderState {
 	isLoading: boolean;
 	paging: PagingState;
 	isFetching: boolean;
-	/** Номер только что оформленного заказа — для окна «Спасибо за заказ» */
 	createdOrderId: number | null;
 	errors: ApiErrors;
 }
@@ -78,7 +77,6 @@ export const { reducer, actions, name } = createSlice({
 		clearAllErrors: state => {
 			state.errors = {};
 		},
-		// Номер нового заказа переживает сброс: он нужен окну «Спасибо за заказ»
 		reset: state => ({
 			...initialState,
 			createdOrderId: state.createdOrderId

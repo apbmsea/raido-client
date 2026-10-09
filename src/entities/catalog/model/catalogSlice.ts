@@ -21,7 +21,6 @@ interface CatalogState {
 }
 
 const initialState: CatalogState = {
-	// До первого ответа сервера список считается загружающимся, а не пустым
 	isLoading: true,
 	isError: false,
 	items: [],
@@ -38,7 +37,6 @@ export const { reducer, actions, name } = createSlice({
 	name: 'catalog',
 	initialState,
 	reducers: {
-		/** Перезапросить список с текущими параметрами */
 		catalogRequest: () => {},
 		catalogPending: state => {
 			state.isLoading = true;

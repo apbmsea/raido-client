@@ -37,7 +37,6 @@ const ImageLightbox = ({
 
 	useLockScroll(true);
 
-	// Листаем по кругу: после последнего фото идёт первое
 	const showPrev = () =>
 		onChange((index - 1 + images.length) % images.length);
 	const showNext = () => onChange((index + 1) % images.length);
@@ -54,7 +53,6 @@ const ImageLightbox = ({
 		return () => document.removeEventListener('keydown', onKeyDown);
 	});
 
-	// Забираем фокус в окно, а после закрытия возвращаем туда, где он был
 	useEffect(() => {
 		const previous = document.activeElement as HTMLElement | null;
 		rootRef.current?.focus();
@@ -86,7 +84,6 @@ const ImageLightbox = ({
 	};
 
 	return createPortal(
-		// Клик по затемнению закрывает окно, поэтому фото и кнопки гасят всплытие
 		<div
 			className='image-lightbox'
 			role='dialog'
@@ -131,7 +128,6 @@ const ImageLightbox = ({
 				)}
 
 				<img
-					// key пересоздаёт картинку, чтобы анимация появления шла на каждом фото
 					key={index}
 					className='image-lightbox__image'
 					src={image.image_700x700 ?? image.image_500x500}

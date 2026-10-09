@@ -5,6 +5,7 @@ import { Footer } from '@widgets/Footer';
 import { Header } from '@widgets/Header';
 import { ModalRoot } from '@widgets/ModalRoot';
 import { Navbar } from '@widgets/Navbar';
+import { NetworkNotice } from '@widgets/NetworkNotice';
 import { ToastRoot } from '@widgets/ToastRoot';
 import { useAppInit } from './useAppInit';
 import './Layout.scss';
@@ -14,10 +15,10 @@ const Layout = () => {
 
 	return (
 		<div className='app-layout'>
+			<NetworkNotice />
 			<Header />
 			<Navbar />
 
-			{/* Каталог открывается поверх этой области, не размонтируя страницу */}
 			<div className='app-layout__body'>
 				<CatalogMenu />
 				<div className='app-layout__content'>

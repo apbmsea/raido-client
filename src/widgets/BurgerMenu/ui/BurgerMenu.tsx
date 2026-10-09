@@ -20,7 +20,6 @@ const PREVIOUS_SCREEN: Record<MenuScreen, MenuScreen | null> = {
 	subcategory: 'category'
 };
 
-/** Полноэкранное меню для планшетов и телефонов */
 const BurgerMenu = () => {
 	const dispatch = useAppDispatch();
 	const { isOpen, screen } = useAppSelector(state => state.menu);

@@ -4,7 +4,6 @@
 	position: relative;
 	width: 100%;
 
-	// У поля поиска своя кнопка — прячем встроенный крестик браузера
 	input[type='search']::-webkit-search-cancel-button {
 		appearance: none;
 	}
@@ -14,7 +13,6 @@
 		top: calc(100% + 8px);
 		right: 0;
 		left: 0;
-		// Выше выпадающих списков навигации под шапкой
 		z-index: calc(var(--z-sticky) + 1);
 		max-height: min(420px, 60vh);
 		padding: 6px;

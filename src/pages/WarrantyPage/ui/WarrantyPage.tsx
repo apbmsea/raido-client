@@ -7,7 +7,10 @@ import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import './WarrantyPage.scss';
 
 const WarrantyPage = () => {
-	usePageTitle('Гарантия');
+	usePageTitle('Гарантия', {
+		description:
+			'Гарантия на товары «Райдо Сервис»: права покупателя, возврат и обмен технически сложных товаров, гарантийные случаи.'
+	});
 
 	return (
 		<main className='warranty-page'>

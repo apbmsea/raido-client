@@ -4,8 +4,6 @@ import { Favorite } from '@entities/favorite';
 import { Order } from '@entities/order';
 import { User } from '@entities/user';
 
-// Корзина, избранное и заказы принадлежат аккаунту: загружаем их, как только
-// пользователь определён, и очищаем, когда сессии больше нет
 function* loadAccountData() {
 	yield* put(Cart.actions.getCartRequest());
 	yield* put(Favorite.actions.getFavoriteRequest());

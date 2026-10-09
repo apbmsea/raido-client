@@ -4,13 +4,10 @@ import { HomePage } from '@pages/HomePage';
 import { NotFoundPage } from '@pages/NotFoundPage';
 import { Loader } from '@shared/ui/Loader';
 
-// Страницы, кроме главной, подгружаются отдельными чанками при первом переходе.
-// Пока чанк грузится, роутер оставляет на экране предыдущую страницу
 export const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <Layout />,
-		// Показывается, если сайт открыли сразу на подгружаемой странице
 		hydrateFallbackElement: <Loader />,
 		children: [
 			{ index: true, element: <HomePage /> },
@@ -35,7 +32,8 @@ export const router = createBrowserRouter([
 			{
 				path: 'favorite',
 				lazy: async () => ({
-					Component: (await import('@pages/FavoritePage')).FavoritePage
+					Component: (await import('@pages/FavoritePage'))
+						.FavoritePage
 				})
 			},
 			{
@@ -46,7 +44,6 @@ export const router = createBrowserRouter([
 				})
 			},
 			{
-				// Личный кабинет: ProfilePage проверяет вход и рисует меню разделов
 				path: 'profile',
 				lazy: async () => ({
 					Component: (await import('@pages/ProfilePage')).ProfilePage
@@ -62,14 +59,16 @@ export const router = createBrowserRouter([
 					{
 						path: 'options',
 						lazy: async () => ({
-							Component: (await import('@pages/ProfileSettingsPage'))
-								.ProfileSettingsPage
+							Component: (
+								await import('@pages/ProfileSettingsPage')
+							).ProfileSettingsPage
 						})
 					},
 					{
 						path: 'orders',
 						lazy: async () => ({
-							Component: (await import('@pages/OrdersPage')).OrdersPage
+							Component: (await import('@pages/OrdersPage'))
+								.OrdersPage
 						})
 					},
 					{
@@ -89,8 +88,9 @@ export const router = createBrowserRouter([
 					{
 						path: 'organizations',
 						lazy: async () => ({
-							Component: (await import('@pages/OrganizationsPage'))
-								.OrganizationsPage
+							Component: (
+								await import('@pages/OrganizationsPage')
+							).OrganizationsPage
 						})
 					}
 				]
@@ -105,7 +105,8 @@ export const router = createBrowserRouter([
 			{
 				path: 'warranty',
 				lazy: async () => ({
-					Component: (await import('@pages/WarrantyPage')).WarrantyPage
+					Component: (await import('@pages/WarrantyPage'))
+						.WarrantyPage
 				})
 			},
 			{
@@ -125,3 +126,14 @@ export const router = createBrowserRouter([
 		]
 	}
 ]);
+
+const preloadPages = () => {
+	void import('@pages/CatalogPage');
+	void import('@pages/ProductPage');
+};
+
+if ('requestIdleCallback' in window) {
+	window.requestIdleCallback(preloadPages, { timeout: 5000 });
+} else {
+	setTimeout(preloadPages, 3000);
+}

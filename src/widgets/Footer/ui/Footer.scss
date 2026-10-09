@@ -47,7 +47,6 @@
 		grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
 		gap: 32px 40px;
 
-		// По макету колонка покупателей идёт первой
 		& > .footer__block:nth-child(1) {
 			order: 2;
 		}

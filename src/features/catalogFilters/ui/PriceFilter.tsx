@@ -19,8 +19,6 @@ const PriceFilter = () => {
 	const dispatch = useAppDispatch();
 	const { minPrice, maxPrice } = useAppSelector(state => state.filters.price);
 
-	// Пока покупатель двигает ползунок или печатает, значения живут в черновике.
-	// null — правок нет, поля показывают цену из стора
 	const [draft, setDraft] = useState<Draft | null>(null);
 
 	const values = draft ?? {
@@ -28,7 +26,6 @@ const PriceFilter = () => {
 		max: formatPriceInput(maxPrice)
 	};
 
-	// Фильтр применяется после паузы, чтобы не слать запрос на каждое движение
 	useEffect(() => {
 		if (!draft) return;
 
@@ -65,7 +62,6 @@ const PriceFilter = () => {
 
 		setDraft({ ...values, [field]: formatted });
 
-		// Разделители разрядов сдвигают текст — возвращаем курсор на место
 		requestAnimationFrame(() => {
 			const position = Math.max(
 				0,

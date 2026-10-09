@@ -1,6 +1,5 @@
 import { getProducts } from '@entities/product';
 
-// Подборка «Вам может понравиться» — товары случайной из популярных подкатегорий
 const OFFER_SUBCATEGORY_IDS = [18, 29, 123, 150, 88, 91];
 
 export async function getOffers() {

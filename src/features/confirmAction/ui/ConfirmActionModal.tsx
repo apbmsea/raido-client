@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Button } from '@shared/ui/Button';
 import { Checkbox } from '@shared/ui/Checkbox';
 
-/** Окно «Вы уверены?»: вопрос и действие задаёт тот, кто его открыл */
 const ConfirmActionModal = () => {
 	const dispatch = useAppDispatch();
 	const confirmation = useAppSelector(state => state.modal.confirmation);
@@ -15,7 +14,6 @@ const ConfirmActionModal = () => {
 	const { title, text, confirmLabel, action, skipKey } = confirmation;
 
 	const handleConfirm = () => {
-		// Выбор запоминаем только вместе с согласием: отмена ничего не меняет
 		if (skipKey && isSkipChecked) skipConfirmation(skipKey);
 
 		dispatch(action);

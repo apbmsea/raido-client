@@ -36,7 +36,6 @@ function* catalogSaga() {
 		if (search) params.set('search', search);
 		if (sort) params.set('sort_by', sort);
 
-		// Границы по умолчанию не отправляем: они означают «без ограничения»
 		if (price.minPrice > PRICE_LIMITS.minPrice) {
 			params.set('min_price', String(price.minPrice));
 		}
@@ -52,7 +51,6 @@ function* catalogSaga() {
 
 		const queryString = params.toString();
 
-		// Параметры выборки дублируются в адресе, чтобы ссылкой можно было поделиться
 		if (isCatalogPage()) {
 			window.history.replaceState(
 				window.history.state,
@@ -65,8 +63,6 @@ function* catalogSaga() {
 
 		const totalPages = response.total_pages || 1;
 
-		// Страницы с таким номером уже нет (например, ссылка устарела или фильтр
-		// сузил выборку) — показываем последнюю из существующих
 		if (currentPage > totalPages) {
 			yield* put(paginationActions.setCurrentPage(totalPages));
 			return;
@@ -89,7 +85,6 @@ function* catalogSaga() {
 	}
 }
 
-/** Восстанавливает выборку из адреса при открытии каталога по прямой ссылке */
 function* initCatalogFromQuery() {
 	if (!isCatalogPage()) return;
 
@@ -124,7 +119,6 @@ function* initCatalogFromQuery() {
 		yield* put(filtersActions.setSelectedProducers(producers));
 	}
 
-	// Страница последней: смена сортировки и фильтров сбрасывает её на первую
 	if (page > 1) yield* put(paginationActions.setCurrentPage(page));
 }
 
@@ -133,7 +127,6 @@ function* saveViewSaga(action: PayloadAction<CatalogView>) {
 }
 
 export default function* watchCatalog() {
-	// Первый запрос отправит страница каталога, когда смонтируется
 	yield* call(initCatalogFromQuery);
 
 	yield* takeEvery(catalogActions.setView.type, saveViewSaga);

@@ -2,7 +2,6 @@
 	display: flex;
 	justify-content: center;
 	width: 100%;
-	// Пустой блок тоже должен иметь высоту, иначе наблюдатель его не заметит
 	min-height: 1px;
 
 	.loader {

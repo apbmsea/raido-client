@@ -3,9 +3,7 @@ import './Breadcrumbs.scss';
 
 export interface BreadcrumbItem {
 	label: string;
-	/** Без ссылки и обработчика — текущая страница */
 	to?: string;
-	/** Для переходов, которые задаются не адресом, а действием */
 	onClick?: () => void;
 }
 
@@ -14,7 +12,6 @@ const Breadcrumbs = ({ items }: { items: BreadcrumbItem[] }) => {
 		<nav className='breadcrumbs' aria-label='Хлебные крошки'>
 			<ol className='breadcrumbs__list'>
 				{items.map((item, index) => (
-					// Названия могут совпадать: подкатегория бывает тёзкой категории
 					<li className='breadcrumbs__item' key={index}>
 						{item.to ? (
 							<Link className='breadcrumbs__link' to={item.to}>

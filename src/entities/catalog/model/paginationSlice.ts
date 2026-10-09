@@ -24,7 +24,6 @@ export const { reducer, actions, name } = createSlice({
 		}
 	},
 	extraReducers: builder => {
-		// Любая смена выборки возвращает на первую страницу
 		builder.addMatcher(
 			isAnyOf(
 				catalogActions.navigateToCategory,

@@ -25,7 +25,6 @@
 		cursor: pointer;
 		transition: color var(--transition);
 
-		// Подчёркивание активной вкладки выезжает из центра
 		&::after {
 			content: '';
 			position: absolute;

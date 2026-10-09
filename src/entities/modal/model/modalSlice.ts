@@ -15,16 +15,11 @@ export type ModalType =
 	| 'confirmAction'
 	| 'orderCreated';
 
-/** Вопрос окна подтверждения и действие, которое уйдёт в стор после согласия */
 export interface Confirmation {
 	title: string;
 	text?: string;
 	confirmLabel: string;
 	action: UnknownAction;
-	/**
-	 * Включает галочку «Больше не спрашивать»: под этим ключом выбор
-	 * запоминается в браузере
-	 */
 	skipKey?: string;
 }
 

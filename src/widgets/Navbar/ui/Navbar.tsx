@@ -8,7 +8,6 @@ import './Navbar.scss';
 
 const Navbar = () => {
 	const [activeId, setActiveId] = useState<string | null>(null);
-	// Полоса навигации раздвигается на высоту открытого списка ссылок
 	const [submenuHeight, setSubmenuHeight] = useState(0);
 	const navRef = useRef<HTMLElement>(null);
 	const submenuRefs = useRef<Record<string, HTMLDivElement | null>>({});

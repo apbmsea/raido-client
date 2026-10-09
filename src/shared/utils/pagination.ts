@@ -1,4 +1,3 @@
-/** Постраничный ответ сервера: списки отдаются по 20 записей */
 export interface Paginated<T> {
 	items: T[];
 	total: number;
@@ -6,9 +5,7 @@ export interface Paginated<T> {
 	total_pages: number;
 }
 
-/** Состояние подгрузки списка, который дочитывается по мере прокрутки */
 export interface PagingState {
-	/** Последняя загруженная страница */
 	page: number;
 	totalPages: number;
 	isLoadingMore: boolean;
@@ -34,8 +31,6 @@ export const toPaging = (response: {
 export const hasNextPage = (paging: PagingState) =>
 	paging.page < paging.totalPages;
 
-// Помощники ниже меняют переданное состояние — вызывать только внутри редьюсеров
-
 export const startNextPage = (paging: PagingState) => {
 	paging.isLoadingMore = true;
 	paging.isLoadMoreError = false;
@@ -53,10 +48,8 @@ export const applyNextPage = <T extends { id: number }>(
 ) => {
 	paging.isLoadingMore = false;
 
-	// Пока шёл запрос, список перезагрузили с начала — страница уже не следующая
 	if (response.page !== paging.page + 1) return;
 
-	// Список мог сдвинуться между запросами, и запись придёт повторно
 	const knownIds = new Set(items.map(item => item.id));
 	items.push(...response.items.filter(item => !knownIds.has(item.id)));
 
@@ -64,7 +57,6 @@ export const applyNextPage = <T extends { id: number }>(
 	paging.totalPages = response.total_pages || 1;
 };
 
-/** Загружает страницы с первой по pageCount и склеивает их в один ответ */
 export async function fetchPages<T, R extends Paginated<T>>(
 	fetchPage: (page: number) => Promise<R>,
 	pageCount: number

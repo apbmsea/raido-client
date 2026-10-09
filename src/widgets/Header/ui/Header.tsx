@@ -51,7 +51,6 @@ const Header = () => {
 					onClick={() => navigate('/profile/orders')}
 					aria-label='Заказы'
 					title='Заказы'
-					className='hidden-mobile'
 					size='m'
 					counter={orderTotal}
 					icon={<OrdersIcon />}

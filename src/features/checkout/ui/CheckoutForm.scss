@@ -6,7 +6,6 @@
 	gap: clamp(14px, 2vw, 20px);
 	width: 100%;
 	min-width: 0;
-	// Шаги оформления нумеруются сами, сколько бы их ни показала форма
 	counter-reset: checkout-step;
 
 	&__section {
@@ -25,7 +24,6 @@
 
 		@include appear-stagger(6, 0.05s, 0.08s);
 
-		// Шаг, который сейчас заполняют
 		&:focus-within {
 			border-color: var(--color-primary);
 			box-shadow: var(--shadow-m);
@@ -36,7 +34,6 @@
 		display: flex;
 		align-items: center;
 		gap: 12px;
-		// float делает legend обычным элементом колонки: иначе он встаёт на рамку
 		float: left;
 		width: 100%;
 		padding: 0;
@@ -95,10 +92,23 @@
 		color: var(--color-gray-dark);
 		font-size: 14px;
 		animation: fade-up 0.35s ease backwards;
+	}
 
-		strong {
-			color: var(--color-black);
-			font-size: 16px;
+	&__pickup-address {
+		align-self: flex-start;
+		color: var(--color-black);
+		font-size: 16px;
+		font-weight: 700;
+		text-decoration: underline;
+		text-decoration-color: transparent;
+		text-underline-offset: 3px;
+		transition:
+			color var(--transition),
+			text-decoration-color var(--transition);
+
+		&:hover {
+			color: var(--color-primary);
+			text-decoration-color: currentColor;
 		}
 	}
 

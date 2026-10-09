@@ -9,7 +9,6 @@ type ProfileNavigationItem = {
 	label: string;
 	path: string;
 	icon: ComponentType;
-	/** true — только для корпоративных аккаунтов, false — только для личных */
 	isCorporate?: boolean;
 };
 

@@ -16,7 +16,6 @@ body {
 	background-color: var(--color-white);
 	-webkit-font-smoothing: antialiased;
 
-	// Выставляется хуком useLockScroll, пока открыто модальное окно или меню
 	&.is-scroll-locked {
 		overflow: hidden;
 	}
@@ -35,6 +34,10 @@ h5,
 h6 {
 	margin: 0;
 	font-weight: 700;
+}
+
+svg {
+	flex-shrink: 0;
 }
 
 a {
@@ -70,7 +73,6 @@ a {
 	}
 }
 
-// Конечное состояние не задаём: элемент приходит к собственным стилям
 @keyframes fade-up {
 	from {
 		opacity: 0;

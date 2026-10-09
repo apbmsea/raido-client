@@ -31,7 +31,6 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
 					size={18}
 				/>
 			</div>
-			{/* Отзыв можно оставить и без текста, одной оценкой */}
 			{review.comment && (
 				<p className='review-card__comment'>{review.comment}</p>
 			)}

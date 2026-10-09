@@ -4,7 +4,6 @@ import { type IconProps } from '../types/icon.types';
 import './Star.scss';
 
 interface StarIconProps extends Omit<IconProps, 'color'> {
-	/** Доля заливки звезды от 0 до 100. Цвета задаются в Star.scss */
 	fillPercentage?: number;
 }
 

@@ -11,7 +11,6 @@ import './OffersWidget.scss';
 
 const MAX_OFFERS = 20;
 
-/** Подборка «Вам может понравиться» — карусель товаров */
 const OffersWidget = () => {
 	const dispatch = useAppDispatch();
 	const items = useAppSelector(state => state.offers.items);
@@ -23,7 +22,6 @@ const OffersWidget = () => {
 
 	if (items.length === 0) return null;
 
-	// Листаем почти на ширину видимой области, чтобы крайняя карточка осталась ориентиром
 	const scrollByPage = (direction: 1 | -1) => {
 		const list = listRef.current;
 		if (!list) return;

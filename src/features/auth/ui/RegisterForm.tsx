@@ -30,7 +30,6 @@ const RegisterForm = () => {
 	const emailLabel = isCorporate ? 'Рабочая эл. почта' : 'Эл. почта';
 	const formError = getFormError(errors, ['email', 'password']);
 
-	// Несовпадение показываем, только когда повтор уже начали вводить
 	const passwordMismatchError =
 		formData.secondPassword !== '' &&
 		formData.password !== formData.secondPassword

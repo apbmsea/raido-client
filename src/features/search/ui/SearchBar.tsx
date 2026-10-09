@@ -18,8 +18,6 @@ const SearchBar = ({ className }: { className?: string }) => {
 
 	const rootRef = useRef<HTMLDivElement>(null);
 	const [isOpen, setIsOpen] = useState(false);
-	// Выделение привязано к списку, для которого сделано: с новыми
-	// подсказками оно сбрасывается само
 	const [active, setActive] = useState({ list: items, index: -1 });
 	const activeIndex = active.list === items ? active.index : -1;
 	const setActiveIndex = (index: number) => setActive({ list: items, index });

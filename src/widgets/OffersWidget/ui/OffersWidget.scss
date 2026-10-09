@@ -19,7 +19,6 @@
 		@include page-title;
 	}
 
-	// На тач-экранах карусель листают пальцем, кнопки не нужны
 	&__controls {
 		display: flex;
 		gap: 12px;
@@ -29,14 +28,12 @@
 		}
 	}
 
-	// Список выходит за поля страницы, чтобы карточки уезжали за край экрана
 	&__list {
 		@include hide-scrollbar;
 
 		display: flex;
 		gap: 16px;
 		margin-inline: calc(-1 * var(--container-padding));
-		// Вертикальные поля оставляют место тени карточки при наведении
 		padding: 4px var(--container-padding) 24px;
 		overflow-x: auto;
 		scroll-snap-type: x proximity;

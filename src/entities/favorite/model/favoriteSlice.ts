@@ -14,7 +14,6 @@ interface FavoriteState {
 	items: FavoriteItem[];
 	isLoading: boolean;
 	paging: PagingState;
-	/** Товары, по которым сейчас идёт запрос на изменение избранного */
 	pendingProductIds: number[];
 }
 
@@ -62,7 +61,6 @@ export const { reducer, actions, name } = createSlice({
 		getFavoriteMoreFailure: state => failNextPage(state.paging),
 		addFavoriteRequest: (
 			state,
-			// isRestore — товар возвращают после отмены удаления
 			action: PayloadAction<{ productId: number; isRestore?: boolean }>
 		) => startMutation(state, action),
 		removeFavoriteRequest: (

@@ -6,7 +6,6 @@ import './RatingStars.scss';
 const STARS_COUNT = 5;
 
 interface RatingStarsProps {
-	/** Дробный рейтинг, например 4.5 */
 	rating: number;
 	size?: number;
 	className?: string;
@@ -29,7 +28,6 @@ const RatingStars: React.FC<RatingStarsProps> = ({
 				<StarIcon
 					key={index}
 					size={size}
-					// Для 4.5 первые четыре звезды заполнены целиком, пятая — наполовину
 					fillPercentage={
 						Math.min(Math.max(validatedRating - index, 0), 1) * 100
 					}

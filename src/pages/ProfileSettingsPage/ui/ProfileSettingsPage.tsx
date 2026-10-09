@@ -9,7 +9,6 @@ const ProfileSettingsPage = () => {
 
 	const user = useAppSelector(state => state.user.user);
 
-	// Раздел открывается только внутри ProfilePage, который уже проверил вход
 	if (!user) return null;
 
 	return (

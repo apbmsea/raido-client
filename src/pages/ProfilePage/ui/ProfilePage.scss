@@ -35,7 +35,6 @@
 		min-width: 0;
 	}
 
-	// Меню разделов на узких экранах занимает всю ширину
 	@include tablet {
 		.profile-navbar {
 			width: 100%;

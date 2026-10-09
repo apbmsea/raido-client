@@ -1,15 +1,30 @@
 import { CONTACTS } from '@shared/constants/contacts';
 import { FaqBlock } from '@shared/ui/FaqBlock';
+import { JsonLd } from '@shared/ui/JsonLd';
 import { Reveal } from '@shared/ui/Reveal';
 import { usePageTitle } from '@shared/hooks/usePageTitle.hook';
 import { FAQ_ITEMS } from '../model/faq';
 import './FaqPage.scss';
 
+const FAQ_SCHEMA = {
+	'@context': 'https://schema.org',
+	'@type': 'FAQPage',
+	mainEntity: FAQ_ITEMS.map(item => ({
+		'@type': 'Question',
+		name: item.question,
+		acceptedAnswer: { '@type': 'Answer', text: item.answer }
+	}))
+};
+
 const FaqPage = () => {
-	usePageTitle('Ответы на вопросы');
+	usePageTitle('Ответы на вопросы', {
+		description:
+			'Ответы на частые вопросы покупателей «Райдо Сервис»: оформление заказа, оплата, отслеживание, возврат и гарантия.'
+	});
 
 	return (
 		<main className='faq-page'>
+			<JsonLd data={FAQ_SCHEMA} />
 			<header className='faq-page__header'>
 				<span className='faq-page__eyebrow'>Покупателям</span>
 				<h1 className='faq-page__title'>Ответы на вопросы</h1>

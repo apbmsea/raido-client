@@ -36,7 +36,6 @@
 	&__page {
 		@include button-reset;
 
-		// Семь страниц и две стрелки должны умещаться в 320px
 		width: clamp(26px, 8vw, 36px);
 		height: clamp(26px, 8vw, 36px);
 		border-radius: 50%;

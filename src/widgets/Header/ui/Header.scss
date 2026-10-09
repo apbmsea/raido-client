@@ -19,7 +19,6 @@
 	}
 
 	&__logo {
-		// На самых узких экранах логотип ужимается первым
 		flex: 0 1 auto;
 		width: fluid(169, 103);
 		min-width: 72px;
@@ -48,7 +47,6 @@
 		gap: fluid(16, 6);
 	}
 
-	// На телефонах поиск уходит на вторую строку, а кнопки становятся компактнее
 	@media (width < 680px) {
 		grid-template-columns: minmax(0, 1fr) auto;
 		grid-template-areas:
@@ -64,6 +62,30 @@
 	@include mobile {
 		.icon-button {
 			--icon-button-size: 40px;
+		}
+
+		.icon-button__counter {
+			min-width: 16px;
+			height: 16px;
+			padding: 0 3px;
+			font-size: 10px;
+			transform: translate(35%, -35%);
+		}
+	}
+
+	@include mobile-s {
+		column-gap: 10px;
+
+		&__main {
+			gap: 8px;
+		}
+
+		&__actions {
+			gap: 4px;
+		}
+
+		.icon-button {
+			--icon-button-size: 36px;
 		}
 	}
 }

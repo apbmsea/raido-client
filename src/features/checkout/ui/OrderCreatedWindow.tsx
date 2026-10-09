@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Button } from '@shared/ui/Button';
 import './OrderCreatedWindow.scss';
 
-/** Окно благодарности: открывается поверх списка заказов сразу после оформления */
 const OrderCreatedWindow = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();

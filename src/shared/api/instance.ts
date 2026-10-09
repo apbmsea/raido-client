@@ -1,7 +1,14 @@
 import axios from 'axios';
 import { SERVER_URL } from '@shared/config/env';
 import type { ApiErrors, HandleError } from '@shared/types/handleError.type';
+import { reportRequestDuration, reportRequestFailure } from './networkSpeed';
 import { getToken } from './token';
+
+declare module 'axios' {
+	interface InternalAxiosRequestConfig {
+		startedAt?: number;
+	}
+}
 
 export const $api = axios.create({
 	baseURL: SERVER_URL,
@@ -36,7 +43,15 @@ const normalizeApiErrors = (data: unknown): ApiErrors => {
 	};
 };
 
+const reportDuration = (startedAt?: number) => {
+	if (startedAt !== undefined) {
+		reportRequestDuration(performance.now() - startedAt);
+	}
+};
+
 $api.interceptors.request.use(config => {
+	config.startedAt = performance.now();
+
 	const token = getToken();
 	if (token) {
 		config.headers.Authorization = `Bearer ${token}`;
@@ -45,12 +60,17 @@ $api.interceptors.request.use(config => {
 });
 
 $api.interceptors.response.use(
-	response => response,
+	response => {
+		reportDuration(response.config.startedAt);
+		return response;
+	},
 	error => {
-		// Сети нет или запрос не дошёл до сервера — отдаём исходную ошибку
 		if (!error.response) {
+			if (!axios.isCancel(error)) reportRequestFailure();
 			return Promise.reject(error);
 		}
+
+		reportDuration(error.config?.startedAt);
 
 		const { status, data } = error.response;
 

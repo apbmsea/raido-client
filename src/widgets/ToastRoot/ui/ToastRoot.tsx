@@ -51,19 +51,16 @@ const ToastCard = ({ toast }: { toast: ToastItem }) => {
 			>
 				<CloseIcon size={16} />
 			</button>
-			{/* Полоска показывает, сколько времени осталось до исчезновения */}
 			<span className='toast__progress' aria-hidden='true' />
 		</div>
 	);
 };
 
-/** Единая точка показа всплывающих плашек приложения */
 const ToastRoot = () => {
 	const toast = useAppSelector(state => state.toast.current);
 
 	return createPortal(
 		<div className='toast-root'>
-			{/* key пересоздаёт плашку при замене: таймер и анимация идут заново */}
 			{toast && <ToastCard key={toast.id} toast={toast} />}
 		</div>,
 		document.body

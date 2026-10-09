@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getOrderById, type OrderDetails } from '@entities/order';
+import { CONTACTS } from '@shared/constants/contacts';
 import { Loader } from '@shared/ui/Loader';
 import { formatDate } from '@shared/utils/formatDate';
 import { formatPrice } from '@shared/utils/formatPrice';
@@ -35,8 +36,6 @@ const OrderDetailPage = () => {
 		};
 	}, [orderId]);
 
-	// Результат относится к заказу, для которого запрашивался: после перехода
-	// к другому заказу прежний не показываем
 	const currentResult = result?.orderId === orderId ? result : null;
 
 	if (!currentResult) {
@@ -152,8 +151,19 @@ const OrderDetailPage = () => {
 						<h2 className='order-detail__section-title'>
 							{order.shipping ? 'Доставка' : 'Самовывоз'}
 						</h2>
-						{order.shipping && (
+						{order.shipping ? (
 							<p>{order.shipping_address || 'Адрес не указан'}</p>
+						) : (
+							<p>
+								<a
+									href={CONTACTS.routeHref}
+									target='_blank'
+									rel='noopener noreferrer'
+									title='Построить маршрут в Яндекс Картах'
+								>
+									{CONTACTS.address}
+								</a>
+							</p>
 						)}
 						{order.comment && (
 							<p className='order-detail__comment'>
