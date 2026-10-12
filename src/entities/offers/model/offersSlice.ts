@@ -8,7 +8,7 @@ interface OffersState {
 
 const initialState: OffersState = {
 	items: [],
-	isLoading: false
+	isLoading: true
 };
 
 export const { reducer, actions, name } = createSlice({

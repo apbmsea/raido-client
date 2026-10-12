@@ -42,6 +42,10 @@
 		@include tablet {
 			gap: 12px;
 		}
+
+		&--loading {
+			min-height: 375px;
+		}
 	}
 
 	&__item {

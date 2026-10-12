@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import clsx from 'clsx';
 import { Offers } from '@entities/offers';
 import { ProductCard } from '@entities/product';
 import { AddToCartButton } from '@features/addToCart';
@@ -13,14 +14,14 @@ const MAX_OFFERS = 20;
 
 const OffersWidget = () => {
 	const dispatch = useAppDispatch();
-	const items = useAppSelector(state => state.offers.items);
+	const { items, isLoading } = useAppSelector(state => state.offers);
 	const listRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		dispatch(Offers.actions.getOffersRequest());
 	}, [dispatch]);
 
-	if (items.length === 0) return null;
+	if (items.length === 0 && !isLoading) return null;
 
 	const scrollByPage = (direction: 1 | -1) => {
 		const list = listRef.current;
@@ -33,7 +34,7 @@ const OffersWidget = () => {
 	};
 
 	return (
-		<section className='offers-widget'>
+		<section className='offers-widget' aria-busy={isLoading}>
 			<div className='offers-widget__head'>
 				<h2 className='offers-widget__title'>Вам может понравиться</h2>
 
@@ -53,7 +54,13 @@ const OffersWidget = () => {
 				</div>
 			</div>
 
-			<div className='offers-widget__list' ref={listRef}>
+			<div
+				className={clsx(
+					'offers-widget__list',
+					items.length === 0 && 'offers-widget__list--loading'
+				)}
+				ref={listRef}
+			>
 				{items.slice(0, MAX_OFFERS).map(item => (
 					<div className='offers-widget__item' key={item.id}>
 						<ProductCard
