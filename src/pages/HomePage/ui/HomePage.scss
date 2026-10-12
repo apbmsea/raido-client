@@ -3,7 +3,9 @@
 .home-page {
 	@include page(clamp(40px, 6vw, 80px));
 
-	> :not(.visually-hidden) {
+	// баннер — LCP-элемент: пока он проявляется из opacity: 0, браузер не
+	// считает его отрисованным, поэтому анимация только у блоков под ним
+	> :not(.visually-hidden, .slider-widget) {
 		@include appear-stagger(5, 0s, 0.12s);
 	}
 }

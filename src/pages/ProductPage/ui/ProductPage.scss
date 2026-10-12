@@ -3,6 +3,11 @@
 .product-page {
 	@include page(32px);
 
+	// пока товар загружается, футер не должен попадать в первый экран:
+	// иначе он уезжает вниз вместе с появлением карточки (CLS)
+	min-height: 100vh;
+	min-height: 100dvh;
+
 	&__product {
 		display: flex;
 		align-items: flex-start;

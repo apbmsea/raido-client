@@ -17,9 +17,12 @@ const STORE_PACKAGES = [
 	'redux-saga',
 	'@redux-saga',
 	'typed-redux-saga',
+	'redux-thunk',
+	'use-sync-external-store',
 	'immer',
 	'reselect'
 ];
+const VENDOR_PACKAGES = ['axios', 'clsx'];
 
 const isFromPackages = (id: string, packages: string[]) =>
 	packages.some(name => id.includes(`/node_modules/${name}/`));
@@ -44,8 +47,10 @@ export default defineConfig({
 
 					if (isFromPackages(id, REACT_PACKAGES)) return 'react';
 					if (isFromPackages(id, STORE_PACKAGES)) return 'store';
+					if (isFromPackages(id, VENDOR_PACKAGES)) return 'vendor';
 
-					return 'vendor';
+					// остальное Rollup раскладывает сам: зависимости ленивых
+					// страниц (rc-slider) не попадают в стартовую загрузку
 				}
 			}
 		}
