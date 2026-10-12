@@ -132,8 +132,16 @@ const preloadPages = () => {
 	void import('@pages/ProductPage');
 };
 
-if ('requestIdleCallback' in window) {
-	window.requestIdleCallback(preloadPages, { timeout: 5000 });
+const schedulePreload = () => {
+	if ('requestIdleCallback' in window) {
+		window.requestIdleCallback(preloadPages, { timeout: 5000 });
+	} else {
+		setTimeout(preloadPages, 3000);
+	}
+};
+
+if (document.readyState === 'complete') {
+	schedulePreload();
 } else {
-	setTimeout(preloadPages, 3000);
+	window.addEventListener('load', schedulePreload, { once: true });
 }
