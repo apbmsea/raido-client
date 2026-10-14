@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import type { ProductImage } from '@entities/product';
+import { AppImage } from '@shared/ui/AppImage';
 import ImageLightbox from './ImageLightbox';
 import './ImageGallery.scss';
 
@@ -55,7 +56,7 @@ const ImageGallery = ({ images, alt }: ImageGalleryProps) => {
 							aria-label={`Фото ${index + 1}`}
 							aria-pressed={index === selected}
 						>
-							<img
+							<AppImage
 								src={image.image_88x88 ?? image.image_250x250}
 								alt=''
 								loading='lazy'
@@ -71,7 +72,7 @@ const ImageGallery = ({ images, alt }: ImageGalleryProps) => {
 				onClick={() => setIsLightboxOpen(true)}
 				aria-label='Открыть фото на весь экран'
 			>
-				<img
+				<AppImage
 					src={activeImage.image_700x700 ?? activeImage.image_500x500}
 					alt={alt}
 					fetchPriority='high'

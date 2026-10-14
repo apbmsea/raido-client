@@ -1,4 +1,5 @@
 import type { CartItem } from '@entities/cart';
+import { AppImage } from '@shared/ui/AppImage';
 import { formatPrice } from '@shared/utils/formatPrice';
 import { plural } from '@shared/utils/plural';
 import './OrderSummary.scss';
@@ -25,7 +26,7 @@ const OrderSummary = ({ items }: { items: CartItem[] }) => {
 					return (
 						<li className='order-summary__item' key={item.id}>
 							{image ? (
-								<img
+								<AppImage
 									className='order-summary__image'
 									src={image}
 									alt=''

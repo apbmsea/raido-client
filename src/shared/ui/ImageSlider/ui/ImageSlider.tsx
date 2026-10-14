@@ -1,5 +1,6 @@
 import { useRef, useState, type MouseEvent } from 'react';
 import clsx from 'clsx';
+import { AppImage } from '../../AppImage';
 import './ImageSlider.scss';
 
 const MAX_DOTS = 5;
@@ -72,7 +73,7 @@ const ImageSlider = ({ images, alt = '', className }: ImageSliderProps) => {
 					{images.map((img, i) => (
 						<div key={i} className='image-slider__slide'>
 							{(i === 0 || isActivated) && (
-								<img
+								<AppImage
 									src={img.image_250x250}
 									alt={i === 0 ? alt : ''}
 									loading='lazy'

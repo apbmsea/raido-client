@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { User } from '@entities/user';
 import { PROFILE_NAVIGATION } from '@shared/constants/profileNavbar';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
+import { AppImage } from '@shared/ui/AppImage';
 import { Button } from '@shared/ui/Button';
 import './ProfileNavbar.scss';
 
@@ -43,7 +44,7 @@ const ProfileNavbar = ({ className }: { className?: string }) => {
 			</nav>
 
 			<div className='profile-navbar__promo'>
-				<img
+				<AppImage
 					className='profile-navbar__promo-image'
 					src='/distribution.png'
 					alt=''

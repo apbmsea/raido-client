@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type TouchEvent } from 'react';
 import clsx from 'clsx';
 import ArrowLeftIcon from '@shared/icons/ArrowLeft';
 import ArrowRightIcon from '@shared/icons/ArrowRight';
+import { AppImage } from '@shared/ui/AppImage';
 import { Button } from '@shared/ui/Button';
 import { IconButton } from '@shared/ui/IconButton';
 import { SLIDES } from '../model/slides';
@@ -50,7 +51,7 @@ const SliderWidget = () => {
 			onTouchEnd={handleTouchEnd}
 		>
 			{SLIDES.map((slide, slideIndex) => (
-				<img
+				<AppImage
 					key={slide.id}
 					className={clsx(
 						'slider-widget__background',
@@ -62,6 +63,7 @@ const SliderWidget = () => {
 					height={354}
 					loading={slideIndex === 0 ? 'eager' : 'lazy'}
 					fetchPriority={slideIndex === 0 ? 'high' : 'low'}
+					loaderTone='light'
 					decoding='async'
 				/>
 			))}

@@ -2,6 +2,7 @@ import { Catalog, useOpenCatalogPage } from '@entities/catalog';
 import { Menu } from '@features/menu';
 import { useAppDispatch } from '@shared/hooks/store.hooks';
 import ArrowRightIcon from '@shared/icons/ArrowRight';
+import { AppImage } from '@shared/ui/AppImage';
 import { Button } from '@shared/ui/Button';
 import { HOME_CATEGORIES } from '../model/categories';
 import './CatalogWidget.scss';
@@ -44,7 +45,7 @@ const CatalogWidget = () => {
 						<span className='catalog-widget__item-title'>
 							{item.title}
 						</span>
-						<img
+						<AppImage
 							src={item.image}
 							alt=''
 							className='catalog-widget__image'

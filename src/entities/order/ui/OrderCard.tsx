@@ -1,3 +1,4 @@
+import { AppImage } from '@shared/ui/AppImage';
 import ArrowRightIcon from '@shared/icons/ArrowRight';
 import { formatDate } from '@shared/utils/formatDate';
 import { formatPrice } from '@shared/utils/formatPrice';
@@ -44,7 +45,7 @@ export const OrderCard = ({ item }: OrderCardProps) => {
 				{visibleItems.map(product => (
 					<div className='order-card__item' key={product.id}>
 						{product.product_image?.image_250x250 ? (
-							<img
+							<AppImage
 								className='order-card__image'
 								src={product.product_image.image_250x250}
 								alt={product.product_name}

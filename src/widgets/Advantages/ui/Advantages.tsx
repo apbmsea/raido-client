@@ -1,4 +1,5 @@
 import { ADVANTAGES_ITEMS } from '../model/advantages';
+import { AppImage } from '@shared/ui/AppImage';
 import './Advantages.scss';
 
 const Advantages = () => {
@@ -19,7 +20,7 @@ const Advantages = () => {
 							</p>
 						</div>
 
-						<img
+						<AppImage
 							className='advantages__image'
 							src={item.image}
 							alt=''

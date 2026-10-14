@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getOrderById, type OrderDetails } from '@entities/order';
 import { CONTACTS } from '@shared/constants/contacts';
+import { AppImage } from '@shared/ui/AppImage';
 import { Loader } from '@shared/ui/Loader';
 import { formatDate } from '@shared/utils/formatDate';
 import { formatPrice } from '@shared/utils/formatPrice';
@@ -103,7 +104,7 @@ const OrderDetailPage = () => {
 									key={item.id}
 								>
 									{item.product_image?.image_250x250 ? (
-										<img
+										<AppImage
 											className='order-detail__image'
 											src={
 												item.product_image.image_250x250

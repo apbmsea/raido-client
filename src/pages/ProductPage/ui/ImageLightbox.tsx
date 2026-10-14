@@ -6,6 +6,7 @@ import { useLockScroll } from '@shared/hooks/useLockScroll.hook';
 import ArrowLeftIcon from '@shared/icons/ArrowLeft';
 import ArrowRightIcon from '@shared/icons/ArrowRight';
 import CloseIcon from '@shared/icons/Close';
+import { AppImage } from '@shared/ui/AppImage';
 import { IconButton } from '@shared/ui/IconButton';
 import './ImageLightbox.scss';
 
@@ -127,7 +128,7 @@ const ImageLightbox = ({
 					/>
 				)}
 
-				<img
+				<AppImage
 					key={index}
 					className='image-lightbox__image'
 					src={image.image_700x700 ?? image.image_500x500}
@@ -171,7 +172,7 @@ const ImageLightbox = ({
 							aria-label={`Фото ${thumbIndex + 1}`}
 							aria-current={thumbIndex === index}
 						>
-							<img
+							<AppImage
 								src={thumb.image_88x88 ?? thumb.image_250x250}
 								alt=''
 								loading='lazy'
