@@ -9,6 +9,7 @@ interface UserState {
 	isLogin: boolean;
 	isFetch: boolean;
 	isLoggingOut: boolean;
+	isMarketingConsentFetch: boolean;
 	editErrors: ApiErrors;
 	isTwoFactorEnabled: null | boolean;
 }
@@ -19,6 +20,7 @@ const initialState: UserState = {
 	isLogin: false,
 	isFetch: false,
 	isLoggingOut: false,
+	isMarketingConsentFetch: false,
 	editErrors: {},
 	isTwoFactorEnabled: readTwoFactorEnabled()
 };
@@ -58,6 +60,18 @@ export const { reducer, actions, name } = createSlice({
 		clearEditErrors: state => {
 			state.editErrors = {};
 		},
+		setMarketingConsentRequest: (state, _action: PayloadAction<boolean>) => {
+			state.isMarketingConsentFetch = true;
+		},
+		setMarketingConsentSuccess: (state, action: PayloadAction<boolean>) => {
+			state.isMarketingConsentFetch = false;
+			if (state.user) {
+				state.user.marketing_email_consent = action.payload;
+			}
+		},
+		setMarketingConsentFailure: state => {
+			state.isMarketingConsentFetch = false;
+		},
 		logoutRequest: state => {
 			state.isLoggingOut = true;
 		},
@@ -65,6 +79,7 @@ export const { reducer, actions, name } = createSlice({
 			state.user = null;
 			state.isLogin = false;
 			state.isLoggingOut = false;
+			state.isMarketingConsentFetch = false;
 			state.isTwoFactorEnabled = null;
 		},
 		setTwoFactorEnabled: (

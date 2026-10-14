@@ -12,6 +12,7 @@ export interface UserType {
 	organization_name: null | string;
 	bonus_balance: number;
 	post: null | string;
+	marketing_email_consent: boolean;
 }
 
 export interface ChangePasswordPayload {

@@ -18,6 +18,10 @@ export async function editUser(data: EditUserPayload) {
 	await $api.patch('/users', data);
 }
 
+export async function setMarketingEmailConsent(allowed: boolean) {
+	await $api.put('/users/marketing-email-consent', { allowed });
+}
+
 export async function requestTwoFactorSwitch() {
 	await $api.get('/users/2fa/switch/request');
 }

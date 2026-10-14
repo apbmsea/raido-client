@@ -1,13 +1,21 @@
 import { NavLink } from 'react-router-dom';
 import clsx from 'clsx';
+import { User } from '@entities/user';
 import { PROFILE_NAVIGATION } from '@shared/constants/profileNavbar';
-import { useAppSelector } from '@shared/hooks/store.hooks';
+import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
 import { Button } from '@shared/ui/Button';
 import './ProfileNavbar.scss';
 
 const ProfileNavbar = ({ className }: { className?: string }) => {
+	const dispatch = useAppDispatch();
 	const isCorporate = useAppSelector(
 		state => state.user.user?.is_corporate ?? false
+	);
+	const isSubscribed = useAppSelector(
+		state => state.user.user?.marketing_email_consent ?? false
+	);
+	const isMarketingConsentFetch = useAppSelector(
+		state => state.user.isMarketingConsentFetch
 	);
 
 	const navigationItems = PROFILE_NAVIGATION.filter(
@@ -44,12 +52,26 @@ const ProfileNavbar = ({ className }: { className?: string }) => {
 					loading='lazy'
 				/>
 				<h3 className='profile-navbar__promo-title'>
-					Подпишитесь на рассылку
+					{isSubscribed
+						? 'Вы подписаны на рассылку'
+						: 'Подпишитесь на рассылку'}
 				</h3>
 				<p className='profile-navbar__promo-text'>
-					Будьте в курсе всех выгодных предложений и новостей
+					{isSubscribed
+						? 'Вы получаете все выгодные предложения и новости'
+						: 'Будьте в курсе всех выгодных предложений и новостей'}
 				</p>
-				<Button variant='outline'>Подписаться</Button>
+				<Button
+					variant='outline'
+					loading={isMarketingConsentFetch}
+					onClick={() =>
+						dispatch(
+							User.actions.setMarketingConsentRequest(!isSubscribed)
+						)
+					}
+				>
+					{isSubscribed ? 'Отписаться' : 'Подписаться'}
+				</Button>
 			</div>
 		</aside>
 	);
