@@ -27,7 +27,7 @@ export const NAV_ITEMS: NavItem[] = [
 		content: [
 			{ title: 'Доставка и оплата', link: '/delivery-and-payment' },
 			{ title: 'Гарантия', link: '/warranty' },
-			{ title: 'Бонусы', link: '/bonuses' },
+			// { title: 'Бонусы', link: '/bonuses' },
 			{ title: 'Ответы на вопросы', link: '/faq' }
 		]
 	},

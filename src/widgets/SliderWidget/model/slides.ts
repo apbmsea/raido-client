@@ -1,5 +1,5 @@
 import slider1 from '@shared/assets/slider1.webp';
-import slider2 from '@shared/assets/slider2.webp';
+// import slider2 from '@shared/assets/slider2.webp';
 
 export const SLIDES = [
 	{
@@ -9,11 +9,11 @@ export const SLIDES = [
 		button: 'Читать подробнее',
 		image: slider1
 	},
-	{
-		id: '2',
-		title: 'Программа лояльности',
-		description: 'Копи и оплачивай часть покупок баллами — РайдоКоинами',
-		button: 'Читать подробнее',
-		image: slider2
-	}
+	// {
+	// 	id: '2',
+	// 	title: 'Программа лояльности',
+	// 	description: 'Копи и оплачивай часть покупок баллами — РайдоКоинами',
+	// 	button: 'Читать подробнее',
+	// 	image: slider2
+	// }
 ];
