@@ -19,7 +19,7 @@ const RegisterForm = () => {
 	const dispatch = useAppDispatch();
 	const { isLoading, errors } = useAppSelector(state => state.register);
 	const [role, setRole] = useState<RegisterRole>('personal');
-	const [isTermsAccepted, setIsTermsAccepted] = useState(true);
+	const [isTermsAccepted, setIsTermsAccepted] = useState(false);
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
